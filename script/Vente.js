@@ -18,13 +18,17 @@ function renderCard(p) {
          </div>`
   ).join('');
 
+  const media = p.model
+    ? `<model-viewer src="/images/${p.model}" alt="${p.name}" auto-rotate auto-rotate-delay="0" rotation-per-second="30deg" shadow-intensity="1" exposure="1.1"></model-viewer>`
+    : `<img src="/images/${p.image}" alt="${p.name}" loading="lazy" />`;
+
   return `
     <div class="product-card" data-category="${p.category}">
       <div class="product-card__inner">
         <div class="product-card__front">
           <div class="product-card__img-wrap">
             ${badge}
-            <img src="/images/${p.image}" alt="${p.name}" loading="lazy" />
+            ${media}
           </div>
           <div class="product-card__info">
             <div class="product-card__category">${p.category_label}</div>
