@@ -1,3 +1,13 @@
+// ===== PRÉ-REMPLISSAGE DEPUIS LE COMPTE =====
+(function () {
+  const user = JSON.parse(localStorage.getItem('fsmedia_user') || 'null');
+  if (!user) return;
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+  set('prenom', user.prenom);
+  set('nom',    user.nom);
+  set('email',  user.email);
+})();
+
 // ===== PRÉ-REMPLISSAGE SUJET DEPUIS L'URL =====
 const params = new URLSearchParams(window.location.search);
 const sujet = params.get('sujet');

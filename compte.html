@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FSMedia — Mon compte" />
+  <title>Mon compte — FSMedia</title>
+  <link rel="icon" type="image/png" href="../images/favicon1.png" />
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/compte.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="navbar__logo"><img src="../images/favicon1.png" alt="FSMedia logo" />FS<span>Media</span></a>
+    <ul class="navbar__links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="vente.html">Nos PC</a></li>
+      <li><a href="reparation.html">Réparation</a></li>
+      <li><a href="conseil.html">Conseil</a></li>
+      <li><a href="bottleneck.html">Bottleneck</a></li>
+    </ul>
+    <a href="auth.html" class="navbar__auth">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Connexion
+    </a>
+    <a href="contact.html" class="navbar__cta">Nous contacter</a>
+    <button class="navbar__theme" aria-label="Changer le thème">
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <div class="navbar__burger" aria-label="Menu" role="button" tabindex="0"><span></span><span></span><span></span></div>
+  </nav>
+
+  <section class="compte-section">
+
+    <div class="compte-sidebar">
+      <div class="compte-avatar" id="compte-avatar"></div>
+      <div class="compte-sidebar-name" id="compte-sidebar-name"></div>
+      <div class="compte-sidebar-pseudo" id="compte-sidebar-pseudo"></div>
+      <div class="compte-sidebar-email" id="compte-sidebar-email"></div>
+
+      <nav class="compte-nav">
+        <button class="compte-nav-item active" data-section="profil">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mon profil
+        </button>
+        <button class="compte-nav-item" data-section="securite">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Sécurité
+        </button>
+        <button class="compte-nav-item compte-nav-item--danger" data-section="danger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          Supprimer le compte
+        </button>
+      </nav>
+
+      <button class="compte-logout" id="compte-logout">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Se déconnecter
+      </button>
+    </div>
+
+    <div class="compte-content">
+
+      <!-- ===== PROFIL ===== -->
+      <div class="compte-panel active" id="section-profil">
+        <div class="compte-panel-header">
+          <h2>Mon profil</h2>
+          <p>Gérez vos informations personnelles et votre pseudo.</p>
+        </div>
+
+        <form class="compte-form" id="profil-form" novalidate>
+
+          <div class="compte-field-group">
+            <label class="compte-label">Pseudo</label>
+            <div class="compte-input-wrap">
+              <svg class="compte-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" id="profil-pseudo" placeholder="MonPseudo" maxlength="24" />
+            </div>
+            <span class="compte-hint">Visible par les autres membres. Lettres, chiffres et _ uniquement.</span>
+            <span class="compte-error" id="pseudo-error"></span>
+          </div>
+
+          <div class="compte-row">
+            <div class="compte-field-group">
+              <label class="compte-label">Prénom</label>
+              <div class="compte-input-wrap no-icon">
+                <input type="text" id="profil-prenom" placeholder="Jean" />
+              </div>
+              <span class="compte-error" id="prenom-error"></span>
+            </div>
+            <div class="compte-field-group">
+              <label class="compte-label">Nom</label>
+              <div class="compte-input-wrap no-icon">
+                <input type="text" id="profil-nom" placeholder="Dupont" />
+              </div>
+              <span class="compte-error" id="nom-error"></span>
+            </div>
+          </div>
+
+          <div class="compte-field-group">
+            <label class="compte-label">Adresse email</label>
+            <div class="compte-input-wrap">
+              <svg class="compte-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <input type="email" id="profil-email" placeholder="votre@email.com" />
+            </div>
+            <span class="compte-error" id="email-error"></span>
+          </div>
+
+          <div class="compte-form-footer">
+            <div class="compte-toast" id="profil-toast"></div>
+            <button type="submit" class="btn-primary">
+              Enregistrer les modifications
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- ===== SÉCURITÉ ===== -->
+      <div class="compte-panel" id="section-securite">
+        <div class="compte-panel-header">
+          <h2>Sécurité</h2>
+          <p>Modifiez votre mot de passe pour sécuriser votre compte.</p>
+        </div>
+
+        <form class="compte-form" id="securite-form" novalidate>
+
+          <div class="compte-field-group">
+            <label class="compte-label">Mot de passe actuel</label>
+            <div class="compte-input-wrap">
+              <svg class="compte-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="old-password" placeholder="••••••••" />
+            </div>
+            <span class="compte-error" id="old-pass-error"></span>
+          </div>
+
+          <div class="compte-field-group">
+            <label class="compte-label">Nouveau mot de passe</label>
+            <div class="compte-input-wrap">
+              <svg class="compte-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="new-password" placeholder="Minimum 8 caractères" />
+            </div>
+            <span class="compte-error" id="new-pass-error"></span>
+          </div>
+
+          <div class="compte-field-group">
+            <label class="compte-label">Confirmer le nouveau mot de passe</label>
+            <div class="compte-input-wrap">
+              <svg class="compte-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="confirm-password" placeholder="••••••••" />
+            </div>
+            <span class="compte-error" id="confirm-pass-error"></span>
+          </div>
+
+          <div class="compte-form-footer">
+            <div class="compte-toast" id="securite-toast"></div>
+            <button type="submit" class="btn-primary">
+              Changer le mot de passe
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- ===== DANGER ===== -->
+      <div class="compte-panel" id="section-danger">
+        <div class="compte-panel-header">
+          <h2>Supprimer le compte</h2>
+          <p>Cette action est irréversible. Toutes vos données seront définitivement supprimées.</p>
+        </div>
+
+        <div class="compte-danger-box">
+          <div class="compte-danger-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h3>Supprimer définitivement mon compte</h3>
+            <p>Une fois supprimé, votre compte et toutes les données associées seront perdues. Vous devrez créer un nouveau compte pour accéder aux services FSMedia.</p>
+          </div>
+        </div>
+
+        <div class="compte-field-group" style="max-width:420px">
+          <label class="compte-label">Confirmez en tapant votre email</label>
+          <div class="compte-input-wrap">
+            <input type="email" id="delete-confirm-email" placeholder="votre@email.com" />
+          </div>
+          <span class="compte-error" id="delete-error"></span>
+        </div>
+
+        <button class="compte-delete-btn" id="delete-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          Supprimer mon compte
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__brand"><a href="index.html" class="navbar__logo"><img src="../images/favicon1.png" alt="FSMedia logo" />FS<span>Media</span></a><p>Deux passionnés d'informatique à votre service — vente, réparation et conseil.</p></div>
+      <div class="footer__col"><h4>Services</h4><ul><li><a href="vente.html">Nos PC</a></li><li><a href="reparation.html">Réparation</a></li><li><a href="conseil.html">Conseil</a></li></ul></div>
+      <div class="footer__col"><h4>Infos</h4><ul><li><a href="#">À propos</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer__col"><h4>Contact</h4><ul><li><a href="mailto:contact@fsmedia.be">contact@fsmedia.be</a></li><li><a href="tel:+32000000000">+32 000 00 00</a></li><li><a href="#">Liège, Belgique</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 FSMedia. Tous droits réservés.</span><span>Conçu avec soin en Belgique</span></div>
+  </footer>
+
+  <script src="../script/global.js"></script>
+  <script src="../script/compte.js"></script>
+</body>
+</html>
