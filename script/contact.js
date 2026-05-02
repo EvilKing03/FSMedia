@@ -15,7 +15,7 @@ if (sujet) {
 
 // ===== ENVOI FORMULAIRE VIA WEB3FORMS =====
 // Remplace YOUR_ACCESS_KEY par ta clé obtenue sur https://web3forms.com
-const WEB3FORMS_KEY = '99560f04-0693-4e14-995d-b07874c1611c';
+const WEB3FORMS_KEY = 'cc6957f4-66d9-4915-a1d5-8eb305458999';
 
 const form = document.getElementById('contact-form');
 const successMsg = document.getElementById('form-success');
