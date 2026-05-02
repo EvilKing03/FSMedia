@@ -1,0 +1,141 @@
+{
+  "products": [
+    {
+      "category": "gaming",
+      "category_label": "Gaming",
+      "badge": "Nouveau",
+      "badge_type": "new",
+      "name": "FSMedia Pro Gamer",
+      "price": "999 €",
+      "price_label": "",
+      "hint": "La machine idéale pour jouer en 1080p/1440p sans compromis.",
+      "image": "Herobg.png",
+      "back_cat": "Gaming",
+      "back_name": "FSMedia Pro Gamer",
+      "back_price": "999 €",
+      "contact_subject": "FSMedia Pro Gamer",
+      "cta_label": "Commander",
+      "specs": [
+        { "label": "CPU", "value": "AMD Ryzen 5 5600X" },
+        { "label": "GPU", "value": "RTX 4060 8 Go" },
+        { "label": "RAM", "value": "16 Go DDR4 3200 MHz" },
+        { "label": "SSD", "value": "512 Go NVMe" },
+        { "label": "Alim", "value": "650W 80+ Bronze" }
+      ]
+    },
+    {
+      "category": "gaming",
+      "category_label": "Gaming",
+      "badge": "Populaire",
+      "badge_type": "hot",
+      "name": "FSMedia Ultra Gamer",
+      "price": "1 499 €",
+      "price_label": "",
+      "hint": "Performances 4K et ray tracing pour les joueurs exigeants.",
+      "image": "Herobg.png",
+      "back_cat": "Gaming",
+      "back_name": "FSMedia Ultra Gamer",
+      "back_price": "1 499 €",
+      "contact_subject": "FSMedia Ultra Gamer",
+      "cta_label": "Commander",
+      "specs": [
+        { "label": "CPU", "value": "Intel Core i7-13700K" },
+        { "label": "GPU", "value": "RTX 4070 Ti 12 Go" },
+        { "label": "RAM", "value": "32 Go DDR5 6000 MHz" },
+        { "label": "SSD", "value": "1 To NVMe Gen4" },
+        { "label": "Alim", "value": "850W 80+ Gold" }
+      ]
+    },
+    {
+      "category": "bureautique",
+      "category_label": "Bureautique",
+      "badge": "",
+      "badge_type": "",
+      "name": "FSMedia Office",
+      "price": "449 €",
+      "price_label": "",
+      "hint": "Fluide et silencieux pour le travail quotidien et le multimédia.",
+      "image": "Herobg.png",
+      "back_cat": "Bureautique",
+      "back_name": "FSMedia Office",
+      "back_price": "449 €",
+      "contact_subject": "FSMedia Office",
+      "cta_label": "Commander",
+      "specs": [
+        { "label": "CPU", "value": "Intel Core i5-12400" },
+        { "label": "GPU", "value": "Intel UHD 730 (intégré)" },
+        { "label": "RAM", "value": "16 Go DDR4" },
+        { "label": "SSD", "value": "256 Go NVMe" },
+        { "label": "Alim", "value": "400W 80+ Bronze" }
+      ]
+    },
+    {
+      "category": "bureautique",
+      "category_label": "Bureautique",
+      "badge": "",
+      "badge_type": "",
+      "name": "FSMedia Office Pro",
+      "price": "649 €",
+      "price_label": "",
+      "hint": "Multi-tâches et puissant pour les professionnels et créatifs.",
+      "image": "Herobg.png",
+      "back_cat": "Bureautique",
+      "back_name": "FSMedia Office Pro",
+      "back_price": "649 €",
+      "contact_subject": "FSMedia Office Pro",
+      "cta_label": "Commander",
+      "specs": [
+        { "label": "CPU", "value": "AMD Ryzen 7 5700G" },
+        { "label": "GPU", "value": "AMD RX 6600 8 Go" },
+        { "label": "RAM", "value": "32 Go DDR4" },
+        { "label": "SSD", "value": "512 Go NVMe" },
+        { "label": "Alim", "value": "550W 80+ Bronze" }
+      ]
+    },
+    {
+      "category": "reconditionne",
+      "category_label": "Reconditionné",
+      "badge": "Bon plan",
+      "badge_type": "sale",
+      "name": "FSMedia Eco 1",
+      "price": "249 €",
+      "price_label": "reconditionné",
+      "hint": "Testé, nettoyé et garanti 6 mois. Idéal pour un budget serré.",
+      "image": "Herobg.png",
+      "back_cat": "Reconditionné",
+      "back_name": "FSMedia Eco 1",
+      "back_price": "249 €",
+      "contact_subject": "FSMedia Eco 1 (reconditionné)",
+      "cta_label": "Réserver",
+      "specs": [
+        { "label": "CPU", "value": "Intel Core i5-8500" },
+        { "label": "GPU", "value": "GTX 1650 4 Go" },
+        { "label": "RAM", "value": "16 Go DDR4" },
+        { "label": "SSD", "value": "256 Go SSD" },
+        { "label": "", "value": "Garantie 6 mois incluse" }
+      ]
+    },
+    {
+      "category": "surmesure",
+      "category_label": "Sur mesure",
+      "badge": "",
+      "badge_type": "",
+      "name": "Configuration Personnalisée",
+      "price": "Sur devis",
+      "price_label": "",
+      "hint": "Vous avez un besoin précis ? On construit exactement ce qu'il vous faut.",
+      "image": "Herobg.png",
+      "back_cat": "Sur mesure",
+      "back_name": "Configuration Personnalisée",
+      "back_price": "Devis gratuit",
+      "contact_subject": "Sur mesure",
+      "cta_label": "Demander un devis",
+      "specs": [
+        { "label": "", "value": "Budget et usages définis avec vous" },
+        { "label": "", "value": "Composants sélectionnés sur mesure" },
+        { "label": "", "value": "Assemblage et test complet" },
+        { "label": "", "value": "Livraison ou retrait sur place" }
+      ]
+    }
+  ]
+}

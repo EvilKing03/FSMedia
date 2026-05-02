@@ -24,7 +24,7 @@ function renderCard(p) {
         <div class="product-card__front">
           <div class="product-card__img-wrap">
             ${badge}
-            <img src="../images/${p.image}" alt="${p.name}" loading="lazy" />
+            <img src="/images/${p.image}" alt="${p.name}" loading="lazy" />
           </div>
           <div class="product-card__info">
             <div class="product-card__category">${p.category_label}</div>
@@ -60,12 +60,12 @@ async function init() {
 
   let products;
   try {
-    const res = await fetch('../data/products.json');
+    const res = await fetch('/data/products.json');
     if (!res.ok) throw new Error('fetch failed');
     const data = await res.json();
     products = data.products;
   } catch {
-    grid.innerHTML = '<p class="catalogue__error">Impossible de charger les produits.<br>Le site doit être ouvert via un serveur web (pas en fichier local).</p>';
+    grid.innerHTML = '<p class="catalogue__error">Impossible de charger les produits.<br>Veuillez réessayer ou nous contacter directement.</p>';
     return;
   }
 
