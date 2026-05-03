@@ -23,6 +23,50 @@ if (sujet) {
   }
 }
 
+// ===== BLACKLIST EMAILS JETABLES =====
+const DISPOSABLE_DOMAINS = new Set([
+  'mailinator.com','mailinator2.com','guerrillamail.com','guerrillamail.info',
+  'guerrillamail.biz','guerrillamail.de','guerrillamail.net','guerrillamail.org',
+  'sharklasers.com','grr.la','guerrillamailblock.com','spam4.me',
+  'yopmail.com','yopmail.fr','cool.fr.nf','jetable.fr.nf','courriel.fr.nf',
+  'trashmail.com','trashmail.at','trashmail.io','trashmail.me',
+  'trashmail.net','trashmail.org','trashmail.xyz',
+  '10minutemail.com','10minutemail.net','10minutemail.org','10minutemail.de',
+  '20minutemail.com','tempmail.com','temp-mail.org','temp-mail.ru',
+  'throwam.com','throwaway.email','dispostable.com','mailnull.com',
+  'fakeinbox.com','fakeinbox.info','fakemail.fr','fakemail.net',
+  'jetable.com','jetable.net','jetable.org',
+  'discard.email','discardmail.com','discardmail.de',
+  'maildrop.cc','mailbucket.org','mailcatch.com','mailexpire.com',
+  'mailguard.me','mailseal.de','mailsucker.net','mailtv.net',
+  'mailzilla.com','mailzilla.org','mailnesia.com','mailtemp.info',
+  'spamgourmet.com','spamgourmet.net','spamgourmet.org',
+  'spambox.us','spamex.com','spamhole.com','spamtroll.net',
+  'spam.la','spamoff.de','spaml.com','spammotel.com',
+  'mytrashmail.com','meltmail.com','mohmal.com',
+  'moakt.co','moakt.com','moakt.ws',
+  'tempr.email','tempinbox.com','tempmailaddress.com','tempmailo.com',
+  'mintemail.com','instant-mail.de','rcpt.at',
+  'nwytg.net','mailme24.com','harakirimail.com',
+  'filzmail.com','getonemail.com','getonemail.net',
+  'binkmail.com','bobmail.info','devnullmail.com',
+  'mail-temporaire.com','mail-temporaire.fr',
+  'getairmail.com','crazymailing.com','spamthisplease.com',
+  'incognitomail.com','incognitomail.net','incognitomail.org',
+  'deadaddress.com','despam.it','dontreg.com','dontsendmespam.de',
+  'e4ward.com','emailias.com','emailinfive.com',
+  'fastacura.com','filzmail.com','fux0ringduh.com',
+  'getairmail.com','girlsundertheinfluence.com','gishpuppy.com',
+  'nomail.xl.cx','no-spam.ws','nobulk.com','noclickemail.com',
+  'nodensity.com','nogmailspam.info','nospam.ze.tc','nospam4.us',
+  'nospamfor.us','nospammail.net','nospamthanks.info',
+]);
+
+function isDisposableEmail(email) {
+  const domain = email.split('@')[1]?.toLowerCase();
+  return domain ? DISPOSABLE_DOMAINS.has(domain) : false;
+}
+
 // ===== ENVOI FORMULAIRE =====
 const WEB3FORMS_KEY = 'cc6957f4-66d9-4915-a1d5-8eb305458999';
 const form       = document.getElementById('contact-form');
@@ -110,6 +154,25 @@ if (form) {
     } else {
       // Non authentifié — envoi OTP
       const email = form.querySelector('input[type="email"]').value.trim();
+
+      if (isDisposableEmail(email)) {
+        const emailField = form.querySelector('input[type="email"]');
+        emailField.style.borderColor = '#FF6B6B';
+        let errEl = document.getElementById('email-disposable-error');
+        if (!errEl) {
+          errEl = document.createElement('span');
+          errEl.id = 'email-disposable-error';
+          errEl.style.cssText = 'font-size:0.8rem;color:#ef4444;margin-top:-6px;';
+          emailField.parentElement.after(errEl);
+        }
+        errEl.textContent = 'Les adresses email jetables ne sont pas acceptées.';
+        submitBtn.textContent = 'Envoyer le message';
+        submitBtn.disabled = false;
+        return;
+      }
+      const errEl = document.getElementById('email-disposable-error');
+      if (errEl) errEl.textContent = '';
+
       const ok = await sendOtp(email);
 
       submitBtn.textContent = 'Envoyer le message';
