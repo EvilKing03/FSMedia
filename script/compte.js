@@ -9,9 +9,34 @@ function loadUserData() {
   const user = JSON.parse(localStorage.getItem('fsmedia_user') || 'null');
   if (!user) return;
 
+  // Avatar
+  const avatarEl  = document.getElementById('compte-avatar');
+  let   initSpan  = avatarEl.querySelector('.avatar-initials');
+  let   avatarImg = avatarEl.querySelector('img');
+
+  if (!initSpan) {
+    initSpan = document.createElement('span');
+    initSpan.className = 'avatar-initials';
+    avatarEl.prepend(initSpan);
+  }
+
+  const initials = ((user.prenom?.[0] || '') + (user.nom?.[0] || '')).toUpperCase() || '?';
+  initSpan.textContent = initials;
+
+  if (user.photo) {
+    if (!avatarImg) {
+      avatarImg = document.createElement('img');
+      avatarImg.alt = 'Photo de profil';
+      avatarEl.prepend(avatarImg);
+    }
+    avatarImg.src = user.photo;
+    initSpan.style.display = 'none';
+  } else {
+    if (avatarImg) avatarImg.remove();
+    initSpan.style.display = '';
+  }
+
   // Sidebar
-  const initials = ((user.prenom?.[0] || '') + (user.nom?.[0] || '')).toUpperCase() || user.prenom?.[0]?.toUpperCase() || '?';
-  document.getElementById('compte-avatar').textContent = initials;
   document.getElementById('compte-sidebar-name').textContent = [user.prenom, user.nom].filter(Boolean).join(' ');
   document.getElementById('compte-sidebar-pseudo').textContent = user.pseudo || '';
   document.getElementById('compte-sidebar-email').textContent = user.email || '';
@@ -183,4 +208,30 @@ document.getElementById('delete-btn').addEventListener('click', () => {
 
   localStorage.removeItem('fsmedia_user');
   window.location.href = 'index.html';
+});
+
+// ===== PHOTO DE PROFIL =====
+const avatarEl    = document.getElementById('compte-avatar');
+const avatarInput = document.getElementById('avatar-input');
+
+avatarEl.addEventListener('click', () => avatarInput.click());
+
+avatarInput.addEventListener('change', () => {
+  const file = avatarInput.files[0];
+  if (!file) return;
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert('La photo ne doit pas dépasser 2 Mo.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const user = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
+    user.photo = e.target.result;
+    localStorage.setItem('fsmedia_user', JSON.stringify(user));
+    loadUserData();
+  };
+  reader.readAsDataURL(file);
+  avatarInput.value = '';
 });

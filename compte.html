@@ -35,7 +35,12 @@
   <section class="compte-section">
 
     <div class="compte-sidebar">
-      <div class="compte-avatar" id="compte-avatar"></div>
+      <div class="compte-avatar" id="compte-avatar">
+        <div class="compte-avatar-overlay" id="compte-avatar-overlay" title="Changer la photo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <input type="file" id="avatar-input" accept="image/*" style="display:none" />
+      </div>
       <div class="compte-sidebar-name" id="compte-sidebar-name"></div>
       <div class="compte-sidebar-pseudo" id="compte-sidebar-pseudo"></div>
       <div class="compte-sidebar-email" id="compte-sidebar-email"></div>

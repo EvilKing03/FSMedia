@@ -33,18 +33,8 @@ if (navbar) {
   handleScroll(); // init
 }
 
-// ===== MOBILE BURGER MENU =====
+// ===== MOBILE BURGER MENU — drawer built after auth IIFE =====
 const burger = document.querySelector('.navbar__burger');
-const navLinks = document.querySelector('.navbar__links');
-const navCta = document.querySelector('.navbar__cta');
-
-if (burger) {
-  burger.addEventListener('click', () => {
-    burger.classList.toggle('open');
-    // Simple toggle — pages can override with their own mobile drawer
-    if (navLinks) navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-  });
-}
 
 // ===== SCROLL REVEAL =====
 const revealObserver = new IntersectionObserver((entries) => {
@@ -81,7 +71,9 @@ document.querySelectorAll('.navbar__links a').forEach(link => {
     menu.className = 'navbar__user';
     menu.innerHTML = `
       <button class="navbar__user-btn" aria-expanded="false">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        ${user.photo
+          ? `<img src="${user.photo}" alt="Avatar" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0;">`
+          : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`}
         <span>${user.pseudo || user.prenom}</span>
         <svg class="navbar__user-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
@@ -109,3 +101,89 @@ document.querySelectorAll('.navbar__links a').forEach(link => {
     });
   }
 })();
+
+// ===== DRAWER MOBILE =====
+if (burger) {
+  const navEl  = document.querySelector('.navbar');
+  const user   = JSON.parse(localStorage.getItem('fsmedia_user') || 'null');
+
+  // Construire le drawer
+  const drawer = document.createElement('div');
+  drawer.className = 'navbar__drawer';
+  drawer.id = 'navbar-drawer';
+
+  // Liens de navigation
+  const links = [
+    { href: 'index.html',      label: 'Accueil' },
+    { href: 'vente.html',      label: 'Nos PC' },
+    { href: 'reparation.html', label: 'Réparation' },
+    { href: 'conseil.html',    label: 'Conseil' },
+    { href: 'bottleneck.html', label: 'Bottleneck' },
+  ];
+  const currentPage = window.location.pathname.split('/').pop();
+  links.forEach(({ href, label }) => {
+    const a = document.createElement('a');
+    a.href  = href;
+    a.className = 'drawer__link' + (href === currentPage ? ' active' : '');
+    a.textContent = label;
+    drawer.appendChild(a);
+  });
+
+  // Séparateur + actions
+  const sep = document.createElement('div');
+  sep.className = 'drawer__sep';
+  drawer.appendChild(sep);
+
+  const actions = document.createElement('div');
+  actions.className = 'drawer__actions';
+
+  if (user) {
+    // Avatar miniature
+    const avatarHtml = user.photo
+      ? `<img src="${user.photo}" alt="Avatar" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">`
+      : `<span class="drawer__avatar-init">${((user.prenom?.[0] || '') + (user.nom?.[0] || '')).toUpperCase() || '?'}</span>`;
+
+    actions.innerHTML = `
+      <div class="drawer__user-row">
+        ${avatarHtml}
+        <span class="drawer__username">${user.pseudo || user.prenom}</span>
+      </div>
+      <div class="drawer__user-btns">
+        <a href="compte.html" class="drawer__btn-compte">Mon compte</a>
+        <button class="drawer__btn-logout">Se déconnecter</button>
+        <a href="contact.html" class="drawer__btn-cta">Nous contacter</a>
+      </div>`;
+
+    actions.querySelector('.drawer__btn-logout').addEventListener('click', () => {
+      localStorage.removeItem('fsmedia_user');
+      window.location.href = 'index.html';
+    });
+  } else {
+    actions.innerHTML = `
+      <a href="auth.html" class="drawer__btn-auth">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Connexion
+      </a>
+      <a href="contact.html" class="drawer__btn-cta">Nous contacter</a>`;
+  }
+
+  drawer.appendChild(actions);
+  navEl.after(drawer);
+
+  // Toggle burger ↔ drawer
+  function closeDrawer() {
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+  }
+
+  burger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = drawer.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+  });
+
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+  document.addEventListener('click', (e) => {
+    if (!drawer.contains(e.target) && !burger.contains(e.target)) closeDrawer();
+  });
+}
