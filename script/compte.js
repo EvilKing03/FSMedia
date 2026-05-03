@@ -130,7 +130,7 @@ document.getElementById('profil-form').addEventListener('submit', async e => {
   clearError('email-error');
 
   if (pseudo.value && !/^[a-zA-Z0-9_]{1,24}$/.test(pseudo.value)) {
-    setError('pseudo-error', 'Lettres, chiffres et _ uniquement (max 24 caractères).');
+    setError('pseudo-error', 'Username : lettres, chiffres et _ uniquement (max 24 caractères).');
     valid = false;
   }
 
@@ -176,7 +176,7 @@ document.getElementById('profil-form').addEventListener('submit', async e => {
 
   if (profileError) {
     const msg = profileError.message.includes('unique')
-      ? 'Ce pseudo est déjà utilisé.'
+      ? 'Cet username est déjà utilisé.'
       : 'Erreur lors de la sauvegarde.';
     setError('pseudo-error', msg);
     return;

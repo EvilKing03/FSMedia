@@ -42,6 +42,12 @@
         <div class="auth-tab-indicator"></div>
       </div>
 
+      <!-- ===== NOTICE APRÈS INSCRIPTION ===== -->
+      <div class="auth-register-notice" id="register-notice" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Compte créé ! Vérifiez votre email puis connectez-vous.
+      </div>
+
       <!-- ===== FORMULAIRE CONNEXION ===== -->
       <form class="auth-form" id="login-form" novalidate>
 
@@ -106,6 +112,15 @@
             </div>
             <span class="auth-error" id="reg-nom-error"></span>
           </div>
+        </div>
+
+        <div class="auth-field">
+          <label for="reg-username">Username</label>
+          <div class="auth-input-wrap">
+            <svg class="auth-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <input type="text" id="reg-username" placeholder="MonUsername" maxlength="24" autocomplete="username" />
+          </div>
+          <span class="auth-error" id="reg-username-error"></span>
         </div>
 
         <div class="auth-field">

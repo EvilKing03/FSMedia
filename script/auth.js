@@ -157,12 +157,13 @@ regForm.addEventListener('submit', async e => {
   e.preventDefault();
   clearErrors();
 
-  const prenom  = document.getElementById('reg-prenom');
-  const nom     = document.getElementById('reg-nom');
-  const email   = document.getElementById('reg-email');
-  const pass    = document.getElementById('reg-password');
-  const confirm = document.getElementById('reg-confirm');
-  let valid     = true;
+  const prenom    = document.getElementById('reg-prenom');
+  const nom       = document.getElementById('reg-nom');
+  const username  = document.getElementById('reg-username');
+  const email     = document.getElementById('reg-email');
+  const pass      = document.getElementById('reg-password');
+  const confirm   = document.getElementById('reg-confirm');
+  let valid       = true;
 
   if (!prenom.value.trim()) {
     setError('reg-prenom-error', 'Prénom requis.');
@@ -175,6 +176,16 @@ regForm.addEventListener('submit', async e => {
     setInputState(nom, false);
     valid = false;
   } else { setInputState(nom, true); }
+
+  if (!username.value.trim()) {
+    setError('reg-username-error', 'Username requis.');
+    setInputState(username, false);
+    valid = false;
+  } else if (!/^[a-zA-Z0-9_]{1,24}$/.test(username.value.trim())) {
+    setError('reg-username-error', 'Lettres, chiffres et _ uniquement (max 24 caractères).');
+    setInputState(username, false);
+    valid = false;
+  } else { setInputState(username, true); }
 
   if (!isValidEmail(email.value.trim())) {
     setError('reg-email-error', 'Adresse email invalide.');
@@ -206,7 +217,8 @@ regForm.addEventListener('submit', async e => {
     options: {
       data: {
         prenom: prenom.value.trim(),
-        nom:    nom.value.trim()
+        nom:    nom.value.trim(),
+        pseudo: username.value.trim()
       }
     }
   });
@@ -222,10 +234,10 @@ regForm.addEventListener('submit', async e => {
     return;
   }
 
-  showSuccess(
-    'Vérifiez votre email !',
-    `Un lien de confirmation a été envoyé à ${email.value.trim()}. Cliquez dessus pour activer votre compte.`
-  );
+  // Basculer vers l'onglet connexion avec une notice
+  switchTab('login');
+  const notice = document.getElementById('register-notice');
+  if (notice) notice.style.display = 'flex';
 });
 
 // ===== SUCCESS =====
