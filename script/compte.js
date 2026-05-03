@@ -1,13 +1,31 @@
-// Rediriger si non connecté
-const userData = JSON.parse(localStorage.getItem('fsmedia_user') || 'null');
-if (!userData) {
-  window.location.href = 'auth.html';
-}
+// ===== VÉRIFICATION SESSION =====
+let currentUser = null;
+
+(async () => {
+  const { data: { session } } = await _sb.auth.getSession();
+  if (!session) {
+    window.location.href = 'auth.html';
+    return;
+  }
+  currentUser = session.user;
+  await loadUserData();
+})();
 
 // ===== CHARGER LES DONNÉES =====
-function loadUserData() {
-  const user = JSON.parse(localStorage.getItem('fsmedia_user') || 'null');
-  if (!user) return;
+async function loadUserData() {
+  const { data: profile } = await _sb.from('profiles').select('*').eq('id', currentUser.id).single();
+
+  const user = {
+    id:     currentUser.id,
+    email:  currentUser.email,
+    prenom: profile?.prenom || currentUser.email.split('@')[0],
+    nom:    profile?.nom    || '',
+    pseudo: profile?.pseudo || '',
+    photo:  profile?.photo_url || null
+  };
+
+  // Mettre à jour le cache localStorage
+  localStorage.setItem('fsmedia_user', JSON.stringify(user));
 
   // Avatar
   const avatarEl  = document.getElementById('compte-avatar');
@@ -37,9 +55,9 @@ function loadUserData() {
   }
 
   // Sidebar
-  document.getElementById('compte-sidebar-name').textContent = [user.prenom, user.nom].filter(Boolean).join(' ');
+  document.getElementById('compte-sidebar-name').textContent  = [user.prenom, user.nom].filter(Boolean).join(' ');
   document.getElementById('compte-sidebar-pseudo').textContent = user.pseudo || '';
-  document.getElementById('compte-sidebar-email').textContent = user.email || '';
+  document.getElementById('compte-sidebar-email').textContent  = user.email  || '';
 
   // Formulaire profil
   document.getElementById('profil-pseudo').value = user.pseudo || '';
@@ -47,8 +65,6 @@ function loadUserData() {
   document.getElementById('profil-nom').value    = user.nom    || '';
   document.getElementById('profil-email').value  = user.email  || '';
 }
-
-loadUserData();
 
 // ===== NAVIGATION SIDEBAR =====
 const navItems = document.querySelectorAll('.compte-nav-item');
@@ -65,7 +81,8 @@ navItems.forEach(btn => {
 });
 
 // ===== DÉCONNEXION =====
-document.getElementById('compte-logout').addEventListener('click', () => {
+document.getElementById('compte-logout').addEventListener('click', async () => {
+  await _sb.auth.signOut();
   localStorage.removeItem('fsmedia_user');
   window.location.href = 'index.html';
 });
@@ -98,7 +115,7 @@ function isValidEmail(email) {
 }
 
 // ===== FORMULAIRE PROFIL =====
-document.getElementById('profil-form').addEventListener('submit', e => {
+document.getElementById('profil-form').addEventListener('submit', async e => {
   e.preventDefault();
 
   const pseudo = document.getElementById('profil-pseudo');
@@ -134,19 +151,43 @@ document.getElementById('profil-form').addEventListener('submit', e => {
 
   if (!valid) return;
 
-  const user = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
-  user.pseudo = pseudo.value.trim();
-  user.prenom = prenom.value.trim();
-  user.nom    = nom.value.trim();
-  user.email  = email.value.trim();
-  localStorage.setItem('fsmedia_user', JSON.stringify(user));
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
 
-  loadUserData();
+  // Mettre à jour le profil dans Supabase
+  const { error: profileError } = await _sb.from('profiles').upsert({
+    id:     currentUser.id,
+    pseudo: pseudo.value.trim(),
+    prenom: prenom.value.trim(),
+    nom:    nom.value.trim()
+  });
+
+  // Mettre à jour l'email si changé
+  if (email.value.trim() !== currentUser.email) {
+    const { error: emailError } = await _sb.auth.updateUser({ email: email.value.trim() });
+    if (emailError) {
+      setError('email-error', 'Impossible de changer l\'email.');
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  btn.disabled = false;
+
+  if (profileError) {
+    const msg = profileError.message.includes('unique')
+      ? 'Ce pseudo est déjà utilisé.'
+      : 'Erreur lors de la sauvegarde.';
+    setError('pseudo-error', msg);
+    return;
+  }
+
+  await loadUserData();
   showToast('profil-toast', 'Modifications enregistrées !', 'success');
 });
 
 // ===== FORMULAIRE SÉCURITÉ =====
-document.getElementById('securite-form').addEventListener('submit', e => {
+document.getElementById('securite-form').addEventListener('submit', async e => {
   e.preventDefault();
 
   const oldPass     = document.getElementById('old-password');
@@ -175,25 +216,42 @@ document.getElementById('securite-form').addEventListener('submit', e => {
 
   if (!valid) return;
 
-  // Simulation — à remplacer par appel API
   const btn = e.target.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.textContent = 'Mise à jour…';
 
-  setTimeout(() => {
+  // Vérifier l'ancien mot de passe en re-authentifiant
+  const { error: signInError } = await _sb.auth.signInWithPassword({
+    email:    currentUser.email,
+    password: oldPass.value
+  });
+
+  if (signInError) {
     btn.disabled = false;
     btn.innerHTML = 'Changer le mot de passe <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    oldPass.value = '';
-    newPass.value = '';
-    confirmPass.value = '';
-    showToast('securite-toast', 'Mot de passe mis à jour !', 'success');
-  }, 1000);
+    setError('old-pass-error', 'Mot de passe actuel incorrect.');
+    return;
+  }
+
+  const { error } = await _sb.auth.updateUser({ password: newPass.value });
+
+  btn.disabled = false;
+  btn.innerHTML = 'Changer le mot de passe <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  if (error) {
+    setError('new-pass-error', 'Erreur lors du changement de mot de passe.');
+    return;
+  }
+
+  oldPass.value = '';
+  newPass.value = '';
+  confirmPass.value = '';
+  showToast('securite-toast', 'Mot de passe mis à jour !', 'success');
 });
 
 // ===== SUPPRESSION DU COMPTE =====
-document.getElementById('delete-btn').addEventListener('click', () => {
+document.getElementById('delete-btn').addEventListener('click', async () => {
   const input = document.getElementById('delete-confirm-email');
-  const user  = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
   clearError('delete-error');
 
   if (!input.value.trim()) {
@@ -201,11 +259,15 @@ document.getElementById('delete-btn').addEventListener('click', () => {
     return;
   }
 
-  if (input.value.trim().toLowerCase() !== (user.email || '').toLowerCase()) {
+  if (input.value.trim().toLowerCase() !== currentUser.email.toLowerCase()) {
     setError('delete-error', 'L\'adresse email ne correspond pas.');
     return;
   }
 
+  // Suppression via Supabase (nécessite une Edge Function côté serveur pour delete user)
+  // Pour l'instant : déconnexion + suppression du profil local
+  await _sb.from('profiles').delete().eq('id', currentUser.id);
+  await _sb.auth.signOut();
   localStorage.removeItem('fsmedia_user');
   window.location.href = 'index.html';
 });
@@ -216,7 +278,7 @@ const avatarInput = document.getElementById('avatar-input');
 
 avatarEl.addEventListener('click', () => avatarInput.click());
 
-avatarInput.addEventListener('change', () => {
+avatarInput.addEventListener('change', async () => {
   const file = avatarInput.files[0];
   if (!file) return;
 
@@ -226,11 +288,20 @@ avatarInput.addEventListener('change', () => {
   }
 
   const reader = new FileReader();
-  reader.onload = (e) => {
-    const user = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
-    user.photo = e.target.result;
-    localStorage.setItem('fsmedia_user', JSON.stringify(user));
-    loadUserData();
+  reader.onload = async (e) => {
+    const base64 = e.target.result;
+
+    await _sb.from('profiles').upsert({
+      id:        currentUser.id,
+      photo_url: base64
+    });
+
+    // Mettre à jour le cache
+    const cached = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
+    cached.photo = base64;
+    localStorage.setItem('fsmedia_user', JSON.stringify(cached));
+
+    await loadUserData();
   };
   reader.readAsDataURL(file);
   avatarInput.value = '';

@@ -1,7 +1,8 @@
 // Rediriger si déjà connecté
-if (localStorage.getItem('fsmedia_user')) {
-  window.location.href = 'index.html';
-}
+(async () => {
+  const { data: { session } } = await _sb.auth.getSession();
+  if (session) window.location.href = 'index.html';
+})();
 
 // ===== TABS =====
 const tabs      = document.querySelectorAll('.auth-tab');
@@ -27,16 +28,16 @@ document.querySelectorAll('.auth-switch-btn').forEach(btn => {
 // ===== PASSWORD VISIBILITY =====
 document.querySelectorAll('.auth-eye').forEach(btn => {
   btn.addEventListener('click', () => {
-    const input   = document.getElementById(btn.dataset.target);
+    const input    = document.getElementById(btn.dataset.target);
     const isHidden = input.type === 'password';
     input.type = isHidden ? 'text' : 'password';
-    btn.querySelector('.eye-show').style.display = isHidden ? 'none'  : '';
+    btn.querySelector('.eye-show').style.display = isHidden ? 'none' : '';
     btn.querySelector('.eye-hide').style.display = isHidden ? '' : 'none';
   });
 });
 
 // ===== PASSWORD STRENGTH =====
-const regPassword = document.getElementById('reg-password');
+const regPassword   = document.getElementById('reg-password');
 const strengthFill  = document.getElementById('strength-fill');
 const strengthLabel = document.getElementById('strength-label');
 
@@ -49,9 +50,9 @@ regPassword.addEventListener('input', () => {
     return;
   }
   const score =
-    (val.length >= 8     ? 1 : 0) +
-    (/[A-Z]/.test(val)   ? 1 : 0) +
-    (/[0-9]/.test(val)   ? 1 : 0) +
+    (val.length >= 8          ? 1 : 0) +
+    (/[A-Z]/.test(val)        ? 1 : 0) +
+    (/[0-9]/.test(val)        ? 1 : 0) +
     (/[^A-Za-z0-9]/.test(val) ? 1 : 0);
 
   const level = score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong';
@@ -95,8 +96,8 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 }
 
-// ===== LOGIN SUBMIT =====
-loginForm.addEventListener('submit', e => {
+// ===== LOGIN =====
+loginForm.addEventListener('submit', async e => {
   e.preventDefault();
   clearErrors();
 
@@ -108,17 +109,13 @@ loginForm.addEventListener('submit', e => {
     setError('login-email-error', 'Adresse email invalide.');
     setInputState(email, false);
     valid = false;
-  } else {
-    setInputState(email, true);
-  }
+  } else { setInputState(email, true); }
 
   if (pass.value.length < 6) {
     setError('login-password-error', 'Mot de passe trop court.');
     setInputState(pass, false);
     valid = false;
-  } else {
-    setInputState(pass, true);
-  }
+  } else { setInputState(pass, true); }
 
   if (!valid) return;
 
@@ -126,20 +123,37 @@ loginForm.addEventListener('submit', e => {
   btn.textContent = 'Connexion…';
   btn.disabled    = true;
 
-  // Simulation — à remplacer par un appel API réel
-  setTimeout(() => {
+  const { data, error } = await _sb.auth.signInWithPassword({
+    email:    email.value.trim(),
+    password: pass.value
+  });
+
+  if (error) {
     btn.textContent = 'Se connecter';
     btn.disabled    = false;
-    localStorage.setItem('fsmedia_user', JSON.stringify({
-      prenom: email.value.split('@')[0],
-      email:  email.value.trim()
-    }));
-    window.location.href = 'index.html';
-  }, 1200);
+    const msg = error.message.includes('Email not confirmed')
+      ? 'Confirmez votre email avant de vous connecter.'
+      : 'Email ou mot de passe incorrect.';
+    showGlobalError('login-global-error', msg);
+    return;
+  }
+
+  // Charger le profil et mettre en cache localStorage
+  const { data: profile } = await _sb.from('profiles').select('*').eq('id', data.user.id).single();
+  localStorage.setItem('fsmedia_user', JSON.stringify({
+    id:     data.user.id,
+    email:  data.user.email,
+    prenom: profile?.prenom || data.user.email.split('@')[0],
+    nom:    profile?.nom    || '',
+    pseudo: profile?.pseudo || '',
+    photo:  profile?.photo_url || null
+  }));
+
+  window.location.href = 'index.html';
 });
 
-// ===== REGISTER SUBMIT =====
-regForm.addEventListener('submit', e => {
+// ===== REGISTER =====
+regForm.addEventListener('submit', async e => {
   e.preventDefault();
   clearErrors();
 
@@ -186,17 +200,32 @@ regForm.addEventListener('submit', e => {
   btn.textContent = 'Création…';
   btn.disabled    = true;
 
-  // Simulation — à remplacer par un appel API réel
-  setTimeout(() => {
-    btn.textContent = 'Créer mon compte';
-    btn.disabled    = false;
-    localStorage.setItem('fsmedia_user', JSON.stringify({
-      prenom: prenom.value.trim(),
-      nom:    nom.value.trim(),
-      email:  email.value.trim()
-    }));
-    window.location.href = 'index.html';
-  }, 1400);
+  const { error } = await _sb.auth.signUp({
+    email:    email.value.trim(),
+    password: pass.value,
+    options: {
+      data: {
+        prenom: prenom.value.trim(),
+        nom:    nom.value.trim()
+      }
+    }
+  });
+
+  btn.textContent = 'Créer mon compte';
+  btn.disabled    = false;
+
+  if (error) {
+    const msg = error.message.includes('already registered')
+      ? 'Un compte existe déjà avec cet email.'
+      : 'Erreur lors de la création du compte. Réessayez.';
+    showGlobalError('register-global-error', msg);
+    return;
+  }
+
+  showSuccess(
+    'Vérifiez votre email !',
+    `Un lien de confirmation a été envoyé à ${email.value.trim()}. Cliquez dessus pour activer votre compte.`
+  );
 });
 
 // ===== SUCCESS =====
@@ -208,9 +237,6 @@ function showSuccess(title, desc) {
   document.getElementById('success-desc').textContent  = desc;
 }
 
-// Clear input state on focus
 document.querySelectorAll('.auth-input-wrap input').forEach(inp => {
-  inp.addEventListener('focus', () => {
-    inp.classList.remove('invalid', 'valid');
-  });
+  inp.addEventListener('focus', () => inp.classList.remove('invalid', 'valid'));
 });

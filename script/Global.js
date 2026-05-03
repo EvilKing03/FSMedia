@@ -95,11 +95,20 @@ document.querySelectorAll('.navbar__links a').forEach(link => {
     document.addEventListener('click', () => menu.classList.remove('open'));
 
     // Déconnexion
-    menu.querySelector('.navbar__logout-btn').addEventListener('click', () => {
+    menu.querySelector('.navbar__logout-btn').addEventListener('click', async () => {
+      await _sb.auth.signOut();
       localStorage.removeItem('fsmedia_user');
       window.location.href = 'index.html';
     });
   }
+
+  // Vérification session Supabase en arrière-plan
+  _sb.auth.getSession().then(({ data: { session } }) => {
+    if (!session && localStorage.getItem('fsmedia_user')) {
+      localStorage.removeItem('fsmedia_user');
+      window.location.reload();
+    }
+  });
 })();
 
 // ===== DRAWER MOBILE =====
@@ -154,7 +163,8 @@ if (burger) {
         <a href="contact.html" class="drawer__btn-cta">Nous contacter</a>
       </div>`;
 
-    actions.querySelector('.drawer__btn-logout').addEventListener('click', () => {
+    actions.querySelector('.drawer__btn-logout').addEventListener('click', async () => {
+      await _sb.auth.signOut();
       localStorage.removeItem('fsmedia_user');
       window.location.href = 'index.html';
     });
