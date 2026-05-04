@@ -140,10 +140,11 @@ if (form) {
     submitBtn.textContent = 'Vérification…';
     submitBtn.disabled = true;
 
-    const { data: { session } } = await _sb.auth.getSession();
+    // Seuls les utilisateurs inscrits sur FSMedia (localStorage) sautent l'OTP
+    const fsmediaUser = JSON.parse(localStorage.getItem('fsmedia_user') || 'null');
 
-    if (session) {
-      // Déjà authentifié — envoi direct
+    if (fsmediaUser?.email) {
+      // Compte FSMedia — envoi direct
       try {
         const ok = await submitToWeb3Forms();
         if (ok) {
@@ -159,7 +160,7 @@ if (form) {
       return;
     }
 
-    // Non authentifié — vérification email
+    // Visiteur non inscrit — vérification OTP obligatoire
     const emailField = form.querySelector('input[type="email"]');
     const email = emailField.value.trim();
 
