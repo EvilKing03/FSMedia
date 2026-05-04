@@ -232,15 +232,54 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 680px) {
+  /* Tabs : scroll horizontal sur mobile */
   .toolbox-tabs {
-    flex-direction: column;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
     gap: 4px;
+    padding: 5px;
   }
-  .toolbox-tab { justify-content: flex-start; padding: 11px 14px; }
+  .toolbox-tabs::-webkit-scrollbar { display: none; }
+  .toolbox-tab {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    font-size: 0.83rem;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .toolbox-tab svg { width: 14px; height: 14px; }
+
+  /* Résultats PSU/FPS */
+  .fps-display { flex-direction: column; gap: 14px; }
 }
 
 @media (max-width: 480px) {
-  .toolbox-section { padding: 40px 4% 60px; }
-  .fps-number { font-size: 3rem; }
-  .psu-watt-number { font-size: 2.4rem; }
+  .toolbox-section { padding: 32px 4% 60px; }
+
+  /* Réduction des grandes valeurs numériques */
+  .fps-number { font-size: 2.8rem; }
+  .psu-watt-number { font-size: 2.2rem; }
+  .psu-rec-value { font-size: 1.4rem; }
+
+  /* Barres bottleneck : nom sur une ligne, barre dessous */
+  .btool-bar-row {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    row-gap: 6px;
+  }
+  .btool-bar-name { grid-column: 1; grid-row: 1; white-space: normal; }
+  .btool-bar-tag  { grid-column: 2; grid-row: 1; text-align: right; font-size: 0.72rem; }
+  .btool-bar-track { grid-column: 1 / -1; grid-row: 2; }
+
+  /* Pills plus compactes */
+  .pill { padding: 7px 13px; font-size: 0.82rem; }
+
+  /* Search inputs */
+  .btool-search { font-size: 0.85rem; padding: 9px 12px; }
+
+  /* Milestones FPS */
+  .fps-milestones { gap: 6px; }
+  .fps-milestone  { padding: 4px 10px; font-size: 0.76rem; }
 }

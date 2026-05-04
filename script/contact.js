@@ -55,8 +55,7 @@ const DISPOSABLE_DOMAINS = new Set([
   'incognitomail.com','incognitomail.net','incognitomail.org',
   'deadaddress.com','despam.it','dontreg.com','dontsendmespam.de',
   'e4ward.com','emailias.com','emailinfive.com',
-  'fastacura.com','filzmail.com','fux0ringduh.com',
-  'getairmail.com','girlsundertheinfluence.com','gishpuppy.com',
+  'fastacura.com','fux0ringduh.com','girlsundertheinfluence.com','gishpuppy.com',
   'nomail.xl.cx','no-spam.ws','nobulk.com','noclickemail.com',
   'nodensity.com','nogmailspam.info','nospam.ze.tc','nospam4.us',
   'nospamfor.us','nospammail.net','nospamthanks.info',
@@ -122,7 +121,13 @@ function startCountdown() {
 }
 
 async function sendOtp(email) {
-  const { error } = await _sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+  const { error } = await _sb.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: window.location.origin + '/contact.html'
+    }
+  });
   return !error;
 }
 
@@ -151,41 +156,47 @@ if (form) {
         submitBtn.textContent = 'Erreur réseau — Réessayer';
         submitBtn.disabled = false;
       }
-    } else {
-      // Non authentifié — envoi OTP
-      const email = form.querySelector('input[type="email"]').value.trim();
+      return;
+    }
 
-      if (isDisposableEmail(email)) {
-        const emailField = form.querySelector('input[type="email"]');
-        emailField.style.borderColor = '#FF6B6B';
-        let errEl = document.getElementById('email-disposable-error');
-        if (!errEl) {
-          errEl = document.createElement('span');
-          errEl.id = 'email-disposable-error';
-          errEl.style.cssText = 'font-size:0.8rem;color:#ef4444;margin-top:-6px;';
-          emailField.parentElement.after(errEl);
-        }
-        errEl.textContent = 'Les adresses email jetables ne sont pas acceptées.';
-        submitBtn.textContent = 'Envoyer le message';
-        submitBtn.disabled = false;
-        return;
+    // Non authentifié — vérification email
+    const emailField = form.querySelector('input[type="email"]');
+    const email = emailField.value.trim();
+
+    if (isDisposableEmail(email)) {
+      emailField.style.borderColor = '#FF6B6B';
+      let errEl = document.getElementById('email-disposable-error');
+      if (!errEl) {
+        errEl = document.createElement('span');
+        errEl.id = 'email-disposable-error';
+        errEl.style.cssText = 'font-size:0.8rem;color:#ef4444;margin-top:-6px;display:block;';
+        emailField.parentElement.appendChild(errEl);
       }
-      const errEl = document.getElementById('email-disposable-error');
-      if (errEl) errEl.textContent = '';
-
-      const ok = await sendOtp(email);
-
+      errEl.textContent = 'Les adresses email jetables ne sont pas acceptées.';
       submitBtn.textContent = 'Envoyer le message';
       submitBtn.disabled = false;
-
-      if (!ok) return;
-
-      document.getElementById('otp-email-display').textContent = email;
-      document.getElementById('otp-step').style.display = 'block';
-      document.querySelector('.form-submit').style.display = 'none';
-      document.getElementById('otp-code').focus();
-      startCountdown();
+      return;
     }
+    const errEl = document.getElementById('email-disposable-error');
+    if (errEl) errEl.textContent = '';
+
+    const ok = await sendOtp(email);
+
+    submitBtn.textContent = 'Envoyer le message';
+    submitBtn.disabled = false;
+
+    if (!ok) {
+      // Erreur côté Supabase
+      const otpErr = document.getElementById('otp-send-error');
+      if (otpErr) { otpErr.textContent = 'Impossible d\'envoyer le code. Réessayez.'; otpErr.style.display = 'block'; }
+      return;
+    }
+
+    document.getElementById('otp-email-display').textContent = email;
+    document.getElementById('otp-step').style.display = 'block';
+    document.querySelector('.form-submit').style.display = 'none';
+    document.getElementById('otp-code').focus();
+    startCountdown();
   });
 
   form.querySelectorAll('input, select, textarea').forEach(field => {
