@@ -19,8 +19,8 @@ function renderCard(p) {
   ).join('');
 
   const media = p.model
-    ? `<model-viewer src="/images/${p.model}" alt="${p.name}" auto-rotate auto-rotate-delay="0" rotation-per-second="30deg" shadow-intensity="1" exposure="1.1"></model-viewer>`
-    : `<img src="/images/${p.image}" alt="${p.name}" loading="lazy" />`;
+    ? `<model-viewer src="images/${p.model}" alt="${p.name}" auto-rotate auto-rotate-delay="0" rotation-per-second="30deg" shadow-intensity="1" exposure="1.1"></model-viewer>`
+    : `<img src="images/${p.image}" alt="${p.name}" loading="lazy" />`;
 
   return `
     <div class="product-card" data-category="${p.category}">
@@ -64,7 +64,7 @@ async function init() {
 
   let products;
   try {
-    const res = await fetch('/data/products.json');
+    const res = await fetch('data/products.json');
     if (!res.ok) throw new Error('fetch failed');
     const data = await res.json();
     products = data.products;
