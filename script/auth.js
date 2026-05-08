@@ -1,7 +1,9 @@
 // Rediriger si déjà connecté
+const _redirectAfterLogin = new URLSearchParams(location.search).get('redirect') || 'index.html';
+
 (async () => {
   const { data: { session } } = await _sb.auth.getSession();
-  if (session) window.location.href = 'index.html';
+  if (session) window.location.href = _redirectAfterLogin;
 })();
 
 // ===== TABS =====
@@ -149,7 +151,7 @@ loginForm.addEventListener('submit', async e => {
     photo:  profile?.photo_url || null
   }));
 
-  window.location.href = 'index.html';
+  window.location.href = _redirectAfterLogin;
 });
 
 // ===== REGISTER =====
@@ -227,9 +229,10 @@ regForm.addEventListener('submit', async e => {
   btn.disabled    = false;
 
   if (error) {
+    console.error('Supabase signUp error:', error);
     const msg = error.message.includes('already registered')
       ? 'Un compte existe déjà avec cet email.'
-      : 'Erreur lors de la création du compte. Réessayez.';
+      : error.message || 'Erreur lors de la création du compte. Réessayez.';
     showGlobalError('register-global-error', msg);
     return;
   }

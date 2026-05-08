@@ -9,18 +9,34 @@ function renderCard(p) {
     ? `<span class="product-card__price-note">${p.price_label}</span>`
     : '';
 
-  const specs = p.specs.map(s =>
-    !s.label
-      ? `<div class="product-card__spec product-card__spec--full">${s.value}</div>`
-      : `<div class="product-card__spec">
-           <span class="product-card__spec-label">${s.label}</span>
-           <span class="product-card__spec-value">${s.value}</span>
+  /* specs: support both object {CPU:"...", RAM:"..."} and legacy array [{label,value}] */
+  let specsHtml = '';
+  if (p.specs) {
+    if (Array.isArray(p.specs)) {
+      specsHtml = p.specs.map(s =>
+        !s.label
+          ? `<div class="product-card__spec product-card__spec--full">${s.value}</div>`
+          : `<div class="product-card__spec">
+               <span class="product-card__spec-label">${s.label}</span>
+               <span class="product-card__spec-value">${s.value}</span>
+             </div>`
+      ).join('');
+    } else {
+      specsHtml = Object.entries(p.specs).map(([k, v]) =>
+        `<div class="product-card__spec">
+           <span class="product-card__spec-label">${k}</span>
+           <span class="product-card__spec-value">${v}</span>
          </div>`
-  ).join('');
+      ).join('');
+    }
+  }
 
+  const imgSrc = p.image_url || (p.image ? `images/${p.image}` : null);
   const media = p.model
     ? `<model-viewer src="images/${p.model}" alt="${p.name}" auto-rotate auto-rotate-delay="0" rotation-per-second="30deg" shadow-intensity="1" exposure="1.1"></model-viewer>`
-    : `<img src="images/${p.image}" alt="${p.name}" loading="lazy" />`;
+    : imgSrc
+      ? `<img src="${imgSrc}" alt="${p.name}" loading="lazy" />`
+      : `<div class="product-card__no-img"></div>`;
 
   return `
     <div class="product-card" data-category="${p.category}">
@@ -31,25 +47,25 @@ function renderCard(p) {
             ${media}
           </div>
           <div class="product-card__info">
-            <div class="product-card__category">${p.category_label}</div>
+            <div class="product-card__category">${p.category_label || p.category || ''}</div>
             <div class="product-card__name">${p.name}</div>
             <div class="product-card__price-row">
               <span class="product-card__price">${p.price}</span>
               ${priceNote}
             </div>
-            <p class="product-card__hint">${p.hint}</p>
+            <p class="product-card__hint">${p.hint || ''}</p>
           </div>
         </div>
         <div class="product-card__back">
           <div class="product-card__back-top">
-            <div class="product-card__back-cat">${p.back_cat}</div>
-            <div class="product-card__back-name">${p.back_name}</div>
+            <div class="product-card__back-cat">${p.back_cat || p.category_label || p.category || ''}</div>
+            <div class="product-card__back-name">${p.back_name || p.name}</div>
           </div>
-          <div class="product-card__specs">${specs}</div>
-          <div class="product-card__back-price">${p.back_price}</div>
+          <div class="product-card__specs">${specsHtml}</div>
+          <div class="product-card__back-price">${p.back_price || p.price}</div>
           <div class="product-card__back-actions">
-            <a href="contact.html?sujet=${encodeURIComponent(p.contact_subject)}" class="btn-card-primary">
-              ${p.cta_label} ${ARROW}
+            <a href="contact.html?sujet=${encodeURIComponent(p.contact_subject || p.name)}" class="btn-card-primary">
+              ${p.cta_label || 'Commander'} ${ARROW}
             </a>
             <a href="contact.html" class="btn-card-outline">Poser une question</a>
           </div>
@@ -64,13 +80,23 @@ async function init() {
 
   let products;
   try {
-    const res = await fetch('data/products.json');
-    if (!res.ok) throw new Error('fetch failed');
-    const data = await res.json();
-    products = data.products;
+    const { data, error } = await _sb
+      .from('products')
+      .select('*')
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    products = data || [];
   } catch {
-    grid.innerHTML = '<p class="catalogue__error">Impossible de charger les produits.<br>Veuillez réessayer ou nous contacter directement.</p>';
-    return;
+    // Fallback vers le JSON local si Supabase n'est pas encore configuré
+    try {
+      const res = await fetch('data/products.json');
+      if (!res.ok) throw new Error();
+      const json = await res.json();
+      products = json.products || [];
+    } catch {
+      grid.innerHTML = '<p class="catalogue__error">Impossible de charger les produits.<br>Veuillez réessayer ou nous contacter directement.</p>';
+      return;
+    }
   }
 
   grid.innerHTML = products.map(renderCard).join('');
