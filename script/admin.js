@@ -16,9 +16,16 @@ async function checkAdmin() {
   if (error || !data) {
     alert('Accès refusé. Ce compte n\'est pas administrateur.');
     await _sb.auth.signOut();
+    const u = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
+    delete u.isAdmin;
+    localStorage.setItem('fsmedia_user', JSON.stringify(u));
     location.href = 'index.html';
     return false;
   }
+  // Marquer comme admin dans le cache local pour le drawer mobile
+  const u = JSON.parse(localStorage.getItem('fsmedia_user') || '{}');
+  u.isAdmin = true;
+  localStorage.setItem('fsmedia_user', JSON.stringify(u));
   return true;
 }
 

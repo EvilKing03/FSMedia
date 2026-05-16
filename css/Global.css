@@ -103,7 +103,7 @@ button {
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 16px;
   padding: 0 6%;
   height: 72px;
   background: rgba(255, 255, 255, 0.92);
@@ -227,6 +227,7 @@ button {
   border-radius: var(--radius-sm);
   transition: border-color var(--transition), color var(--transition);
   white-space: nowrap;
+  margin-left: auto;
 }
 
 .navbar__auth:hover {
@@ -237,6 +238,7 @@ button {
 /* Menu utilisateur connecté */
 .navbar__user {
   position: relative;
+  margin-left: auto;
 }
 
 .navbar__user-btn {
@@ -315,6 +317,17 @@ button {
   color: var(--cyan);
 }
 
+.navbar__admin-link {
+  display: flex !important;
+  align-items: center;
+  gap: 7px;
+  color: var(--cyan) !important;
+  font-weight: 600;
+}
+.navbar__admin-link:hover {
+  background: rgba(0, 200, 232, 0.08) !important;
+}
+
 .navbar__logout-btn {
   border-top: 1px solid var(--border);
   color: #ef4444;
@@ -351,6 +364,7 @@ button {
   height: 40px;
   border-radius: 10px;
   background: var(--bg-soft);
+  margin-left: auto;
   border: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -624,6 +638,13 @@ button {
 .drawer__link:hover,
 .drawer__link.active { color: var(--cyan); }
 
+.drawer__link--admin {
+  color: var(--cyan);
+  font-weight: 600;
+  opacity: 0.85;
+}
+.drawer__link--admin:hover { opacity: 1; }
+
 .drawer__sep {
   height: 1px;
   background: var(--border);
@@ -682,6 +703,24 @@ button {
 .drawer__btn-auth:hover {
   border-color: var(--cyan);
   color: var(--cyan);
+}
+
+.drawer__btn-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 1.5px solid rgba(0, 200, 232, 0.35);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--cyan);
+  background: rgba(0, 200, 232, 0.06);
+  transition: border-color var(--transition), background var(--transition);
+}
+.drawer__btn-admin:hover {
+  border-color: var(--cyan);
+  background: rgba(0, 200, 232, 0.12);
 }
 
 .drawer__btn-logout {

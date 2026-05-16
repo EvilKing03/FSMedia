@@ -102,12 +102,26 @@ document.querySelectorAll('.navbar__links a').forEach(link => {
     });
   }
 
-  // Vérification session Supabase en arrière-plan
+  // Vérification session Supabase en arrière-plan + check admin
   _sb.auth.getSession().then(({ data: { session } }) => {
     if (!session && localStorage.getItem('fsmedia_user')) {
       localStorage.removeItem('fsmedia_user');
       window.location.reload();
+      return;
     }
+    if (!session || !user) return;
+    // Check admin → injecte le lien dans le dropdown desktop
+    _sb.from('admins').select('email').eq('email', session.user.email).single()
+      .then(({ data }) => {
+        if (!data) return;
+        const dropdown = document.querySelector('.navbar__user-dropdown');
+        if (!dropdown || dropdown.querySelector('.navbar__admin-link')) return;
+        const adminLink = document.createElement('a');
+        adminLink.href = 'admin.html';
+        adminLink.className = 'navbar__admin-link';
+        adminLink.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Admin`;
+        dropdown.insertBefore(adminLink, dropdown.querySelector('.navbar__logout-btn'));
+      });
   });
 })();
 
@@ -128,12 +142,13 @@ if (burger) {
     { href: 'reparation.html', label: 'Réparation' },
     { href: 'conseil.html',    label: 'Conseil' },
     { href: 'bottleneck.html', label: 'Bottleneck' },
+    { href: 'admin.html',      label: 'Admin', admin: true },
   ];
   const currentPage = window.location.pathname.split('/').pop();
-  links.forEach(({ href, label }) => {
+  links.forEach(({ href, label, admin }) => {
     const a = document.createElement('a');
     a.href  = href;
-    a.className = 'drawer__link' + (href === currentPage ? ' active' : '');
+    a.className = 'drawer__link' + (href === currentPage ? ' active' : '') + (admin ? ' drawer__link--admin' : '');
     a.textContent = label;
     drawer.appendChild(a);
   });
@@ -185,6 +200,28 @@ if (burger) {
     burger.classList.remove('open');
     drawer.classList.remove('open');
   }
+
+  // Check admin via session Supabase — indépendant du localStorage
+  _sb.auth.getSession().then(({ data: { session } }) => {
+    if (!session) return;
+    _sb.from('admins').select('email').eq('email', session.user.email).single()
+      .then(({ data }) => {
+        if (!data) return;
+        if (drawer.querySelector('.drawer__btn-admin')) return;
+        const adminLink = document.createElement('a');
+        adminLink.href = 'admin.html';
+        adminLink.className = 'drawer__btn-admin';
+        adminLink.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Admin`;
+        adminLink.addEventListener('click', closeDrawer);
+        // Injecter avant "Se déconnecter" si disponible, sinon en fin d'actions
+        const logoutBtn = actions.querySelector('.drawer__btn-logout');
+        if (logoutBtn) {
+          logoutBtn.parentNode.insertBefore(adminLink, logoutBtn);
+        } else {
+          actions.insertBefore(adminLink, actions.querySelector('.drawer__btn-cta'));
+        }
+      });
+  });
 
   burger.addEventListener('click', (e) => {
     e.stopPropagation();

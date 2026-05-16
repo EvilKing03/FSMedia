@@ -516,11 +516,177 @@
 [data-theme="dark"] .admin-theme-btn .icon-moon { display: none; }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 720px) {
-  .admin-main { padding: 28px 18px 60px; }
-  .admin-header { padding: 0 18px; }
-  .admin-toolbar { flex-direction: column; align-items: flex-start; }
+
+/* ── Tablette ── */
+@media (max-width: 860px) {
+  .admin-main { padding: 32px 24px 80px; }
+  .admin-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+
+  /* Header compact */
+  .admin-header { padding: 0 14px; height: 54px; gap: 8px; }
+  .admin-header-right { gap: 8px; }
+  .admin-user-email { display: none; }
+  .admin-logout-text { display: none; }
+  #logout-btn { padding: 9px 10px; min-width: 44px; justify-content: center; }
+
+  /* Main */
+  .admin-main { padding: 18px 14px 80px; }
+
+  /* Toolbar */
+  .admin-toolbar { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 20px; }
+  .admin-toolbar > div { flex: 1; }
+  #add-btn { width: 100%; justify-content: center; }
+
+  /* Grid 1 colonne */
+  .admin-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Cartes horizontales */
+  .admin-card {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .admin-card__thumb {
+    width: 100px;
+    min-width: 100px;
+    height: auto;
+    min-height: 90px;
+    border-radius: 0;
+  }
+  .admin-card__thumb--empty {
+    width: 100px;
+    min-width: 100px;
+    height: auto;
+    min-height: 90px;
+    border-radius: 0;
+  }
+  .admin-card__body { padding: 11px 12px; gap: 4px; }
+  .admin-card__name { font-size: 0.87rem; }
+  .admin-card__price { font-size: 0.84rem; }
+  .admin-card__actions {
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    border-top: none;
+    border-left: 1px solid var(--border);
+    width: 88px;
+    min-width: 88px;
+    align-items: stretch;
+  }
+  .admin-card__actions .admin-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 6px;
+    font-size: 0.72rem;
+  }
+
+  /* Cibles tactiles */
+  .admin-btn { min-height: 44px; }
+  .admin-btn--sm { min-height: 38px; padding: 8px 12px; font-size: 0.80rem; }
+  .admin-modal__close {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -4px;
+  }
+
+  /* Modal : bottom sheet */
+  .admin-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .admin-modal {
+    border-radius: 20px 20px 0 0;
+    max-width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    animation: modalInMobile 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .admin-modal--sm {
+    border-radius: 20px 20px 0 0;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* Poignée de tirage (swipe indicator) */
+  .admin-modal__header::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 100px;
+    background: var(--border);
+  }
+  .admin-modal__header { position: relative; padding-top: 28px; }
+
+  /* Scroll modal body */
+  .admin-modal__body {
+    max-height: calc(92vh - 130px);
+    max-height: calc(92dvh - 130px);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Footer modal : wrap si besoin */
+  .admin-modal__footer { flex-wrap: wrap; gap: 8px; padding: 14px 16px 20px; }
+  .admin-save-error { order: -1; width: 100%; flex: unset; margin-bottom: 2px; }
+  .admin-modal__footer .admin-btn--ghost,
+  .admin-modal__footer .admin-btn--primary,
+  .admin-modal__footer .admin-btn--danger {
+    flex: 1;
+    justify-content: center;
+    min-width: 130px;
+  }
+
+  /* Form */
+  .admin-modal__body { padding: 18px 16px; }
   .admin-field-row { grid-template-columns: 1fr; }
   .admin-image-upload { flex-direction: column; }
-  .admin-image-preview { width: 100%; height: 140px; }
+  .admin-image-preview { width: 100%; height: 150px; }
+  .admin-image-controls { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+  /* Spec rows */
+  .admin-spec-row { grid-template-columns: 1fr 1.2fr 36px; gap: 6px; }
+  .admin-spec-row input { padding: 7px 8px; font-size: 0.82rem; }
+  .admin-spec-remove { padding: 8px; }
+
+  /* Add spec button */
+  #add-spec-btn { width: 100%; justify-content: center; }
+}
+
+/* Animation bottom sheet */
+@keyframes modalInMobile {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ── Très petit écran (< 400px) ── */
+@media (max-width: 400px) {
+  .admin-logo em { display: none; }
+  .admin-page-title { font-size: 1.3rem; }
+
+  /* Cartes : retour colonne sur mini phones */
+  .admin-card { flex-direction: column; }
+  .admin-card__thumb { width: 100%; min-width: unset; height: 120px; }
+  .admin-card__thumb--empty { width: 100%; min-width: unset; height: 80px; }
+  .admin-card__actions {
+    flex-direction: row;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    width: auto;
+    min-width: unset;
+  }
+
+  /* Spec rows en colonne */
+  .admin-spec-row { grid-template-columns: 1fr; }
+  .admin-spec-remove { align-self: flex-end; }
 }
