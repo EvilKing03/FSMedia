@@ -457,6 +457,46 @@
   color: var(--text-muted);
 }
 
+.admin-form-section__sub {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+.admin-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.admin-image-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.admin-image-slot__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.admin-image-slot .admin-image-preview {
+  width: 100%;
+  height: 90px;
+}
+
+.admin-image-slot .admin-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.78rem;
+  padding: 6px 10px;
+}
+
 /* ===== SPEC ROWS ===== */
 .admin-spec-row {
   display: grid;

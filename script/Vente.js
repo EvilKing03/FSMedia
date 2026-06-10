@@ -32,11 +32,19 @@ function renderCard(p) {
   }
 
   const imgSrc = p.image_url || (p.image ? `images/${p.image}` : null);
-  const media = p.model
-    ? `<model-viewer src="images/${p.model}" alt="${p.name}" auto-rotate auto-rotate-delay="0" rotation-per-second="30deg" shadow-intensity="1" exposure="1.1"></model-viewer>`
-    : imgSrc
-      ? `<img src="${imgSrc}" alt="${p.name}" loading="lazy" />`
-      : `<div class="product-card__no-img"></div>`;
+  const imgs   = [p.image_url, p.image_url_2, p.image_url_3].filter(Boolean);
+  let media;
+  if (p.model) {
+    media = `<model-viewer src="images/${p.model}" alt="${p.name}" auto-rotate auto-rotate-delay="0" rotation-per-second="30deg" shadow-intensity="1" exposure="1.1"></model-viewer>`;
+  } else if (imgs.length > 1) {
+    media = `<div class="product-card__slideshow">${imgs.map((u, i) =>
+      `<img src="${u}" alt="${p.name}" loading="lazy"${i === 0 ? ' class="active"' : ''} />`
+    ).join('')}</div>`;
+  } else if (imgSrc) {
+    media = `<img src="${imgSrc}" alt="${p.name}" loading="lazy" />`;
+  } else {
+    media = `<div class="product-card__no-img"></div>`;
+  }
 
   return `
     <div class="product-card" data-category="${p.category}">
@@ -86,7 +94,8 @@ async function init() {
       .order('sort_order', { ascending: true });
     if (error) throw error;
     products = data || [];
-  } catch {
+  } catch (err) {
+    console.error('[Vente] Supabase error:', err);
     // Fallback vers le JSON local si Supabase n'est pas encore configuré
     try {
       const res = await fetch('data/products.json');
@@ -100,6 +109,18 @@ async function init() {
   }
 
   grid.innerHTML = products.map(renderCard).join('');
+
+  // ===== SLIDESHOWS =====
+  document.querySelectorAll('.product-card__slideshow').forEach(slideshow => {
+    const slides = slideshow.querySelectorAll('img');
+    if (slides.length < 2) return;
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 3500);
+  });
 
   const filterBtns  = document.querySelectorAll('.filter-btn');
   const productCards = document.querySelectorAll('.product-card');

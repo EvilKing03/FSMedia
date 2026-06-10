@@ -2,7 +2,13 @@
 
 let _editingId = null;
 let _deleteId  = null;
-let _uploadedImageUrl = null;
+let _uploadedImageUrl  = null;
+let _uploadedImageUrl2 = null;
+let _uploadedImageUrl3 = null;
+
+const _EMPTY_PREVIEW = `
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+  <span>Aucune image</span>`;
 
 /* ── Auth guard ── */
 async function checkAdmin() {
@@ -147,24 +153,65 @@ document.getElementById('f-image').addEventListener('change', async (e) => {
 
 document.getElementById('remove-image-btn').addEventListener('click', () => {
   _uploadedImageUrl = null;
-  const preview = document.getElementById('image-preview');
-  preview.innerHTML = `
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-    <span>Aucune image</span>`;
+  document.getElementById('image-preview').innerHTML = _EMPTY_PREVIEW;
   document.getElementById('remove-image-btn').style.display = 'none';
   document.getElementById('f-image').value = '';
+});
+
+/* ── Image slot 2 ── */
+document.getElementById('f-image-2').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showSaveError('Image trop lourde (max 5 Mo).'); return; }
+  const ext = file.name.split('.').pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await _sb.storage.from('product-images').upload(fileName, file, { upsert: false });
+  if (error) { showSaveError('Erreur upload : ' + error.message); return; }
+  const { data: urlData } = _sb.storage.from('product-images').getPublicUrl(fileName);
+  _uploadedImageUrl2 = urlData.publicUrl;
+  document.getElementById('image-preview-2').innerHTML = `<img src="${_uploadedImageUrl2}" alt="preview" />`;
+  document.getElementById('remove-image-btn-2').style.display = 'inline-flex';
+});
+
+document.getElementById('remove-image-btn-2').addEventListener('click', () => {
+  _uploadedImageUrl2 = null;
+  document.getElementById('image-preview-2').innerHTML = _EMPTY_PREVIEW;
+  document.getElementById('remove-image-btn-2').style.display = 'none';
+  document.getElementById('f-image-2').value = '';
+});
+
+/* ── Image slot 3 ── */
+document.getElementById('f-image-3').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showSaveError('Image trop lourde (max 5 Mo).'); return; }
+  const ext = file.name.split('.').pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await _sb.storage.from('product-images').upload(fileName, file, { upsert: false });
+  if (error) { showSaveError('Erreur upload : ' + error.message); return; }
+  const { data: urlData } = _sb.storage.from('product-images').getPublicUrl(fileName);
+  _uploadedImageUrl3 = urlData.publicUrl;
+  document.getElementById('image-preview-3').innerHTML = `<img src="${_uploadedImageUrl3}" alt="preview" />`;
+  document.getElementById('remove-image-btn-3').style.display = 'inline-flex';
+});
+
+document.getElementById('remove-image-btn-3').addEventListener('click', () => {
+  _uploadedImageUrl3 = null;
+  document.getElementById('image-preview-3').innerHTML = _EMPTY_PREVIEW;
+  document.getElementById('remove-image-btn-3').style.display = 'none';
+  document.getElementById('f-image-3').value = '';
 });
 
 /* ── Open modal ── */
 async function openModal(id = null) {
   _editingId = id;
-  _uploadedImageUrl = null;
+  _uploadedImageUrl = _uploadedImageUrl2 = _uploadedImageUrl3 = null;
   document.getElementById('specs-list').innerHTML = '';
   document.getElementById('product-form').reset();
-  document.getElementById('remove-image-btn').style.display = 'none';
-  document.getElementById('image-preview').innerHTML = `
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-    <span>Aucune image</span>`;
+  ['', '-2', '-3'].forEach(s => {
+    document.getElementById(`remove-image-btn${s}`).style.display = 'none';
+    document.getElementById(`image-preview${s}`).innerHTML = _EMPTY_PREVIEW;
+  });
   showSaveError('');
 
   if (id) {
@@ -191,6 +238,16 @@ async function openModal(id = null) {
       _uploadedImageUrl = p.image_url;
       document.getElementById('image-preview').innerHTML = `<img src="${p.image_url}" alt="preview" />`;
       document.getElementById('remove-image-btn').style.display = 'inline-flex';
+    }
+    if (p.image_url_2) {
+      _uploadedImageUrl2 = p.image_url_2;
+      document.getElementById('image-preview-2').innerHTML = `<img src="${p.image_url_2}" alt="preview" />`;
+      document.getElementById('remove-image-btn-2').style.display = 'inline-flex';
+    }
+    if (p.image_url_3) {
+      _uploadedImageUrl3 = p.image_url_3;
+      document.getElementById('image-preview-3').innerHTML = `<img src="${p.image_url_3}" alt="preview" />`;
+      document.getElementById('remove-image-btn-3').style.display = 'inline-flex';
     }
 
     const specs = p.specs || {};
@@ -230,7 +287,9 @@ document.getElementById('modal-save').addEventListener('click', async () => {
     contact_subject: document.getElementById('f-contact-subject').value.trim() || null,
     cta_label:       document.getElementById('f-cta-label').value.trim() || 'Commander',
     sort_order:      parseInt(document.getElementById('f-sort-order').value) || 0,
-    image_url:       _uploadedImageUrl || null,
+    image_url:       _uploadedImageUrl  || null,
+    image_url_2:     _uploadedImageUrl2 || null,
+    image_url_3:     _uploadedImageUrl3 || null,
     specs:           getSpecs(),
   };
 
