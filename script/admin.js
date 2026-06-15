@@ -43,7 +43,7 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
 
 /* ── Render ── */
 function badgeClass(type) {
-  return { new: 'new', promo: 'promo', sold: 'sold', refurb: 'refurb' }[type] || 'new';
+  return { new: 'new', promo: 'promo', sold: 'sold', refurb: 'refurb', outofstock: 'outofstock' }[type] || 'new';
 }
 
 function renderGrid(products) {
@@ -113,6 +113,23 @@ function addSpecRow(key = '', val = '') {
 }
 
 document.getElementById('add-spec-btn').addEventListener('click', () => addSpecRow());
+
+/* ── Affichage section Set-up selon catégorie ── */
+const SETUP_KEYS = ['PC', 'Écran', 'Clavier', 'Souris', 'Casque'];
+
+function toggleSetupSection(category) {
+  document.getElementById('setup-section').style.display = category === 'setup' ? 'block' : 'none';
+}
+
+document.getElementById('f-category').addEventListener('change', (e) => {
+  toggleSetupSection(e.target.value);
+});
+
+function clearSetupFields() {
+  ['pc', 'ecran', 'clavier', 'souris', 'casque'].forEach(k => {
+    document.getElementById(`f-setup-${k}`).value = '';
+  });
+}
 
 function getSpecs() {
   const rows = document.querySelectorAll('.admin-spec-row');
@@ -208,6 +225,8 @@ async function openModal(id = null) {
   _uploadedImageUrl = _uploadedImageUrl2 = _uploadedImageUrl3 = null;
   document.getElementById('specs-list').innerHTML = '';
   document.getElementById('product-form').reset();
+  clearSetupFields();
+  toggleSetupSection('gaming');
   ['', '-2', '-3'].forEach(s => {
     document.getElementById(`remove-image-btn${s}`).style.display = 'none';
     document.getElementById(`image-preview${s}`).innerHTML = _EMPTY_PREVIEW;
@@ -250,8 +269,18 @@ async function openModal(id = null) {
       document.getElementById('remove-image-btn-3').style.display = 'inline-flex';
     }
 
+    toggleSetupSection(p.category);
     const specs = p.specs || {};
-    Object.entries(specs).forEach(([k, v]) => addSpecRow(k, v));
+    if (p.category === 'setup') {
+      document.getElementById('f-setup-pc').value     = specs['PC']     || '';
+      document.getElementById('f-setup-ecran').value  = specs['Écran']  || '';
+      document.getElementById('f-setup-clavier').value= specs['Clavier']|| '';
+      document.getElementById('f-setup-souris').value = specs['Souris'] || '';
+      document.getElementById('f-setup-casque').value = specs['Casque'] || '';
+      Object.entries(specs).forEach(([k, v]) => { if (!SETUP_KEYS.includes(k)) addSpecRow(k, v); });
+    } else {
+      Object.entries(specs).forEach(([k, v]) => addSpecRow(k, v));
+    }
   } else {
     document.getElementById('modal-title').textContent = 'Ajouter un produit';
     document.getElementById('save-label').textContent = 'Ajouter';
@@ -290,7 +319,23 @@ document.getElementById('modal-save').addEventListener('click', async () => {
     image_url:       _uploadedImageUrl  || null,
     image_url_2:     _uploadedImageUrl2 || null,
     image_url_3:     _uploadedImageUrl3 || null,
-    specs:           getSpecs(),
+    specs:           (() => {
+      const s = {};
+      const cat = document.getElementById('f-category').value;
+      if (cat === 'setup') {
+        const pc     = document.getElementById('f-setup-pc').value.trim();
+        const ecran  = document.getElementById('f-setup-ecran').value.trim();
+        const clavier= document.getElementById('f-setup-clavier').value.trim();
+        const souris = document.getElementById('f-setup-souris').value.trim();
+        const casque = document.getElementById('f-setup-casque').value.trim();
+        if (pc)     s['PC']      = pc;
+        if (ecran)  s['Écran']   = ecran;
+        if (clavier)s['Clavier'] = clavier;
+        if (souris) s['Souris']  = souris;
+        if (casque) s['Casque']  = casque;
+      }
+      return { ...s, ...getSpecs() };
+    })(),
   };
 
   const saveLabel = document.getElementById('save-label');

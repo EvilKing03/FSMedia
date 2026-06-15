@@ -122,33 +122,65 @@ async function init() {
     }, 3500);
   });
 
-  const filterBtns  = document.querySelectorAll('.filter-btn');
-  const productCards = document.querySelectorAll('.product-card');
+  const filterBtns    = document.querySelectorAll('.filter-btn');
+  const subfilterBtns = document.querySelectorAll('.subfilter-btn');
+  const subfiltersEl  = document.getElementById('pc-subfilters');
+  const productCards  = document.querySelectorAll('.product-card');
+  const PC_CATS       = ['gaming', 'bureautique', 'reconditionne', 'surmesure'];
 
-  // ===== FILTRES =====
+  function showCard(card) {
+    card.style.display = 'block';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(16px)';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }));
+  }
+
+  function hideCard(card) {
+    card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(10px)';
+    setTimeout(() => { card.style.display = 'none'; }, 260);
+  }
+
+  // ===== FILTRES PRINCIPAUX =====
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
 
+      if (filter === 'pc') {
+        subfiltersEl.classList.add('visible');
+        subfilterBtns.forEach(b => b.classList.remove('active'));
+        subfilterBtns[0].classList.add('active');
+        productCards.forEach(card => {
+          PC_CATS.includes(card.dataset.category) ? showCard(card) : hideCard(card);
+        });
+      } else {
+        subfiltersEl.classList.remove('visible');
+        productCards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          match ? showCard(card) : hideCard(card);
+        });
+      }
+    });
+  });
+
+  // ===== SOUS-FILTRES PC =====
+  subfilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      subfilterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const sub = btn.dataset.subfilter;
       productCards.forEach(card => {
-        const match = filter === 'all' || card.dataset.category === filter;
-        if (match) {
-          card.style.display = 'block';
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(16px)';
-          requestAnimationFrame(() => requestAnimationFrame(() => {
-            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }));
-        } else {
-          card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(10px)';
-          setTimeout(() => { card.style.display = 'none'; }, 260);
-        }
+        const match = sub === 'all-pc'
+          ? PC_CATS.includes(card.dataset.category)
+          : card.dataset.category === sub;
+        match ? showCard(card) : hideCard(card);
       });
     });
   });

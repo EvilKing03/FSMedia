@@ -71,11 +71,22 @@
               <div class="admin-field">
                 <label>Catégorie *</label>
                 <select id="f-category">
-                  <option value="gaming">Gaming</option>
-                  <option value="bureautique">Bureautique</option>
-                  <option value="creation">Création</option>
-                  <option value="reconditionne">Reconditionné</option>
-                  <option value="surmesure">Sur mesure</option>
+                  <optgroup label="PC">
+                    <option value="gaming">Gaming</option>
+                    <option value="bureautique">Bureautique</option>
+                    <option value="creation">Création</option>
+                    <option value="reconditionne">Reconditionné</option>
+                    <option value="surmesure">Sur mesure</option>
+                  </optgroup>
+                  <optgroup label="Périphériques">
+                    <option value="ecran">Écrans</option>
+                    <option value="clavier">Claviers</option>
+                    <option value="souris">Souris</option>
+                    <option value="casque">Casques</option>
+                  </optgroup>
+                  <optgroup label="Bundle">
+                    <option value="setup">Set-up</option>
+                  </optgroup>
                 </select>
               </div>
               <div class="admin-field">
@@ -101,6 +112,37 @@
             </div>
           </div>
 
+          <div class="admin-form-section" id="setup-section" style="display:none">
+            <h3 class="admin-form-section__title">Composants du Set-up</h3>
+            <div class="admin-field-row">
+              <div class="admin-field">
+                <label>PC</label>
+                <input type="text" id="f-setup-pc" placeholder="Gaming X500" />
+              </div>
+              <div class="admin-field">
+                <label>Écran</label>
+                <input type="text" id="f-setup-ecran" placeholder='27" LG 144Hz' />
+              </div>
+            </div>
+            <div class="admin-field-row">
+              <div class="admin-field">
+                <label>Clavier</label>
+                <input type="text" id="f-setup-clavier" placeholder="Keychron K2" />
+              </div>
+              <div class="admin-field">
+                <label>Souris</label>
+                <input type="text" id="f-setup-souris" placeholder="Logitech G502" />
+              </div>
+            </div>
+            <div class="admin-field-row">
+              <div class="admin-field">
+                <label>Casque <span style="color:var(--mid-gray);font-size:0.75rem">(optionnel)</span></label>
+                <input type="text" id="f-setup-casque" placeholder="HyperX Cloud II" />
+              </div>
+              <div class="admin-field"></div>
+            </div>
+          </div>
+
           <div class="admin-form-section">
             <h3 class="admin-form-section__title">Badge</h3>
             <div class="admin-field-row">
@@ -113,6 +155,7 @@
                   <option value="Sold">Sold</option>
                   <option value="Reconditionné">Reconditionné</option>
                   <option value="Sur mesure">Sur mesure</option>
+                  <option value="Out of Stock">Out of Stock</option>
                 </select>
               </div>
               <div class="admin-field">
@@ -122,6 +165,7 @@
                   <option value="promo">Vert — Promo</option>
                   <option value="sold">Rouge — Sold</option>
                   <option value="refurb">Orange — Reconditionné</option>
+                  <option value="outofstock">Gris — Out of Stock</option>
                 </select>
               </div>
             </div>
