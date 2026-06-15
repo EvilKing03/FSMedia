@@ -138,7 +138,7 @@ if (burger) {
   // Liens de navigation
   const links = [
     { href: 'index.html',      label: 'Accueil' },
-    { href: 'vente.html',      label: 'Nos PC' },
+    { href: 'vente.html',      label: 'Boutique' },
     { href: 'reparation.html', label: 'Réparation' },
     { href: 'conseil.html',    label: 'Conseil' },
     { href: 'bottleneck.html', label: 'Bottleneck' },

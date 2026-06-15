@@ -364,7 +364,8 @@ button {
   height: 40px;
   border-radius: 10px;
   background: var(--bg-soft);
-  margin-left: auto;
+  margin-left: 48px;
+  margin-right: 0;
   border: 1px solid var(--border);
   display: flex;
   align-items: center;

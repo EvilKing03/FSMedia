@@ -421,6 +421,346 @@ const GPUS = [
   { id: 'r9m390',        brand: 'AMD', name: 'Radeon R9 M390',            gaming: { 1080:  18, 1440:  16, 2160:  13 }, productivity:  17 },
   { id: 'r9m485x',       brand: 'AMD', name: 'Radeon R9 M485X',           gaming: { 1080:  18, 1440:  16, 2160:  13 }, productivity:  17 },
   { id: 'steamdeck8',    brand: 'AMD', name: 'Radeon Steam Deck 8CU',     gaming: { 1080:  22, 1440:  19, 2160:  16 }, productivity:  21 },
+  // NVIDIA — RTX 50xx Laptop
+  { id: 'rtx5090l',      brand: 'NVIDIA', name: 'GeForce RTX 5090 (Laptop)',           gaming: { 1080: 245, 1440: 214, 2160: 174 }, productivity: 233 },
+  { id: 'rtx5080l',      brand: 'NVIDIA', name: 'GeForce RTX 5080 (Laptop)',           gaming: { 1080: 224, 1440: 196, 2160: 159 }, productivity: 213 },
+  { id: 'rtx5070til',    brand: 'NVIDIA', name: 'GeForce RTX 5070 Ti (Laptop)',        gaming: { 1080: 171, 1440: 150, 2160: 121 }, productivity: 162 },
+  { id: 'rtx5070l',      brand: 'NVIDIA', name: 'GeForce RTX 5070 (Laptop)',           gaming: { 1080: 136, 1440: 119, 2160:  97 }, productivity: 129 },
+  { id: 'rtx5060l',      brand: 'NVIDIA', name: 'GeForce RTX 5060 (Laptop)',           gaming: { 1080: 118, 1440: 103, 2160:  84 }, productivity: 112 },
+  { id: 'rtx5050l',      brand: 'NVIDIA', name: 'GeForce RTX 5050 (Laptop)',           gaming: { 1080:  93, 1440:  81, 2160:  66 }, productivity:  88 },
+  // NVIDIA — RTX 40xx Laptop
+  { id: 'rtx4090l175',   brand: 'NVIDIA', name: 'GeForce RTX 4090 (Laptop, 175W)',    gaming: { 1080: 215, 1440: 188, 2160: 153 }, productivity: 204 },
+  { id: 'rtx4090l150',   brand: 'NVIDIA', name: 'GeForce RTX 4090 (Laptop, 150W)',    gaming: { 1080: 191, 1440: 167, 2160: 136 }, productivity: 181 },
+  { id: 'rtx4090l125',   brand: 'NVIDIA', name: 'GeForce RTX 4090 (Laptop, 125W)',    gaming: { 1080: 179, 1440: 157, 2160: 127 }, productivity: 170 },
+  { id: 'rtx4090l115',   brand: 'NVIDIA', name: 'GeForce RTX 4090 (Laptop, 115W)',    gaming: { 1080: 176, 1440: 154, 2160: 125 }, productivity: 167 },
+  { id: 'rtx4080l175',   brand: 'NVIDIA', name: 'GeForce RTX 4080 (Laptop, 175W)',    gaming: { 1080: 195, 1440: 171, 2160: 138 }, productivity: 185 },
+  { id: 'rtx4080l145',   brand: 'NVIDIA', name: 'GeForce RTX 4080 (Laptop, 145W)',    gaming: { 1080: 173, 1440: 151, 2160: 123 }, productivity: 164 },
+  { id: 'rtx4080l140',   brand: 'NVIDIA', name: 'GeForce RTX 4080 (Laptop, 140W)',    gaming: { 1080: 173, 1440: 151, 2160: 123 }, productivity: 164 },
+  { id: 'rtx4080l115',   brand: 'NVIDIA', name: 'GeForce RTX 4080 (Laptop, 115W)',    gaming: { 1080: 137, 1440: 120, 2160:  97 }, productivity: 130 },
+  { id: 'rtx4080l105',   brand: 'NVIDIA', name: 'GeForce RTX 4080 (Laptop, 105W)',    gaming: { 1080: 151, 1440: 132, 2160: 107 }, productivity: 143 },
+  { id: 'rtx4080l80',    brand: 'NVIDIA', name: 'GeForce RTX 4080 (Laptop, 80W)',     gaming: { 1080: 141, 1440: 123, 2160: 100 }, productivity: 134 },
+  { id: 'rtx4070l140',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 140W)',    gaming: { 1080: 128, 1440: 112, 2160:  91 }, productivity: 122 },
+  { id: 'rtx4070l130',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 130W)',    gaming: { 1080: 121, 1440: 106, 2160:  86 }, productivity: 115 },
+  { id: 'rtx4070l125',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 125W)',    gaming: { 1080: 131, 1440: 115, 2160:  93 }, productivity: 124 },
+  { id: 'rtx4070l120',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 120W)',    gaming: { 1080: 124, 1440: 109, 2160:  88 }, productivity: 118 },
+  { id: 'rtx4070l115',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 115W)',    gaming: { 1080: 127, 1440: 111, 2160:  90 }, productivity: 121 },
+  { id: 'rtx4070l110',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 110W)',    gaming: { 1080: 127, 1440: 111, 2160:  90 }, productivity: 121 },
+  { id: 'rtx4070l105',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 105W)',    gaming: { 1080: 117, 1440: 102, 2160:  83 }, productivity: 111 },
+  { id: 'rtx4070l100',   brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 100W)',    gaming: { 1080: 123, 1440: 108, 2160:  87 }, productivity: 117 },
+  { id: 'rtx4070l95',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 95W)',     gaming: { 1080: 115, 1440: 101, 2160:  82 }, productivity: 109 },
+  { id: 'rtx4070l90',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 90W)',     gaming: { 1080: 115, 1440: 101, 2160:  82 }, productivity: 109 },
+  { id: 'rtx4070l80',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 80W)',     gaming: { 1080: 110, 1440:  96, 2160:  78 }, productivity: 105 },
+  { id: 'rtx4070l70',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 70W)',     gaming: { 1080:  93, 1440:  81, 2160:  66 }, productivity:  88 },
+  { id: 'rtx4070l65',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 65W)',     gaming: { 1080:  95, 1440:  83, 2160:  67 }, productivity:  90 },
+  { id: 'rtx4070l60',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 60W)',     gaming: { 1080:  86, 1440:  75, 2160:  61 }, productivity:  82 },
+  { id: 'rtx4070l55',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 55W)',     gaming: { 1080:  88, 1440:  77, 2160:  63 }, productivity:  84 },
+  { id: 'rtx4070l50',    brand: 'NVIDIA', name: 'GeForce RTX 4070 (Laptop, 50W)',     gaming: { 1080:  62, 1440:  54, 2160:  44 }, productivity:  59 },
+  { id: 'rtx4060l140',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 140W)',    gaming: { 1080: 106, 1440:  93, 2160:  75 }, productivity: 101 },
+  { id: 'rtx4060l130',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 130W)',    gaming: { 1080: 109, 1440:  95, 2160:  77 }, productivity: 104 },
+  { id: 'rtx4060l125',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 125W)',    gaming: { 1080: 113, 1440:  99, 2160:  80 }, productivity: 107 },
+  { id: 'rtx4060l120',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 120W)',    gaming: { 1080: 106, 1440:  93, 2160:  75 }, productivity: 101 },
+  { id: 'rtx4060l115',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 115W)',    gaming: { 1080: 106, 1440:  93, 2160:  75 }, productivity: 101 },
+  { id: 'rtx4060l110',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 110W)',    gaming: { 1080: 109, 1440:  95, 2160:  77 }, productivity: 104 },
+  { id: 'rtx4060l105',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 105W)',    gaming: { 1080: 101, 1440:  88, 2160:  72 }, productivity:  96 },
+  { id: 'rtx4060l100',   brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 100W)',    gaming: { 1080: 100, 1440:  88, 2160:  71 }, productivity:  95 },
+  { id: 'rtx4060l90',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 90W)',     gaming: { 1080: 100, 1440:  88, 2160:  71 }, productivity:  95 },
+  { id: 'rtx4060l85',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 85W)',     gaming: { 1080: 102, 1440:  89, 2160:  72 }, productivity:  97 },
+  { id: 'rtx4060l80',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 80W)',     gaming: { 1080:  96, 1440:  84, 2160:  68 }, productivity:  91 },
+  { id: 'rtx4060l75',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 75W)',     gaming: { 1080:  92, 1440:  81, 2160:  65 }, productivity:  87 },
+  { id: 'rtx4060l65',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 65W)',     gaming: { 1080:  87, 1440:  76, 2160:  62 }, productivity:  83 },
+  { id: 'rtx4060l60',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 60W)',     gaming: { 1080:  81, 1440:  71, 2160:  57 }, productivity:  77 },
+  { id: 'rtx4060l55',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 55W)',     gaming: { 1080:  81, 1440:  71, 2160:  58 }, productivity:  77 },
+  { id: 'rtx4060l50',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 50W)',     gaming: { 1080:  73, 1440:  64, 2160:  52 }, productivity:  69 },
+  { id: 'rtx4060l45',    brand: 'NVIDIA', name: 'GeForce RTX 4060 (Laptop, 45W)',     gaming: { 1080:  74, 1440:  65, 2160:  53 }, productivity:  70 },
+  { id: 'rtx4050l140',   brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 140W)',    gaming: { 1080:  88, 1440:  77, 2160:  62 }, productivity:  84 },
+  { id: 'rtx4050l130',   brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 130W)',    gaming: { 1080:  86, 1440:  75, 2160:  61 }, productivity:  82 },
+  { id: 'rtx4050l120',   brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 120W)',    gaming: { 1080:  88, 1440:  77, 2160:  62 }, productivity:  84 },
+  { id: 'rtx4050l105',   brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 105W)',    gaming: { 1080:  87, 1440:  76, 2160:  62 }, productivity:  83 },
+  { id: 'rtx4050l100',   brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 100W)',    gaming: { 1080:  82, 1440:  72, 2160:  58 }, productivity:  78 },
+  { id: 'rtx4050l95',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 95W)',     gaming: { 1080:  89, 1440:  78, 2160:  63 }, productivity:  85 },
+  { id: 'rtx4050l90',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 90W)',     gaming: { 1080:  76, 1440:  67, 2160:  54 }, productivity:  72 },
+  { id: 'rtx4050l85',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 85W)',     gaming: { 1080:  87, 1440:  76, 2160:  62 }, productivity:  83 },
+  { id: 'rtx4050l80',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 80W)',     gaming: { 1080:  83, 1440:  73, 2160:  59 }, productivity:  79 },
+  { id: 'rtx4050l75',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 75W)',     gaming: { 1080:  82, 1440:  72, 2160:  58 }, productivity:  78 },
+  { id: 'rtx4050l65',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 65W)',     gaming: { 1080:  74, 1440:  65, 2160:  53 }, productivity:  70 },
+  { id: 'rtx4050l60',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 60W)',     gaming: { 1080:  67, 1440:  59, 2160:  48 }, productivity:  64 },
+  { id: 'rtx4050l55',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 55W)',     gaming: { 1080:  64, 1440:  56, 2160:  45 }, productivity:  61 },
+  { id: 'rtx4050l50',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 50W)',     gaming: { 1080:  63, 1440:  55, 2160:  45 }, productivity:  60 },
+  { id: 'rtx4050l45',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 45W)',     gaming: { 1080:  65, 1440:  57, 2160:  46 }, productivity:  62 },
+  { id: 'rtx4050l35',    brand: 'NVIDIA', name: 'GeForce RTX 4050 (Laptop, 35W)',     gaming: { 1080:  57, 1440:  50, 2160:  40 }, productivity:  54 },
+  // NVIDIA — RTX 30xx Laptop
+  { id: 'rtx3080til175', brand: 'NVIDIA', name: 'GeForce RTX 3080 Ti (Laptop, 175W)', gaming: { 1080: 133, 1440: 116, 2160:  94 }, productivity: 126 },
+  { id: 'rtx3080til150', brand: 'NVIDIA', name: 'GeForce RTX 3080 Ti (Laptop, 150W)', gaming: { 1080: 128, 1440: 112, 2160:  91 }, productivity: 122 },
+  { id: 'rtx3080til165', brand: 'NVIDIA', name: 'GeForce RTX 3080 Ti (Laptop, 165W)', gaming: { 1080:  95, 1440:  83, 2160:  67 }, productivity:  90 },
+  { id: 'rtx3080til130', brand: 'NVIDIA', name: 'GeForce RTX 3080 Ti (Laptop, 130W)', gaming: { 1080: 121, 1440: 106, 2160:  86 }, productivity: 115 },
+  { id: 'rtx3080til105', brand: 'NVIDIA', name: 'GeForce RTX 3080 Ti (Laptop, 105W)', gaming: { 1080: 108, 1440:  95, 2160:  77 }, productivity: 103 },
+  { id: 'rtx3080l165',   brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 165W)',    gaming: { 1080: 124, 1440: 109, 2160:  88 }, productivity: 118 },
+  { id: 'rtx3080l150',   brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 150W)',    gaming: { 1080: 122, 1440: 107, 2160:  87 }, productivity: 116 },
+  { id: 'rtx3080l140',   brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 140W)',    gaming: { 1080: 116, 1440: 102, 2160:  82 }, productivity: 110 },
+  { id: 'rtx3080l130',   brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 130W)',    gaming: { 1080: 113, 1440:  99, 2160:  80 }, productivity: 107 },
+  { id: 'rtx3080l110',   brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 110W)',    gaming: { 1080: 102, 1440:  89, 2160:  72 }, productivity:  97 },
+  { id: 'rtx3080l100',   brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 100W)',    gaming: { 1080: 104, 1440:  91, 2160:  74 }, productivity:  99 },
+  { id: 'rtx3080l95',    brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 95W)',     gaming: { 1080:  96, 1440:  84, 2160:  68 }, productivity:  91 },
+  { id: 'rtx3080l90',    brand: 'NVIDIA', name: 'GeForce RTX 3080 (Laptop, 90W)',     gaming: { 1080:  88, 1440:  77, 2160:  62 }, productivity:  84 },
+  { id: 'rtx3070til150', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 150W)', gaming: { 1080: 116, 1440: 102, 2160:  82 }, productivity: 110 },
+  { id: 'rtx3070til140', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 140W)', gaming: { 1080: 112, 1440:  98, 2160:  80 }, productivity: 106 },
+  { id: 'rtx3070til130', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 130W)', gaming: { 1080: 104, 1440:  91, 2160:  74 }, productivity:  99 },
+  { id: 'rtx3070til120', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 120W)', gaming: { 1080:  94, 1440:  82, 2160:  67 }, productivity:  89 },
+  { id: 'rtx3070til115', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 115W)', gaming: { 1080:  98, 1440:  86, 2160:  70 }, productivity:  93 },
+  { id: 'rtx3070til105', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 105W)', gaming: { 1080:  96, 1440:  84, 2160:  68 }, productivity:  91 },
+  { id: 'rtx3070til100', brand: 'NVIDIA', name: 'GeForce RTX 3070 Ti (Laptop, 100W)', gaming: { 1080:  98, 1440:  86, 2160:  70 }, productivity:  93 },
+  { id: 'rtx3070l140',   brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 140W)',    gaming: { 1080: 107, 1440:  94, 2160:  76 }, productivity: 102 },
+  { id: 'rtx3070l130',   brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 130W)',    gaming: { 1080: 106, 1440:  93, 2160:  75 }, productivity: 101 },
+  { id: 'rtx3070l110',   brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 110W)',    gaming: { 1080:  95, 1440:  83, 2160:  67 }, productivity:  90 },
+  { id: 'rtx3070l105',   brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 105W)',    gaming: { 1080:  90, 1440:  79, 2160:  64 }, productivity:  86 },
+  { id: 'rtx3070l100',   brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 100W)',    gaming: { 1080:  89, 1440:  78, 2160:  63 }, productivity:  85 },
+  { id: 'rtx3070l95',    brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 95W)',     gaming: { 1080:  91, 1440:  80, 2160:  65 }, productivity:  86 },
+  { id: 'rtx3070l85',    brand: 'NVIDIA', name: 'GeForce RTX 3070 (Laptop, 85W)',     gaming: { 1080:  81, 1440:  71, 2160:  58 }, productivity:  77 },
+  { id: 'rtx3060l140',   brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 140W)',    gaming: { 1080:  89, 1440:  78, 2160:  63 }, productivity:  85 },
+  { id: 'rtx3060l130',   brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 130W)',    gaming: { 1080:  89, 1440:  78, 2160:  63 }, productivity:  85 },
+  { id: 'rtx3060l125',   brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 125W)',    gaming: { 1080:  83, 1440:  73, 2160:  59 }, productivity:  79 },
+  { id: 'rtx3060l120',   brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 120W)',    gaming: { 1080:  85, 1440:  74, 2160:  60 }, productivity:  81 },
+  { id: 'rtx3060l105',   brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 105W)',    gaming: { 1080:  83, 1440:  73, 2160:  59 }, productivity:  79 },
+  { id: 'rtx3060l100',   brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 100W)',    gaming: { 1080:  80, 1440:  70, 2160:  57 }, productivity:  76 },
+  { id: 'rtx3060l95',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 95W)',     gaming: { 1080:  77, 1440:  67, 2160:  55 }, productivity:  73 },
+  { id: 'rtx3060l90',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 90W)',     gaming: { 1080:  73, 1440:  64, 2160:  52 }, productivity:  69 },
+  { id: 'rtx3060l85',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 85W)',     gaming: { 1080:  72, 1440:  63, 2160:  51 }, productivity:  68 },
+  { id: 'rtx3060l80',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 80W)',     gaming: { 1080:  78, 1440:  68, 2160:  55 }, productivity:  74 },
+  { id: 'rtx3060l75',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 75W)',     gaming: { 1080:  75, 1440:  66, 2160:  53 }, productivity:  71 },
+  { id: 'rtx3060l70',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 70W)',     gaming: { 1080:  69, 1440:  60, 2160:  49 }, productivity:  66 },
+  { id: 'rtx3060l65',    brand: 'NVIDIA', name: 'GeForce RTX 3060 (Laptop, 65W)',     gaming: { 1080:  68, 1440:  60, 2160:  48 }, productivity:  65 },
+  { id: 'rtx3050til95',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 95W)',  gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'rtx3050til90',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 90W)',  gaming: { 1080:  57, 1440:  50, 2160:  40 }, productivity:  54 },
+  { id: 'rtx3050til85',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 85W)',  gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'rtx3050til80',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 80W)',  gaming: { 1080:  57, 1440:  50, 2160:  40 }, productivity:  54 },
+  { id: 'rtx3050til75',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 75W)',  gaming: { 1080:  60, 1440:  53, 2160:  43 }, productivity:  57 },
+  { id: 'rtx3050til65',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 65W)',  gaming: { 1080:  53, 1440:  46, 2160:  38 }, productivity:  50 },
+  { id: 'rtx3050til60',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 60W)',  gaming: { 1080:  52, 1440:  46, 2160:  37 }, productivity:  49 },
+  { id: 'rtx3050til50',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 50W)',  gaming: { 1080:  51, 1440:  45, 2160:  36 }, productivity:  48 },
+  { id: 'rtx3050til45',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 45W)',  gaming: { 1080:  47, 1440:  41, 2160:  33 }, productivity:  45 },
+  { id: 'rtx3050til40',  brand: 'NVIDIA', name: 'GeForce RTX 3050 Ti (Laptop, 40W)',  gaming: { 1080:  45, 1440:  39, 2160:  32 }, productivity:  43 },
+  { id: 'rtx3050l6gb95', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 95W, 6GB)',gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'rtx3050l95',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 95W)',     gaming: { 1080:  55, 1440:  48, 2160:  39 }, productivity:  52 },
+  { id: 'rtx3050l90',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 90W)',     gaming: { 1080:  51, 1440:  45, 2160:  36 }, productivity:  48 },
+  { id: 'rtx3050l85',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 85W)',     gaming: { 1080:  53, 1440:  46, 2160:  38 }, productivity:  50 },
+  { id: 'rtx3050l6gb75', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 75W, 6GB)',gaming: { 1080:  54, 1440:  47, 2160:  38 }, productivity:  51 },
+  { id: 'rtx3050l75',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 75W)',     gaming: { 1080:  50, 1440:  44, 2160:  35 }, productivity:  48 },
+  { id: 'rtx3050l6gb70', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 70W, 6GB)',gaming: { 1080:  51, 1440:  45, 2160:  36 }, productivity:  48 },
+  { id: 'rtx3050l6gb65', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 65W, 6GB)',gaming: { 1080:  50, 1440:  44, 2160:  36 }, productivity:  48 },
+  { id: 'rtx3050l65',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 65W)',     gaming: { 1080:  48, 1440:  42, 2160:  34 }, productivity:  46 },
+  { id: 'rtx3050l6gb63', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 63W, 6GB)',gaming: { 1080:  49, 1440:  43, 2160:  35 }, productivity:  47 },
+  { id: 'rtx3050l6gb60', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 60W, 6GB)',gaming: { 1080:  48, 1440:  42, 2160:  34 }, productivity:  46 },
+  { id: 'rtx3050l60',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 60W)',     gaming: { 1080:  47, 1440:  41, 2160:  33 }, productivity:  45 },
+  { id: 'rtx3050l55',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 55W)',     gaming: { 1080:  45, 1440:  39, 2160:  32 }, productivity:  43 },
+  { id: 'rtx3050l6gb50', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 50W, 6GB)',gaming: { 1080:  44, 1440:  39, 2160:  31 }, productivity:  42 },
+  { id: 'rtx3050l50',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 50W)',     gaming: { 1080:  44, 1440:  39, 2160:  31 }, productivity:  42 },
+  { id: 'rtx3050l6gb45', brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 45W, 6GB)',gaming: { 1080:  44, 1440:  39, 2160:  31 }, productivity:  42 },
+  { id: 'rtx3050l45',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 45W)',     gaming: { 1080:  45, 1440:  39, 2160:  32 }, productivity:  43 },
+  { id: 'rtx3050l40',    brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 40W)',     gaming: { 1080:  38, 1440:  33, 2160:  27 }, productivity:  36 },
+  { id: 'rtx3050l6gb',   brand: 'NVIDIA', name: 'GeForce RTX 3050 (Laptop, 6GB)',     gaming: { 1080:  46, 1440:  40, 2160:  33 }, productivity:  44 },
+  // NVIDIA — RTX 20xx Laptop
+  { id: 'rtx2080sl150',  brand: 'NVIDIA', name: 'GeForce RTX 2080 SUPER (Laptop, 150W)',    gaming: { 1080:  97, 1440:  85, 2160:  69 }, productivity:  92 },
+  { id: 'rtx2080smq90',  brand: 'NVIDIA', name: 'GeForce RTX 2080 SUPER Max-Q (90W)',       gaming: { 1080:  92, 1440:  81, 2160:  65 }, productivity:  87 },
+  { id: 'rtx2080smq80',  brand: 'NVIDIA', name: 'GeForce RTX 2080 SUPER Max-Q (80W)',       gaming: { 1080:  81, 1440:  71, 2160:  58 }, productivity:  77 },
+  { id: 'rtx2080smq',    brand: 'NVIDIA', name: 'GeForce RTX 2080 SUPER Max-Q',             gaming: { 1080:  86, 1440:  75, 2160:  61 }, productivity:  82 },
+  { id: 'rtx2080mq',     brand: 'NVIDIA', name: 'GeForce RTX 2080 Max-Q',                   gaming: { 1080:  79, 1440:  69, 2160:  56 }, productivity:  75 },
+  { id: 'rtx2070smq90',  brand: 'NVIDIA', name: 'GeForce RTX 2070 SUPER Max-Q (90W)',       gaming: { 1080:  75, 1440:  66, 2160:  53 }, productivity:  71 },
+  { id: 'rtx2070smq',    brand: 'NVIDIA', name: 'GeForce RTX 2070 SUPER Max-Q',             gaming: { 1080:  76, 1440:  67, 2160:  54 }, productivity:  72 },
+  { id: 'rtx2070mq',     brand: 'NVIDIA', name: 'GeForce RTX 2070 Max-Q',                   gaming: { 1080:  64, 1440:  56, 2160:  45 }, productivity:  61 },
+  { id: 'rtx2060l115',   brand: 'NVIDIA', name: 'GeForce RTX 2060 (Laptop, 115W)',          gaming: { 1080:  66, 1440:  58, 2160:  47 }, productivity:  63 },
+  { id: 'rtx2060l90',    brand: 'NVIDIA', name: 'GeForce RTX 2060 (Laptop, 90W)',           gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'rtx2060l80',    brand: 'NVIDIA', name: 'GeForce RTX 2060 (Laptop, 80W)',           gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'rtx2060mq',     brand: 'NVIDIA', name: 'GeForce RTX 2060 Max-Q',                   gaming: { 1080:  56, 1440:  49, 2160:  40 }, productivity:  53 },
+  { id: 'rtx2050l65',    brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop, 65W)',           gaming: { 1080:  41, 1440:  36, 2160:  29 }, productivity:  39 },
+  { id: 'rtx2050l60',    brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop, 60W)',           gaming: { 1080:  39, 1440:  34, 2160:  28 }, productivity:  37 },
+  { id: 'rtx2050l',      brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop)',                gaming: { 1080:  39, 1440:  34, 2160:  27 }, productivity:  37 },
+  { id: 'rtx2050l45',    brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop, 45W)',           gaming: { 1080:  38, 1440:  33, 2160:  27 }, productivity:  36 },
+  { id: 'rtx2050l40',    brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop, 40W)',           gaming: { 1080:  35, 1440:  31, 2160:  25 }, productivity:  33 },
+  { id: 'rtx2050l35',    brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop, 35W)',           gaming: { 1080:  32, 1440:  28, 2160:  23 }, productivity:  30 },
+  { id: 'rtx2050l30',    brand: 'NVIDIA', name: 'GeForce RTX 2050 (Laptop, 30W)',           gaming: { 1080:  31, 1440:  27, 2160:  22 }, productivity:  29 },
+  // NVIDIA — RTX Ada Generation Laptop (workstation)
+  { id: 'rtx5000ada105', brand: 'NVIDIA', name: 'RTX 5000 Ada Generation (105W)',           gaming: { 1080: 162, 1440: 142, 2160: 115 }, productivity: 154 },
+  { id: 'rtx5000ada95',  brand: 'NVIDIA', name: 'RTX 5000 Ada Generation (95W)',            gaming: { 1080: 149, 1440: 130, 2160: 106 }, productivity: 142 },
+  { id: 'rtx3000ada130', brand: 'NVIDIA', name: 'RTX 3000 Ada Generation (130W)',           gaming: { 1080: 126, 1440: 110, 2160:  90 }, productivity: 120 },
+  { id: 'rtx3000ada60',  brand: 'NVIDIA', name: 'RTX 3000 Ada Generation (60W)',            gaming: { 1080:  93, 1440:  81, 2160:  66 }, productivity:  88 },
+  { id: 'rtx3000ada50',  brand: 'NVIDIA', name: 'RTX 3000 Ada Generation (50W)',            gaming: { 1080:  88, 1440:  77, 2160:  63 }, productivity:  84 },
+  { id: 'rtx2000ada80',  brand: 'NVIDIA', name: 'RTX 2000 Ada Generation (80W)',            gaming: { 1080:  92, 1440:  81, 2160:  65 }, productivity:  87 },
+  { id: 'rtx2000ada65',  brand: 'NVIDIA', name: 'RTX 2000 Ada Generation (65W)',            gaming: { 1080:  88, 1440:  77, 2160:  63 }, productivity:  84 },
+  { id: 'rtx2000ada50',  brand: 'NVIDIA', name: 'RTX 2000 Ada Generation (50W)',            gaming: { 1080:  75, 1440:  66, 2160:  53 }, productivity:  71 },
+  { id: 'rtx1000ada50',  brand: 'NVIDIA', name: 'RTX 1000 Ada Generation (50W)',            gaming: { 1080:  67, 1440:  59, 2160:  48 }, productivity:  64 },
+  { id: 'rtx500ada50',   brand: 'NVIDIA', name: 'RTX 500 Ada Generation (50W)',             gaming: { 1080:  53, 1440:  46, 2160:  38 }, productivity:  50 },
+  { id: 'rtx500ada',     brand: 'NVIDIA', name: 'RTX 500 Ada Generation',                   gaming: { 1080:  53, 1440:  46, 2160:  38 }, productivity:  50 },
+  { id: 'rtx500ada45',   brand: 'NVIDIA', name: 'RTX 500 Ada Generation (45W)',             gaming: { 1080:  47, 1440:  41, 2160:  33 }, productivity:  45 },
+  { id: 'rtx500ada35',   brand: 'NVIDIA', name: 'RTX 500 Ada Generation (35W)',             gaming: { 1080:  47, 1440:  41, 2160:  33 }, productivity:  45 },
+  // NVIDIA — RTX A-series Laptop
+  { id: 'rtxa4500l',     brand: 'NVIDIA', name: 'RTX A4500 (Laptop, 135W)',                 gaming: { 1080:  94, 1440:  82, 2160:  67 }, productivity:  89 },
+  { id: 'rtxa3000l',     brand: 'NVIDIA', name: 'RTX A3000 (Laptop, 135W)',                 gaming: { 1080:  84, 1440:  74, 2160:  60 }, productivity:  80 },
+  { id: 'rtxa3000l12',   brand: 'NVIDIA', name: 'RTX A3000 (Laptop, 12GB)',                 gaming: { 1080:  73, 1440:  64, 2160:  52 }, productivity:  69 },
+  { id: 'rtxa2000l',     brand: 'NVIDIA', name: 'RTX A2000 (Laptop, 65W)',                  gaming: { 1080:  55, 1440:  48, 2160:  39 }, productivity:  52 },
+  { id: 'rtxa1000l',     brand: 'NVIDIA', name: 'RTX A1000 (Laptop, 95W)',                  gaming: { 1080:  50, 1440:  44, 2160:  35 }, productivity:  48 },
+  { id: 'rtxa1000l6gb',  brand: 'NVIDIA', name: 'RTX A1000 (Laptop, 65W, 6GB)',             gaming: { 1080:  48, 1440:  42, 2160:  34 }, productivity:  46 },
+  { id: 'rtxa500l35',    brand: 'NVIDIA', name: 'RTX A500 (Laptop, 35W)',                   gaming: { 1080:  31, 1440:  27, 2160:  22 }, productivity:  29 },
+  { id: 'rtxa500l30',    brand: 'NVIDIA', name: 'RTX A500 (Laptop, 30W)',                   gaming: { 1080:  28, 1440:  25, 2160:  20 }, productivity:  27 },
+  // NVIDIA — T-series Laptop
+  { id: 'nvt1200',       brand: 'NVIDIA', name: 'NVIDIA T1200',                             gaming: { 1080:  34, 1440:  30, 2160:  24 }, productivity:  32 },
+  { id: 'nvt600',        brand: 'NVIDIA', name: 'NVIDIA T600',                              gaming: { 1080:  28, 1440:  25, 2160:  20 }, productivity:  27 },
+  { id: 'nvt550',        brand: 'NVIDIA', name: 'NVIDIA T550',                              gaming: { 1080:  22, 1440:  19, 2160:  15 }, productivity:  21 },
+  { id: 'nvt500',        brand: 'NVIDIA', name: 'NVIDIA T500',                              gaming: { 1080:  20, 1440:  18, 2160:  14 }, productivity:  19 },
+  // NVIDIA — Quadro Laptop
+  { id: 'qp5200l',       brand: 'NVIDIA', name: 'Quadro P5200 (Laptop, 16GB)',              gaming: { 1080:  64, 1440:  56, 2160:  45 }, productivity:  61 },
+  { id: 'qp3200l',       brand: 'NVIDIA', name: 'Quadro P3200 (Laptop, 6GB)',               gaming: { 1080:  44, 1440:  39, 2160:  31 }, productivity:  42 },
+  { id: 'qp5000l',       brand: 'NVIDIA', name: 'Quadro P5000 (16GB)',                      gaming: { 1080:  39, 1440:  34, 2160:  28 }, productivity:  37 },
+  { id: 'qp4000',        brand: 'NVIDIA', name: 'Quadro P4000 (8GB)',                       gaming: { 1080:  40, 1440:  35, 2160:  28 }, productivity:  38 },
+  { id: 'qt2000',        brand: 'NVIDIA', name: 'Quadro T2000 (4GB)',                       gaming: { 1080:  33, 1440:  29, 2160:  23 }, productivity:  31 },
+  { id: 'qt1000',        brand: 'NVIDIA', name: 'Quadro T1000 (4GB)',                       gaming: { 1080:  33, 1440:  29, 2160:  23 }, productivity:  31 },
+  { id: 'qt2000mq',      brand: 'NVIDIA', name: 'Quadro T2000 Max-Q',                       gaming: { 1080:  32, 1440:  28, 2160:  23 }, productivity:  30 },
+  { id: 'qt1000mq',      brand: 'NVIDIA', name: 'Quadro T1000 Max-Q',                       gaming: { 1080:  29, 1440:  25, 2160:  21 }, productivity:  28 },
+  { id: 'qt550l',        brand: 'NVIDIA', name: 'Quadro T550 (25W)',                        gaming: { 1080:  24, 1440:  21, 2160:  17 }, productivity:  23 },
+  { id: 'qp3000l',       brand: 'NVIDIA', name: 'Quadro P3000 (6GB)',                       gaming: { 1080:  29, 1440:  25, 2160:  21 }, productivity:  28 },
+  { id: 'qp2000l',       brand: 'NVIDIA', name: 'Quadro P2000 (Laptop, 4GB)',               gaming: { 1080:  20, 1440:  18, 2160:  14 }, productivity:  19 },
+  { id: 'qm2200l',       brand: 'NVIDIA', name: 'Quadro M2200 (4GB)',                       gaming: { 1080:  17, 1440:  15, 2160:  12 }, productivity:  16 },
+  { id: 'qm620l',        brand: 'NVIDIA', name: 'Quadro M620 (2GB)',                        gaming: { 1080:   9, 1440:   8, 2160:   6 }, productivity:   9 },
+  { id: 'qm520l',        brand: 'NVIDIA', name: 'Quadro M520 (2GB)',                        gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'qm600ml',       brand: 'NVIDIA', name: 'Quadro M600M (2GB)',                       gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  // NVIDIA — GTX Laptop
+  { id: 'gtx1080l',      brand: 'NVIDIA', name: 'GeForce GTX 1080 (Laptop, 8GB)',           gaming: { 1080:  69, 1440:  60, 2160:  49 }, productivity:  66 },
+  { id: 'gtx1080mq',     brand: 'NVIDIA', name: 'GeForce GTX 1080 Max-Q (8GB)',             gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'gtx1070l',      brand: 'NVIDIA', name: 'GeForce GTX 1070 (Laptop, 8GB)',           gaming: { 1080:  55, 1440:  48, 2160:  39 }, productivity:  52 },
+  { id: 'gtx1070mq',     brand: 'NVIDIA', name: 'GeForce GTX 1070 Max-Q (8GB)',             gaming: { 1080:  47, 1440:  41, 2160:  33 }, productivity:  45 },
+  { id: 'gtx1060l6',     brand: 'NVIDIA', name: 'GeForce GTX 1060 (Laptop, 6GB)',           gaming: { 1080:  38, 1440:  33, 2160:  27 }, productivity:  36 },
+  { id: 'gtx1060l3',     brand: 'NVIDIA', name: 'GeForce GTX 1060 (Laptop, 3GB)',           gaming: { 1080:  37, 1440:  32, 2160:  26 }, productivity:  35 },
+  { id: 'gtx1060mq',     brand: 'NVIDIA', name: 'GeForce GTX 1060 Max-Q (6GB)',             gaming: { 1080:  33, 1440:  29, 2160:  23 }, productivity:  31 },
+  { id: 'gtx1650til128', brand: 'NVIDIA', name: 'GeForce GTX 1650 Ti (Laptop, 128-bit)',    gaming: { 1080:  36, 1440:  32, 2160:  26 }, productivity:  34 },
+  { id: 'gtx1650timq50', brand: 'NVIDIA', name: 'GeForce GTX 1650 Ti Max-Q (50W)',          gaming: { 1080:  35, 1440:  31, 2160:  25 }, productivity:  33 },
+  { id: 'gtx1650l',      brand: 'NVIDIA', name: 'GeForce GTX 1650 (Laptop)',                gaming: { 1080:  34, 1440:  30, 2160:  24 }, productivity:  32 },
+  { id: 'gtx1650l50',    brand: 'NVIDIA', name: 'GeForce GTX 1650 (Laptop, 50W)',           gaming: { 1080:  34, 1440:  30, 2160:  24 }, productivity:  32 },
+  { id: 'gtx1650l40',    brand: 'NVIDIA', name: 'GeForce GTX 1650 (Laptop, 40W)',           gaming: { 1080:  31, 1440:  27, 2160:  22 }, productivity:  29 },
+  { id: 'gtx1650til',    brand: 'NVIDIA', name: 'GeForce GTX 1650 Ti (Laptop)',             gaming: { 1080:  36, 1440:  32, 2160:  25 }, productivity:  34 },
+  { id: 'gtx1650mq',     brand: 'NVIDIA', name: 'GeForce GTX 1650 Max-Q',                   gaming: { 1080:  29, 1440:  25, 2160:  21 }, productivity:  28 },
+  { id: 'gtx1650timq',   brand: 'NVIDIA', name: 'GeForce GTX 1650 Ti Max-Q',                gaming: { 1080:  31, 1440:  27, 2160:  22 }, productivity:  29 },
+  { id: 'gtx980ml',      brand: 'NVIDIA', name: 'GeForce GTX 980M (8GB)',                   gaming: { 1080:  28, 1440:  25, 2160:  20 }, productivity:  27 },
+  { id: 'gtx1050til',    brand: 'NVIDIA', name: 'GeForce GTX 1050 Ti (Laptop, 4GB)',        gaming: { 1080:  23, 1440:  20, 2160:  16 }, productivity:  22 },
+  { id: 'gtx1050timq',   brand: 'NVIDIA', name: 'GeForce GTX 1050 Ti Max-Q (4GB)',          gaming: { 1080:  23, 1440:  20, 2160:  16 }, productivity:  22 },
+  { id: 'gtx1050l3',     brand: 'NVIDIA', name: 'GeForce GTX 1050 (Laptop, 3GB)',           gaming: { 1080:  21, 1440:  18, 2160:  15 }, productivity:  20 },
+  { id: 'gtx1050l4',     brand: 'NVIDIA', name: 'GeForce GTX 1050 (Laptop, 4GB)',           gaming: { 1080:  17, 1440:  15, 2160:  12 }, productivity:  16 },
+  { id: 'gtx1050l2',     brand: 'NVIDIA', name: 'GeForce GTX 1050 (Laptop, 2GB)',           gaming: { 1080:  17, 1440:  15, 2160:  12 }, productivity:  16 },
+  { id: 'gtx1050lmq',    brand: 'NVIDIA', name: 'GeForce GTX 1050 Max-Q (40W)',             gaming: { 1080:  16, 1440:  14, 2160:  11 }, productivity:  15 },
+  { id: 'gtx965ml',      brand: 'NVIDIA', name: 'GeForce GTX 965M (2GB)',                   gaming: { 1080:  18, 1440:  16, 2160:  13 }, productivity:  17 },
+  { id: 'gtx960ml',      brand: 'NVIDIA', name: 'GeForce GTX 960M (4GB)',                   gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'gtx950ml',      brand: 'NVIDIA', name: 'GeForce GTX 950M (2GB)',                   gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  // NVIDIA — MX Series
+  { id: 'mx570-30',      brand: 'NVIDIA', name: 'GeForce MX570 (30W)',                      gaming: { 1080:  31, 1440:  27, 2160:  22 }, productivity:  29 },
+  { id: 'mx570',         brand: 'NVIDIA', name: 'GeForce MX570',                            gaming: { 1080:  28, 1440:  25, 2160:  20 }, productivity:  27 },
+  { id: 'mx550-35',      brand: 'NVIDIA', name: 'GeForce MX550 (35W)',                      gaming: { 1080:  26, 1440:  23, 2160:  18 }, productivity:  25 },
+  { id: 'mx550',         brand: 'NVIDIA', name: 'GeForce MX550',                            gaming: { 1080:  24, 1440:  21, 2160:  17 }, productivity:  23 },
+  { id: 'mx450-g6',      brand: 'NVIDIA', name: 'GeForce MX450 (GDDR6, 25W)',               gaming: { 1080:  23, 1440:  20, 2160:  16 }, productivity:  22 },
+  { id: 'mx450',         brand: 'NVIDIA', name: 'GeForce MX450',                            gaming: { 1080:  21, 1440:  18, 2160:  15 }, productivity:  20 },
+  { id: 'mx450-12w',     brand: 'NVIDIA', name: 'GeForce MX450 (GDDR6, 12W)',               gaming: { 1080:  17, 1440:  15, 2160:  12 }, productivity:  16 },
+  { id: 'mx350',         brand: 'NVIDIA', name: 'GeForce MX350',                            gaming: { 1080:  14, 1440:  12, 2160:  10 }, productivity:  13 },
+  { id: 'mx350-25',      brand: 'NVIDIA', name: 'GeForce MX350 (25W)',                      gaming: { 1080:  13, 1440:  11, 2160:  10 }, productivity:  12 },
+  { id: 'mx350-10',      brand: 'NVIDIA', name: 'GeForce MX350 (10W)',                      gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'mx330-4g',      brand: 'NVIDIA', name: 'GeForce MX330 (4GB, 25W)',                 gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'mx330-2g',      brand: 'NVIDIA', name: 'GeForce MX330 (2GB, 25W)',                 gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  { id: 'mx250-25',      brand: 'NVIDIA', name: 'GeForce MX250 (25W)',                      gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'mx250-10',      brand: 'NVIDIA', name: 'GeForce MX250 (10W)',                      gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
+  { id: 'mx230',         brand: 'NVIDIA', name: 'GeForce MX230 (2GB)',                      gaming: { 1080:   7, 1440:   6, 2160:   5 }, productivity:   7 },
+  { id: 'mx150',         brand: 'NVIDIA', name: 'GeForce MX150 (2GB)',                      gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  { id: 'mx130',         brand: 'NVIDIA', name: 'GeForce MX130 (2GB)',                      gaming: { 1080:   7, 1440:   6, 2160:   5 }, productivity:   7 },
+  { id: 'mx110',         brand: 'NVIDIA', name: 'GeForce MX110 (2GB)',                      gaming: { 1080:   5, 1440:   4, 2160:   3 }, productivity:   5 },
+  { id: 'g940mx',        brand: 'NVIDIA', name: 'GeForce 940MX (2GB)',                      gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'g930mx',        brand: 'NVIDIA', name: 'GeForce 930MX (2GB)',                      gaming: { 1080:   5, 1440:   4, 2160:   4 }, productivity:   5 },
+  { id: 'g920mx',        brand: 'NVIDIA', name: 'GeForce 920MX (2GB)',                      gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'g920m',         brand: 'NVIDIA', name: 'GeForce 920M (4GB)',                       gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  // Intel — Arc Laptop
+  { id: 'arc-a770m',     brand: 'Intel',  name: 'Arc A770M',                               gaming: { 1080: 108, 1440:  95, 2160:  77 }, productivity: 103 },
+  { id: 'arc-a730m',     brand: 'Intel',  name: 'Arc A730M',                               gaming: { 1080: 101, 1440:  88, 2160:  72 }, productivity:  96 },
+  { id: 'arc-a550m',     brand: 'Intel',  name: 'Arc A550M',                               gaming: { 1080:  60, 1440:  53, 2160:  43 }, productivity:  57 },
+  { id: 'arc-a530m',     brand: 'Intel',  name: 'Arc A530M',                               gaming: { 1080:  59, 1440:  52, 2160:  42 }, productivity:  56 },
+  { id: 'arc-a370m',     brand: 'Intel',  name: 'Arc A370M',                               gaming: { 1080:  39, 1440:  34, 2160:  28 }, productivity:  37 },
+  { id: 'arc-a350m',     brand: 'Intel',  name: 'Arc A350M',                               gaming: { 1080:  26, 1440:  23, 2160:  19 }, productivity:  25 },
+  { id: 'arc-140t',      brand: 'Intel',  name: 'Arc 140T',                                gaming: { 1080:  39, 1440:  34, 2160:  28 }, productivity:  37 },
+  { id: 'arc-130t',      brand: 'Intel',  name: 'Arc 130T',                                gaming: { 1080:  24, 1440:  21, 2160:  17 }, productivity:  23 },
+  { id: 'arc-7c',        brand: 'Intel',  name: 'Arc (7-Cores)',                           gaming: { 1080:  34, 1440:  30, 2160:  24 }, productivity:  32 },
+  { id: 'arc-8c',        brand: 'Intel',  name: 'Arc (8-Cores)',                           gaming: { 1080:  35, 1440:  31, 2160:  25 }, productivity:  33 },
+  // Intel — Arc Integrated
+  { id: 'arc-140v',      brand: 'Intel',  name: 'Arc Graphics 140V',                      gaming: { 1080:  41, 1440:  36, 2160:  29 }, productivity:  39 },
+  { id: 'arc-130v',      brand: 'Intel',  name: 'Arc Graphics 130V',                      gaming: { 1080:  34, 1440:  30, 2160:  24 }, productivity:  32 },
+  { id: 'iris-xe-max',   brand: 'Intel',  name: 'Iris Xe MAX',                             gaming: { 1080:  19, 1440:  17, 2160:  13 }, productivity:  18 },
+  { id: 'iris-xe-96eu',  brand: 'Intel',  name: 'Iris Xe G7 (96EU)',                       gaming: { 1080:  15, 1440:  13, 2160:  10 }, productivity:  14 },
+  { id: 'iris-xe-80eu',  brand: 'Intel',  name: 'Iris Xe G7 (80EU)',                       gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'iris-xe-g4',    brand: 'Intel',  name: 'Iris Xe G4',                              gaming: { 1080:   7, 1440:   6, 2160:   5 }, productivity:   7 },
+  { id: 'intel-g4c',     brand: 'Intel',  name: 'Intel Graphics (4-Cores)',                gaming: { 1080:  19, 1440:  17, 2160:  13 }, productivity:  18 },
+  { id: 'uhd-xe750-32',  brand: 'Intel',  name: 'UHD Graphics Xe 750 (32EU)',              gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'uhd-xe750-16',  brand: 'Intel',  name: 'UHD Graphics Xe 750 (16EU)',              gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'uhd-xe-tgl48',  brand: 'Intel',  name: 'UHD Graphics Xe G4 (Tiger Lake, 48EU)',   gaming: { 1080:   8, 1440:   7, 2160:   5 }, productivity:   8 },
+  { id: 'uhd-xe-48',     brand: 'Intel',  name: 'UHD Graphics Xe G4 (48EU)',               gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
+  { id: 'uhd-xe-24',     brand: 'Intel',  name: 'UHD Graphics Xe (24EU)',                  gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'uhd-770',       brand: 'Intel',  name: 'UHD Graphics 770',                        gaming: { 1080:   7, 1440:   6, 2160:   5 }, productivity:   7 },
+  { id: 'uhd-adl64',     brand: 'Intel',  name: 'UHD Graphics (Alder Lake, 64EU)',         gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  { id: 'uhd-jpl32',     brand: 'Intel',  name: 'UHD Graphics (Jasper Lake 32EU)',         gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'uhd-jpl24',     brand: 'Intel',  name: 'UHD Graphics (Jasper Lake 24EU)',         gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'uhd-jpl16',     brand: 'Intel',  name: 'UHD Graphics (Jasper Lake 16EU)',         gaming: { 1080:   5, 1440:   4, 2160:   4 }, productivity:   5 },
+  { id: 'uhd-630',       brand: 'Intel',  name: 'UHD Graphics 630',                        gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'uhd-620',       brand: 'Intel',  name: 'UHD Graphics 620',                        gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'uhd-617',       brand: 'Intel',  name: 'UHD Graphics 617',                        gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'uhd-615',       brand: 'Intel',  name: 'UHD Graphics 615',                        gaming: { 1080:   2, 1440:   2, 2160:   2 }, productivity:   2 },
+  { id: 'uhd-610',       brand: 'Intel',  name: 'UHD Graphics 610',                        gaming: { 1080:   2, 1440:   2, 2160:   1 }, productivity:   2 },
+  { id: 'uhd-605',       brand: 'Intel',  name: 'UHD Graphics 605',                        gaming: { 1080:   1, 1440:   1, 2160:   1 }, productivity:   1 },
+  { id: 'uhd-600',       brand: 'Intel',  name: 'UHD Graphics 600',                        gaming: { 1080:   1, 1440:   1, 2160:   1 }, productivity:   1 },
+  { id: 'uhd-g',         brand: 'Intel',  name: 'UHD Graphics',                            gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'hd-530',        brand: 'Intel',  name: 'HD Graphics 530',                         gaming: { 1080:   2, 1440:   2, 2160:   2 }, productivity:   2 },
+  { id: 'hd-520',        brand: 'Intel',  name: 'HD Graphics 520',                         gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'hd-620',        brand: 'Intel',  name: 'HD Graphics 620',                         gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'hd-615',        brand: 'Intel',  name: 'HD Graphics 615',                         gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'iris-550',      brand: 'Intel',  name: 'Iris Graphics 550',                       gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'iris-650',      brand: 'Intel',  name: 'Iris Graphics 650',                       gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'iris-plus640',  brand: 'Intel',  name: 'Iris Plus Graphics 640',                  gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'iris-plus645',  brand: 'Intel',  name: 'Iris Plus Graphics 645',                  gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'iris-plus655',  brand: 'Intel',  name: 'Iris Plus Graphics 655',                  gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'iris-6100',     brand: 'Intel',  name: 'Iris Pro Graphics 6100',                  gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'hd-6000',       brand: 'Intel',  name: 'HD Graphics 6000',                        gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'iris-plus-g7',  brand: 'Intel',  name: 'Iris Plus Graphics G7',                   gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'hd-610',        brand: 'Intel',  name: 'HD Graphics 610',                         gaming: { 1080:   2, 1440:   2, 2160:   1 }, productivity:   2 },
+  // AMD — Laptop & Mobile supplémentaires
+  { id: 'rx7800mxtl',    brand: 'AMD',    name: 'Radeon RX 7800M XT',                      gaming: { 1080: 178, 1440: 156, 2160: 126 }, productivity: 169 },
+  { id: 'rx6800m',       brand: 'AMD',    name: 'Radeon RX 6800M',                         gaming: { 1080: 115, 1440: 101, 2160:  82 }, productivity: 109 },
+  { id: 'rx580l4',       brand: 'AMD',    name: 'Radeon RX 580 (4GB, Laptop)',              gaming: { 1080:  35, 1440:  31, 2160:  25 }, productivity:  33 },
+  { id: 'radeon660m',    brand: 'AMD',    name: 'Radeon 660M',                              gaming: { 1080:  16, 1440:  14, 2160:  11 }, productivity:  15 },
+  { id: 'radeon740m',    brand: 'AMD',    name: 'Radeon 740M',                              gaming: { 1080:  18, 1440:  16, 2160:  13 }, productivity:  17 },
+  { id: 'radeon610m',    brand: 'AMD',    name: 'Radeon 610M',                              gaming: { 1080:   5, 1440:   4, 2160:   4 }, productivity:   5 },
+  // AMD — Vega APU / Mobile (non-desktop)
+  { id: 'vega10-apu',    brand: 'AMD',    name: 'Radeon RX Vega 10',                       gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
+  { id: 'vega9-apu',     brand: 'AMD',    name: 'Radeon Vega 9',                            gaming: { 1080:   9, 1440:   8, 2160:   6 }, productivity:   9 },
+  { id: 'vega8-r5-45',   brand: 'AMD',    name: 'Radeon RX Vega 8 (R4000/5000, 35/45W)',   gaming: { 1080:  12, 1440:  11, 2160:   9 }, productivity:  11 },
+  { id: 'vega8-r5-15',   brand: 'AMD',    name: 'Radeon RX Vega 8 (R4000/5000, 15W)',      gaming: { 1080:  12, 1440:  11, 2160:   9 }, productivity:  11 },
+  { id: 'vega8-r2k',     brand: 'AMD',    name: 'Radeon RX Vega 8 (R2000/3000, 15W)',      gaming: { 1080:   7, 1440:   6, 2160:   5 }, productivity:   7 },
+  { id: 'vega7-r5-45',   brand: 'AMD',    name: 'Radeon RX Vega 7 (R4000/5000, 35/45W)',   gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'vega7-r5-15',   brand: 'AMD',    name: 'Radeon RX Vega 7 (R4000/5000, 15W)',      gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  { id: 'vega6-r5-45',   brand: 'AMD',    name: 'Radeon RX Vega 6 (R4000/5000, 35/45W)',   gaming: { 1080:   9, 1440:   8, 2160:   6 }, productivity:   9 },
+  { id: 'vega6-r5-15',   brand: 'AMD',    name: 'Radeon RX Vega 6 (R4000/5000, 15W)',      gaming: { 1080:   7, 1440:   6, 2160:   5 }, productivity:   7 },
+  { id: 'vega6-r2k',     brand: 'AMD',    name: 'Radeon RX Vega 6 (R2000/3000, 15W)',      gaming: { 1080:   6, 1440:   5, 2160:   4 }, productivity:   6 },
+  { id: 'vega5-apu',     brand: 'AMD',    name: 'Radeon RX Vega 5',                        gaming: { 1080:   9, 1440:   8, 2160:   6 }, productivity:   9 },
+  { id: 'vega3-apu',     brand: 'AMD',    name: 'Radeon RX Vega 3',                        gaming: { 1080:   5, 1440:   4, 2160:   3 }, productivity:   5 },
+  { id: 'radeon-r7-br',  brand: 'AMD',    name: 'Radeon R7 (Bristol Ridge)',               gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'radeon540x',    brand: 'AMD',    name: 'Radeon 540X (2GB)',                        gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
+  { id: 'rx640',         brand: 'AMD',    name: 'Radeon RX 640',                            gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
+  { id: 'radeon520',     brand: 'AMD',    name: 'Radeon 520 (2GB)',                         gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'radeon530',     brand: 'AMD',    name: 'Radeon 530 (2GB)',                         gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  // AMD — Pro Mobile
+  { id: 'pro560x',       brand: 'AMD',    name: 'Radeon Pro 560X (4GB)',                   gaming: { 1080:  16, 1440:  14, 2160:  11 }, productivity:  15 },
+  { id: 'pro560',        brand: 'AMD',    name: 'Radeon Pro 560 (4GB)',                    gaming: { 1080:  14, 1440:  12, 2160:  10 }, productivity:  13 },
+  { id: 'pro455',        brand: 'AMD',    name: 'Radeon Pro 455 (2GB)',                    gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'pro555',        brand: 'AMD',    name: 'Radeon Pro 555 (2GB)',                    gaming: { 1080:  11, 1440:  10, 2160:   8 }, productivity:  10 },
+  { id: 'pro450',        brand: 'AMD',    name: 'Radeon Pro 450 (2GB)',                    gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  { id: 'prowx3200',     brand: 'AMD',    name: 'Radeon Pro WX 3200 (4GB)',               gaming: { 1080:  10, 1440:   9, 2160:   7 }, productivity:  10 },
+  { id: 'prowx3100',     brand: 'AMD',    name: 'Radeon PRO WX 3100 (2GB)',               gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
+  { id: 'r7m445',        brand: 'AMD',    name: 'Radeon R7 M445 (4GB)',                    gaming: { 1080:   5, 1440:   4, 2160:   4 }, productivity:   5 },
+  { id: 'r7m440',        brand: 'AMD',    name: 'Radeon R7 M440 (2GB)',                    gaming: { 1080:   4, 1440:   4, 2160:   3 }, productivity:   4 },
+  { id: 'r8m445dx',      brand: 'AMD',    name: 'Radeon R8 M445DX (2GB)',                  gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  { id: 'r5-stoney',     brand: 'AMD',    name: 'Radeon R5 (Stoney Ridge)',                gaming: { 1080:   3, 1440:   3, 2160:   2 }, productivity:   3 },
+  // Qualcomm
+  { id: 'snap-xe',       brand: 'Qualcomm', name: 'Snapdragon X Elite Adreno GPU',        gaming: { 1080:  14, 1440:  12, 2160:  10 }, productivity:  13 },
+  { id: 'adreno690',     brand: 'Qualcomm', name: 'Adreno 690',                            gaming: { 1080:   8, 1440:   7, 2160:   6 }, productivity:   8 },
 ];
 
 // ===== STATE =====
@@ -450,22 +790,45 @@ function populateSelects() {
   cpuSelect.appendChild(intelGroup);
   cpuSelect.appendChild(amdCpuGroup);
 
-  const nvidiaGroup = document.createElement('optgroup');
-  nvidiaGroup.label = 'NVIDIA';
-  const amdGpuGroup = document.createElement('optgroup');
-  amdGpuGroup.label = 'AMD';
+  const nvidiaGroup   = document.createElement('optgroup');
+  nvidiaGroup.label   = 'NVIDIA';
+  const amdGpuGroup   = document.createElement('optgroup');
+  amdGpuGroup.label   = 'AMD';
+  const intelGpuGroup = document.createElement('optgroup');
+  intelGpuGroup.label = 'Intel';
+  const qualcommGroup = document.createElement('optgroup');
+  qualcommGroup.label = 'Qualcomm';
 
   GPUS.forEach(gpu => {
     const opt = new Option(gpu.name, gpu.id);
-    if (gpu.brand === 'NVIDIA') nvidiaGroup.appendChild(opt);
-    else amdGpuGroup.appendChild(opt);
+    if (gpu.brand === 'NVIDIA')       nvidiaGroup.appendChild(opt);
+    else if (gpu.brand === 'Intel')   intelGpuGroup.appendChild(opt);
+    else if (gpu.brand === 'Qualcomm') qualcommGroup.appendChild(opt);
+    else                              amdGpuGroup.appendChild(opt);
   });
 
   gpuSelect.appendChild(nvidiaGroup);
   gpuSelect.appendChild(amdGpuGroup);
+  gpuSelect.appendChild(intelGpuGroup);
+  gpuSelect.appendChild(qualcommGroup);
 }
 
 // ===== CALCULATE =====
+// Scaling factors derived from real game average FPS drops across resolutions
+// (calibrated on RTX 3060: 1080p=105, 1440p=78, 4K=48 in our benchmark data).
+// Applied to the GPU's 1080p score to get a resolution-normalised score,
+// so every GPU tier scales consistently — matching real game behaviour.
+const RES_SCALE = { '1080': 1.0, '1440': 78 / 105, '2160': 48 / 105 };
+// Single ideal GPU/CPU ratio for a perfectly balanced system on the unified scale
+// (R5 3600 gaming=80, RTX 3060 1080p=105 → 80 = 105 / 1.3125)
+const GAMING_IDEAL = 1.3125;
+const WORK_IDEAL   = 1.20;
+
+// Returns the GPU gaming score normalised to a resolution-independent scale
+function gpuGameScore(gpu, res) {
+  return Math.round(gpu.gaming['1080'] * RES_SCALE[res]);
+}
+
 function calculate() {
   const cpu = CPUS.find(c => c.id === cpuSelect.value);
   const gpu = GPUS.find(g => g.id === gpuSelect.value);
@@ -481,14 +844,19 @@ function calculate() {
     return;
   }
 
-  const cpuScore = selectedUsage === 'gaming' ? cpu.gaming : cpu.productivity;
-  const gpuScore = selectedUsage === 'gaming' ? gpu.gaming[selectedRes] : gpu.productivity;
+  const isGaming   = selectedUsage === 'gaming';
+  const cpuScore   = isGaming ? cpu.gaming : cpu.productivity;
+  // Use normalised GPU score so all GPU tiers scale uniformly with resolution
+  const gpuScore   = isGaming ? gpuGameScore(gpu, selectedRes) : gpu.productivity;
+  const idealRatio = isGaming ? GAMING_IDEAL : WORK_IDEAL;
 
-  const maxScore     = Math.max(cpuScore, gpuScore);
-  const bottleneckPct = Math.round((Math.abs(cpuScore - gpuScore) / maxScore) * 100);
-  const bottleneck   = cpuScore < gpuScore ? 'CPU' : 'GPU';
+  const gpuNorm       = gpuScore / idealRatio;
+  const diff          = Math.abs(cpuScore - gpuNorm);
+  const maxNorm       = Math.max(cpuScore, gpuNorm);
+  const bottleneckPct = Math.round((diff / maxNorm) * 100);
+  const bottleneck    = cpuScore < gpuNorm ? 'CPU' : 'GPU';
 
-  displayResults(cpu, gpu, cpuScore, gpuScore, bottleneckPct, bottleneck);
+  displayResults(cpu, gpu, cpuScore, gpuNorm, bottleneckPct, bottleneck);
 }
 
 // ===== DISPLAY RESULTS =====
@@ -531,13 +899,13 @@ function displayResults(cpu, gpu, cpuScore, gpuScore, pct, bottleneck) {
   let severity, badgeText, text, tip;
   const isGaming = selectedUsage === 'gaming';
 
-  if (pct < 10) {
+  if (pct < 15) {
     severity  = 'balanced';
     badgeText = 'Configuration équilibrée';
     text = `Votre ${cpu.name} et votre ${gpu.name} sont bien assortis — aucun composant ne bride l'autre de façon significative.`;
     tip  = '';
   } else if (bottleneck === 'CPU') {
-    if (pct < 20) {
+    if (pct < 25) {
       severity  = 'low';
       badgeText = 'Bottleneck CPU léger';
       text = isGaming
@@ -546,7 +914,7 @@ function displayResults(cpu, gpu, cpuScore, gpuScore, pct, bottleneck) {
       tip = isGaming
         ? 'Ce niveau de bottleneck est tout à fait acceptable. Augmenter la résolution ou la qualité graphique peut réduire cet écart.'
         : 'Peu d\'impact sur la productivité quotidienne. Ce bottleneck peut se ressentir sur de très longs rendus 3D.';
-    } else if (pct < 35) {
+    } else if (pct < 40) {
       severity  = 'medium';
       badgeText = 'Bottleneck CPU modéré';
       text = isGaming
@@ -566,7 +934,7 @@ function displayResults(cpu, gpu, cpuScore, gpuScore, pct, bottleneck) {
         : 'Un changement de CPU s\'impose pour exploiter correctement votre GPU en rendu, montage ou modélisation 3D.';
     }
   } else {
-    if (pct < 20) {
+    if (pct < 25) {
       severity  = 'low';
       badgeText = 'Bottleneck GPU léger';
       text = isGaming
@@ -575,7 +943,7 @@ function displayResults(cpu, gpu, cpuScore, gpuScore, pct, bottleneck) {
       tip = isGaming
         ? 'Ce niveau est tout à fait normal et acceptable. Baisser légèrement les paramètres graphiques peut libérer du headroom.'
         : 'L\'impact est faible au quotidien. Il se fera davantage sentir sur des rendus GPU intensifs comme Blender.';
-    } else if (pct < 35) {
+    } else if (pct < 40) {
       severity  = 'medium';
       badgeText = 'Bottleneck GPU modéré';
       text = isGaming

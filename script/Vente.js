@@ -190,3 +190,14 @@ async function init() {
 }
 
 init();
+
+// ===== CATEGORY TABS =====
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.boutique__panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('cat-' + btn.dataset.cat);
+    if (panel) panel.classList.add('active');
+  });
+});
