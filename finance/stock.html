@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Finance FSMedia — gestion du stock de PC, composants et périphériques." />
+  <title>Stock — Finance FSMedia</title>
+  <link rel="icon" type="image/png" href="../images/favicon1.png" />
+  <link rel="stylesheet" href="css/finance.css?v=2" />
+</head>
+<body data-page="stock" style="visibility:hidden">
+
+  <div class="app">
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="app-sidebar">
+      <div class="app-logo">
+        <a href="../admin.html" class="app-logo__back" title="Retour à l'admin">←</a>
+        <span class="app-logo__name">FS<span>Media</span></span>
+        <span class="app-logo__tag">Finance &amp; Stock</span>
+      </div>
+
+      <nav class="app-nav">
+        <a href="dashboard.html" class="app-nav__link" data-page="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+          Tableau de bord
+        </a>
+        <a href="transactions.html" class="app-nav__link" data-page="transactions">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Entrées &amp; Sorties
+        </a>
+        <a href="stock.html" class="app-nav__link" data-page="stock">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          Stock
+        </a>
+      </nav>
+
+      <div class="app-sidebar__footer">
+        <span class="app-sidebar__backup-label">Sauvegarde locale</span>
+        <button class="app-btn app-btn--ghost app-btn--sm" id="backup-export-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exporter (JSON)
+        </button>
+        <button class="app-btn app-btn--ghost app-btn--sm" id="backup-import-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Importer
+        </button>
+        <input type="file" id="backup-import-input" accept="application/json" style="display:none" />
+      </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div>
+          <h1 class="app-topbar__title">Stock</h1>
+          <p class="app-topbar__sub">PC, composants et périphériques disponibles</p>
+        </div>
+        <div class="app-topbar__actions">
+          <button class="app-theme-btn" id="theme-toggle" aria-label="Changer le thème">
+            <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <button class="app-btn app-btn--primary" id="add-stock-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ajouter un article
+          </button>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <div class="stat-grid" id="stock-stat-grid"></div>
+
+        <div class="panel" style="margin-bottom:0;">
+          <div class="toolbar">
+            <select id="stock-category-filter">
+              <option value="">Toutes catégories</option>
+            </select>
+
+            <label class="segmented" style="cursor:pointer;">
+              <span class="segmented__opt" id="low-stock-toggle" data-val="low">Stock faible uniquement</span>
+            </label>
+
+            <div class="toolbar__spacer"></div>
+
+            <div class="toolbar__search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="stock-search-input" placeholder="Rechercher un article…" />
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="app-table">
+              <thead>
+                <tr>
+                  <th>Article</th>
+                  <th>Catégorie</th>
+                  <th style="text-align:right">Qté</th>
+                  <th style="text-align:right">Prix achat</th>
+                  <th style="text-align:right">Prix vente</th>
+                  <th style="text-align:right">Marge / unité</th>
+                  <th style="text-align:right">Valeur (achat)</th>
+                  <th>Statut</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="stock-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== MODAL ARTICLE ===== -->
+  <div class="app-overlay" id="stock-overlay">
+    <div class="app-modal">
+      <div class="app-modal__header">
+        <h2 id="stock-modal-title">Ajouter un article</h2>
+        <button class="app-modal__close" id="stock-modal-close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="app-modal__body">
+        <form id="stock-form" novalidate>
+          <input type="hidden" id="s-id" />
+
+          <div class="field">
+            <label>Nom de l'article *</label>
+            <input type="text" id="s-name" placeholder="Ex : PC Gaming X500" required />
+          </div>
+
+          <div class="field-row" style="margin-bottom:14px;">
+            <div class="field">
+              <label>Catégorie *</label>
+              <select id="s-category" required></select>
+            </div>
+            <div class="field">
+              <label>Quantité *</label>
+              <input type="number" id="s-quantity" min="0" step="1" placeholder="0" required />
+            </div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:14px;">
+            <div class="field">
+              <label>Prix d'achat (€ / unité) *</label>
+              <input type="number" id="s-buy-price" min="0" step="0.01" placeholder="0.00" required />
+            </div>
+            <div class="field">
+              <label>Prix de vente (€ / unité) *</label>
+              <input type="number" id="s-sell-price" min="0" step="0.01" placeholder="0.00" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Seuil d'alerte (quantité minimale)</label>
+            <input type="number" id="s-alert" min="0" step="1" placeholder="1" />
+          </div>
+
+          <div class="field">
+            <label>Note</label>
+            <textarea id="s-note" placeholder="Détails, numéro de série, emplacement…"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="app-modal__footer">
+        <span class="form-error" id="stock-save-error"></span>
+        <button type="button" class="app-btn app-btn--ghost" id="stock-cancel">Annuler</button>
+        <button type="button" class="app-btn app-btn--primary" id="stock-save">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL CONFIRMATION SUPPRESSION ===== -->
+  <div class="app-overlay" id="stock-confirm-overlay">
+    <div class="app-modal app-modal--sm">
+      <div class="app-modal__header"><h2>Supprimer cet article ?</h2></div>
+      <div class="app-modal__body">
+        <p class="confirm-text">Cette action est <strong>irréversible</strong>.</p>
+      </div>
+      <div class="app-modal__footer">
+        <button type="button" class="app-btn app-btn--ghost" id="stock-confirm-cancel">Annuler</button>
+        <button type="button" class="app-btn app-btn--danger" id="stock-confirm-delete">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../script/supabase-client.js"></script>
+  <script src="script/guard.js?v=2"></script>
+  <script src="script/storage.js?v=2"></script>
+  <script src="script/ui.js?v=2"></script>
+  <script src="script/stock.js?v=2"></script>
+</body>
+</html>
