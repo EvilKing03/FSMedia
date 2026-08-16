@@ -108,6 +108,8 @@ async function init() {
     }
   }
 
+  products = products.filter(p => p.badge_type !== 'outofstock');
+
   grid.innerHTML = products.map(renderCard).join('');
 
   // ===== SLIDESHOWS =====

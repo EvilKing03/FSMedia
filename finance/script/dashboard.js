@@ -19,7 +19,7 @@ function renderStats() {
   const balance = totalIn - totalOut;
 
   const now = new Date();
-  const ym = now.toISOString().slice(0, 7);
+  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const monthTxs = txs.filter((t) => t.date.startsWith(ym));
   const monthIn = monthTxs.filter((t) => t.type === 'in').reduce((s, t) => s + Number(t.amount), 0);
   const monthOut = monthTxs.filter((t) => t.type === 'out').reduce((s, t) => s + Number(t.amount), 0);
@@ -82,19 +82,21 @@ function renderChart() {
   const now = new Date();
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({ key: d.toISOString().slice(0, 7), label: fmtMonth.format(d) });
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    months.push({ key, label: fmtMonth.format(d) });
   }
 
   const totals = months.map((m) => {
-    const inSum = txs.filter((t) => t.type === 'in' && t.date.startsWith(m.key)).reduce((s, t) => s + Number(t.amount), 0);
-    const outSum = txs.filter((t) => t.type === 'out' && t.date.startsWith(m.key)).reduce((s, t) => s + Number(t.amount), 0);
-    return { ...m, inSum, outSum };
+    const monthTxs = txs.filter((t) => t.date.startsWith(m.key));
+    const inSum = monthTxs.filter((t) => t.type === 'in').reduce((s, t) => s + Number(t.amount), 0);
+    const outSum = monthTxs.filter((t) => t.type === 'out').reduce((s, t) => s + Number(t.amount), 0);
+    return { ...m, inSum, outSum, count: monthTxs.length };
   });
 
   const max = Math.max(1, ...totals.map((t) => Math.max(t.inSum, t.outSum)));
 
   const chart = document.getElementById('chart');
-  const hasData = totals.some((t) => t.inSum > 0 || t.outSum > 0);
+  const hasData = totals.some((t) => t.count > 0);
 
   if (!hasData) {
     chart.innerHTML = `
