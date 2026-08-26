@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparatif PC — FSMedia</title>
+  <link rel="icon" type="image/png" href="../images/favicon1.png" />
+  <link rel="stylesheet" href="../css/global.css?v=4" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="../css/fiche.css?v=7" />
+</head>
+<body class="fiche-body">
+
+  <div class="fiche-toolbar">
+    <a href="admin.html" class="admin-btn admin-btn--ghost">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 8H3M7 4L3 8l4 4" stroke-linejoin="round"/></svg>
+      Retour à l'admin
+    </a>
+    <span class="comparatif-counter" id="comparatif-counter">0 / 3 PC sélectionnés</span>
+    <button class="admin-btn admin-btn--primary" id="print-btn" disabled>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Imprimer
+    </button>
+  </div>
+
+  <section class="comparatif-picker">
+    <h2>Choisir jusqu'à 3 PC à afficher sur la feuille</h2>
+    <div class="comparatif-picker__grid" id="picker-grid">
+      <p class="fiche-loading">Chargement des produits…</p>
+    </div>
+  </section>
+
+  <main class="fiche-sheet comparatif-sheet" id="comparatif-sheet">
+    <p class="fiche-loading">Sélectionne au moins un PC ci-dessus pour générer la feuille.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <script src="../script/supabase-client.js"></script>
+  <script src="../script/comparatif.js?v=4"></script>
+</body>
+</html>

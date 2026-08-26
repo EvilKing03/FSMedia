@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="FSMedia — Découvrez nos configurations PC gaming, bureautique et reconditionnées. Assemblage sur mesure." />
-  <title>Boutique — FSMedia</title>
+  <meta name="description" content="FSMedia — Fiche produit détaillée." />
+  <title id="page-title">Produit — FSMedia</title>
   <link rel="icon" type="image/png" href="../images/favicon1.png" />
   <link rel="stylesheet" href="../css/global.css?v=4" />
   <link rel="stylesheet" href="../css/vente.css" />
@@ -18,7 +18,7 @@
     </a>
     <ul class="navbar__links">
       <li><a href="index.html">Accueil</a></li>
-      <li><a href="vente.html">Boutique</a></li>
+      <li><a href="vente.html" class="active">Boutique</a></li>
       <li><a href="reparation.html">Réparation</a></li>
       <li><a href="conseil.html">Conseil</a></li>
       <li><a href="fstoolbox.html">Toolbox</a></li>
@@ -34,35 +34,8 @@
     </div>
   </nav>
 
-  <section class="page-hero page-hero--vente">
-    <div class="page-hero__content">
-      <span class="section-tag">Catalogue</span>
-      <h1 class="section-title">Boutique</h1>
-      <p>Configurations gaming, bureautique ou reconditionnées — chaque machine est choisie ou assemblée avec soin. Vous ne trouvez pas votre bonheur ? On peut construire la vôtre sur mesure.</p>
-    </div>
-  </section>
-
-  <section class="catalogue">
-    <div class="catalogue__filters">
-      <button class="filter-btn active" data-filter="all">Tout voir</button>
-      <button class="filter-btn" data-filter="pc">PC</button>
-      <button class="filter-btn" data-filter="ecran">Écrans</button>
-      <button class="filter-btn" data-filter="clavier">Claviers</button>
-      <button class="filter-btn" data-filter="souris">Souris</button>
-      <button class="filter-btn" data-filter="casque">Casques</button>
-      <button class="filter-btn" data-filter="setup">Set-up</button>
-    </div>
-    <div class="catalogue__subfilters" id="pc-subfilters">
-      <button class="subfilter-btn active" data-subfilter="all-pc">Tous les PC</button>
-      <button class="subfilter-btn" data-subfilter="gaming">Gaming</button>
-      <button class="subfilter-btn" data-subfilter="bureautique">Bureautique</button>
-      <button class="subfilter-btn" data-subfilter="reconditionne">Reconditionné</button>
-      <button class="subfilter-btn" data-subfilter="surmesure">Sur mesure</button>
-    </div>
-
-    <div class="catalogue__grid" id="catalogue-grid">
-      <div class="catalogue__loading">Chargement des produits…</div>
-    </div>
+  <section class="product-detail" id="product-detail">
+    <div class="product-detail__loading">Chargement du produit…</div>
   </section>
 
   <section class="vente-cta">
@@ -94,46 +67,9 @@
     </div>
   </footer>
 
-  <!-- ===== MODALE FICHE PRODUIT ===== -->
-  <div class="product-overlay" id="product-overlay">
-    <div class="product-modal">
-      <button class="product-modal__close" id="product-modal-close" aria-label="Fermer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-
-      <div class="product-modal__media">
-        <span class="product-modal__badge" id="pm-badge"></span>
-        <div class="product-modal__img-wrap" id="pm-img-wrap"></div>
-        <div class="product-modal__thumbs" id="pm-thumbs"></div>
-      </div>
-
-      <div class="product-modal__info">
-        <div class="product-modal__cat" id="pm-cat"></div>
-        <h2 class="product-modal__name" id="pm-name"></h2>
-        <div class="product-modal__price-row">
-          <span class="product-modal__price" id="pm-price"></span>
-          <span class="product-modal__price-note" id="pm-price-note"></span>
-        </div>
-        <p class="product-modal__hint" id="pm-hint"></p>
-
-        <div class="product-modal__specs" id="pm-specs"></div>
-
-        <div class="product-modal__actions">
-          <a href="#" class="btn-card-primary" id="pm-cta-order">Commander</a>
-          <a href="contact.html" class="btn-card-outline">Poser une question</a>
-        </div>
-        <a href="#" class="product-modal__full-link" id="pm-full-link">
-          Voir la fiche complète
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../script/supabase-client.js"></script>
   <script src="../script/global.js?v=4"></script>
-  <script src="../script/Vente.js?v=4"></script>
+  <script src="../script/produit.js?v=1"></script>
 </body>
 </html>
