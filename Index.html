@@ -7,7 +7,7 @@
   <title>FSMedia — Votre Expert Informatique</title>
   <link rel="icon" type="image/png" href="../images/favicon1.png" />
   <link rel="stylesheet" href="../css/global.css?v=4" />
-  <link rel="stylesheet" href="../css/index.css" />
+  <link rel="stylesheet" href="../css/index.css?v=5" />
 </head>
 <body>
 
@@ -211,6 +211,63 @@
     </div>
   </section>
 
+  <!-- ===== AVIS CLIENTS ===== -->
+  <section class="reviews" id="avis">
+    <div class="reviews__header">
+      <span class="section-tag">Avis clients</span>
+      <h2 class="section-title">Ce qu'en pensent nos clients</h2>
+      <div class="reviews__summary" id="reviews-summary"></div>
+    </div>
+
+    <div class="reviews__content">
+      <div class="reviews__list" id="reviews-list">
+        <p class="reviews__loading">Chargement des avis…</p>
+      </div>
+
+      <div class="reviews__form-wrap">
+        <h3 class="reviews__form-title">Laisser un avis</h3>
+        <form id="review-form" novalidate>
+          <div class="reviews__field">
+            <label for="review-name">Nom *</label>
+            <input type="text" id="review-name" placeholder="Votre nom" maxlength="60" required />
+          </div>
+
+          <div class="reviews__field">
+            <label>Note *</label>
+            <div class="reviews__stars-input" id="review-stars-input"></div>
+          </div>
+
+          <div class="reviews__field">
+            <label for="review-comment">Commentaire (optionnel)</label>
+            <textarea id="review-comment" placeholder="Votre expérience avec FSMedia..." maxlength="500"></textarea>
+          </div>
+
+          <p class="reviews__msg" id="review-msg"></p>
+
+          <button type="submit" class="btn-primary" id="review-submit">
+            Publier mon avis
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONFIRMATION SUPPRESSION AVIS ===== -->
+  <div class="reviews-confirm-overlay" id="review-confirm-overlay">
+    <div class="reviews-confirm">
+      <div class="reviews-confirm__icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+      </div>
+      <h3>Supprimer cet avis ?</h3>
+      <p>Cette action est <strong>irréversible</strong> — l'avis sera définitivement retiré du site.</p>
+      <div class="reviews-confirm__actions">
+        <button type="button" class="reviews-confirm__btn reviews-confirm__btn--ghost" id="review-confirm-cancel">Annuler</button>
+        <button type="button" class="reviews-confirm__btn reviews-confirm__btn--danger" id="review-confirm-delete">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== CTA BANNER ===== -->
   <div class="cta-banner">
     <div class="cta-banner__text">
@@ -251,7 +308,7 @@
         <h4>Infos</h4>
         <ul>
           <li><a href="#">À propos</a></li>
-          <li><a href="#">Avis clients</a></li>
+          <li><a href="index.html#avis">Avis clients</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
@@ -274,5 +331,6 @@
   <script src="../script/supabase-client.js"></script>
   <script src="../script/global.js?v=4"></script>
   <script src="../script/Index.js"></script>
+  <script src="../script/avis.js?v=2"></script>
 </body>
 </html>

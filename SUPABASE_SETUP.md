@@ -171,3 +171,37 @@ values
 ## 6. Accès à l'admin
 
 Va sur `ton-site.com/admin.html` — connecte-toi avec l'email que tu as mis dans la table `admins`.
+
+---
+
+## 7. Table `reviews` (avis clients)
+
+```sql
+create table if not exists public.reviews (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null,
+  rating     integer not null check (rating between 1 and 5),
+  comment    text,
+  created_at timestamptz default now()
+);
+
+alter table public.reviews enable row level security;
+
+-- Lecture publique (affichage sur la page d'accueil)
+create policy "Public read reviews"
+  on public.reviews for select
+  using (true);
+
+-- N'importe qui peut poster un avis (pas de compte requis)
+create policy "Public insert reviews"
+  on public.reviews for insert
+  with check (
+    char_length(name) between 1 and 60
+    and (comment is null or char_length(comment) <= 500)
+  );
+
+-- Seuls les admins peuvent supprimer un avis
+create policy "Admin delete reviews"
+  on public.reviews for delete
+  using (public.is_admin());
+```
