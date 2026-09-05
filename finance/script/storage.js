@@ -1,60 +1,87 @@
 /* =========================================================
-   Couche de données — localStorage
-   Toutes les données restent dans le navigateur de l'appareil.
-   Pense à exporter régulièrement une sauvegarde JSON.
+   Couche de données — Supabase
+   Les données sont partagées et synchronisées entre tous les appareils.
    ========================================================= */
 
-const DB_KEYS = {
-  transactions: 'fsm_finance_transactions_v1',
-  stock: 'fsm_finance_stock_v1',
-};
+/* ----------------- Mapping lignes DB <-> objets JS ----------------- */
 
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+function rowToTx(r) {
+  return {
+    id: r.id,
+    type: r.type,
+    date: r.date,
+    amount: Number(r.amount) || 0,
+    category: r.category,
+    label: r.label,
+    method: r.method,
+    stockLink: r.stock_link,
+    note: r.note,
+  };
 }
 
-function readList(key) {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (e) {
-    console.error('Lecture localStorage échouée pour', key, e);
-    return [];
-  }
+function txToRow(t) {
+  return {
+    type: t.type,
+    date: t.date,
+    amount: t.amount,
+    category: t.category,
+    label: t.label,
+    method: t.method,
+    stock_link: t.stockLink || null,
+    note: t.note,
+  };
 }
 
-function writeList(key, list) {
-  localStorage.setItem(key, JSON.stringify(list));
+function rowToStock(r) {
+  return {
+    id: r.id,
+    name: r.name,
+    category: r.category,
+    quantity: Number(r.quantity) || 0,
+    buyPrice: Number(r.buy_price) || 0,
+    sellPrice: Number(r.sell_price) || 0,
+    alertThreshold: r.alert_threshold == null ? 1 : Number(r.alert_threshold),
+    note: r.note,
+  };
+}
+
+function stockToRow(s) {
+  return {
+    name: s.name,
+    category: s.category,
+    quantity: s.quantity,
+    buy_price: s.buyPrice,
+    sell_price: s.sellPrice,
+    alert_threshold: s.alertThreshold,
+    note: s.note,
+  };
 }
 
 /* ----------------- Transactions ----------------- */
-/* { id, date: 'YYYY-MM-DD', type: 'in'|'out', category, label, amount: number, method, note } */
+/* { id, date: 'YYYY-MM-DD', type: 'in'|'out', category, label, amount: number, method, stockLink, note } */
 
 const TransactionsStore = {
-  all() {
-    return readList(DB_KEYS.transactions).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
+  async all() {
+    const { data, error } = await _sb.from('finance_transactions').select('*').order('date', { ascending: false });
+    if (error) { console.error('[Finance] Lecture transactions échouée :', error); return []; }
+    return (data || []).map(rowToTx);
   },
-  add(tx) {
-    const list = readList(DB_KEYS.transactions);
-    list.push({ id: uid(), ...tx });
-    writeList(DB_KEYS.transactions, list);
+  async add(tx) {
+    const { error } = await _sb.from('finance_transactions').insert(txToRow(tx));
+    if (error) throw error;
   },
-  update(id, patch) {
-    const list = readList(DB_KEYS.transactions);
-    const idx = list.findIndex((t) => t.id === id);
-    if (idx !== -1) {
-      list[idx] = { ...list[idx], ...patch };
-      writeList(DB_KEYS.transactions, list);
-    }
+  async update(id, patch) {
+    const { error } = await _sb.from('finance_transactions').update(txToRow(patch)).eq('id', id);
+    if (error) throw error;
   },
-  remove(id) {
-    const list = readList(DB_KEYS.transactions).filter((t) => t.id !== id);
-    writeList(DB_KEYS.transactions, list);
+  async remove(id) {
+    const { error } = await _sb.from('finance_transactions').delete().eq('id', id);
+    if (error) throw error;
   },
-  get(id) {
-    return readList(DB_KEYS.transactions).find((t) => t.id === id) || null;
+  async get(id) {
+    const { data, error } = await _sb.from('finance_transactions').select('*').eq('id', id).single();
+    if (error || !data) return null;
+    return rowToTx(data);
   },
 };
 
@@ -62,28 +89,27 @@ const TransactionsStore = {
 /* { id, name, category, quantity: number, buyPrice: number, sellPrice: number, alertThreshold: number, note } */
 
 const StockStore = {
-  all() {
-    return readList(DB_KEYS.stock).sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+  async all() {
+    const { data, error } = await _sb.from('finance_stock').select('*').order('name', { ascending: true });
+    if (error) { console.error('[Finance] Lecture stock échouée :', error); return []; }
+    return (data || []).map(rowToStock);
   },
-  add(item) {
-    const list = readList(DB_KEYS.stock);
-    list.push({ id: uid(), ...item });
-    writeList(DB_KEYS.stock, list);
+  async add(item) {
+    const { error } = await _sb.from('finance_stock').insert(stockToRow(item));
+    if (error) throw error;
   },
-  update(id, patch) {
-    const list = readList(DB_KEYS.stock);
-    const idx = list.findIndex((s) => s.id === id);
-    if (idx !== -1) {
-      list[idx] = { ...list[idx], ...patch };
-      writeList(DB_KEYS.stock, list);
-    }
+  async update(id, patch) {
+    const { error } = await _sb.from('finance_stock').update(stockToRow(patch)).eq('id', id);
+    if (error) throw error;
   },
-  remove(id) {
-    const list = readList(DB_KEYS.stock).filter((s) => s.id !== id);
-    writeList(DB_KEYS.stock, list);
+  async remove(id) {
+    const { error } = await _sb.from('finance_stock').delete().eq('id', id);
+    if (error) throw error;
   },
-  get(id) {
-    return readList(DB_KEYS.stock).find((s) => s.id === id) || null;
+  async get(id) {
+    const { data, error } = await _sb.from('finance_stock').select('*').eq('id', id).single();
+    if (error || !data) return null;
+    return rowToStock(data);
   },
 };
 
@@ -112,12 +138,13 @@ function todayISO() {
 
 /* ----------------- Export / Import (sauvegarde) ----------------- */
 
-function exportBackup() {
+async function exportBackup() {
+  const [transactions, stock] = await Promise.all([TransactionsStore.all(), StockStore.all()]);
   const payload = {
     exportedAt: new Date().toISOString(),
     app: 'Finance FSMedia',
-    transactions: readList(DB_KEYS.transactions),
-    stock: readList(DB_KEYS.stock),
+    transactions,
+    stock,
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -131,23 +158,25 @@ function exportBackup() {
   URL.revokeObjectURL(url);
 }
 
-function importBackup(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
-        if (!Array.isArray(data.transactions) || !Array.isArray(data.stock)) {
-          throw new Error('Fichier invalide : structure inattendue.');
-        }
-        writeList(DB_KEYS.transactions, data.transactions);
-        writeList(DB_KEYS.stock, data.stock);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    };
-    reader.onerror = () => reject(new Error('Impossible de lire le fichier.'));
-    reader.readAsText(file);
-  });
+async function importBackup(file) {
+  const text = await file.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error('Fichier invalide : JSON illisible.');
+  }
+  if (!Array.isArray(data.transactions) || !Array.isArray(data.stock)) {
+    throw new Error('Fichier invalide : structure inattendue.');
+  }
+
+  // Stock d'abord — les transactions peuvent y faire référence via stockLink
+  for (const s of data.stock) {
+    const { error } = await _sb.from('finance_stock').upsert({ id: s.id, ...stockToRow(s) });
+    if (error) throw error;
+  }
+  for (const t of data.transactions) {
+    const { error } = await _sb.from('finance_transactions').upsert({ id: t.id, ...txToRow(t) });
+    if (error) throw error;
+  }
 }

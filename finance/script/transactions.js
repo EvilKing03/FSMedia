@@ -8,16 +8,21 @@ let currentCategory = '';
 let currentSearch = '';
 let editingId = null;
 let deletingId = null;
+let ALL_TX = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   populateCategoryFilter();
   populateFormCategories('in');
-  populateStockLinkSelect();
   bindToolbar();
   bindModal();
+  await Promise.all([refresh(), populateStockLinkSelect()]);
+});
+
+async function refresh() {
+  ALL_TX = await TransactionsStore.all();
   renderStats();
   renderTable();
-});
+}
 
 /* ----------------- Toolbar / filtres ----------------- */
 function populateCategoryFilter() {
@@ -73,12 +78,21 @@ function renderStats() {
       <div class="stat-card__value ${c.cls}">${c.value}</div>
       <div class="stat-card__hint">${list.length} transaction(s) affichée(s)</div>
     </div>
-  `).join('');
+  `).join('') + `
+    <a href="recap.html" class="stat-card stat-card--action">
+      <span class="stat-card__icon stat-card__icon--cyan">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+      </span>
+      <span class="stat-card--action__label">Récapitulatif</span>
+      <span class="stat-card--action__sub">Voir le rapport complet</span>
+      <svg class="stat-card--action__arrow" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  `;
 }
 
 /* ----------------- Table ----------------- */
 function filteredTransactions() {
-  return TransactionsStore.all().filter((t) => {
+  return ALL_TX.filter((t) => {
     if (currentType !== 'all' && t.type !== currentType) return false;
     if (currentCategory && t.category !== currentCategory) return false;
     if (currentSearch && !t.label.toLowerCase().includes(currentSearch)) return false;
@@ -135,9 +149,9 @@ function populateFormCategories(type) {
   if (TX_CATEGORIES[type].includes(current)) select.value = current;
 }
 
-function populateStockLinkSelect() {
+async function populateStockLinkSelect() {
   const select = document.getElementById('f-stock-link');
-  const items = StockStore.all();
+  const items = await StockStore.all();
   select.innerHTML = '<option value="">Aucun</option>' + items.map((s) => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
 }
 
@@ -169,15 +183,15 @@ function setFormType(type) {
   populateFormCategories(type);
 }
 
-function openTxModal(id) {
+async function openTxModal(id) {
   editingId = id || null;
-  populateStockLinkSelect();
+  await populateStockLinkSelect();
   document.getElementById('tx-save-error').textContent = '';
   const form = document.getElementById('tx-form');
   form.reset();
 
   if (editingId) {
-    const t = TransactionsStore.get(editingId);
+    const t = ALL_TX.find((x) => x.id === editingId);
     if (!t) return;
     document.getElementById('tx-modal-title').textContent = 'Modifier la transaction';
     document.getElementById('f-id').value = t.id;
@@ -199,7 +213,7 @@ function openTxModal(id) {
   openModal('tx-overlay');
 }
 
-function saveTransaction() {
+async function saveTransaction() {
   const type = currentFormType();
   const date = document.getElementById('f-date').value;
   const amount = parseFloat(document.getElementById('f-amount').value);
@@ -215,18 +229,24 @@ function saveTransaction() {
   }
 
   const payload = { type, date, amount, category, label, method, stockLink: stockLink || null, note };
+  const saveBtn = document.getElementById('tx-save');
+  saveBtn.disabled = true;
 
-  if (editingId) {
-    TransactionsStore.update(editingId, payload);
-    showToast('Transaction mise à jour ✓');
-  } else {
-    TransactionsStore.add(payload);
-    showToast('Transaction ajoutée ✓');
+  try {
+    if (editingId) {
+      await TransactionsStore.update(editingId, payload);
+      showToast('Transaction mise à jour ✓');
+    } else {
+      await TransactionsStore.add(payload);
+      showToast('Transaction ajoutée ✓');
+    }
+    closeModal('tx-overlay');
+    await refresh();
+  } catch (err) {
+    document.getElementById('tx-save-error').textContent = 'Erreur : ' + (err.message || 'échec de la sauvegarde.');
+  } finally {
+    saveBtn.disabled = false;
   }
-
-  closeModal('tx-overlay');
-  renderStats();
-  renderTable();
 }
 
 function openDeleteConfirm(id) {
@@ -234,15 +254,18 @@ function openDeleteConfirm(id) {
   openModal('tx-confirm-overlay');
 }
 
-function confirmDeleteTransaction() {
+async function confirmDeleteTransaction() {
   if (deletingId) {
-    TransactionsStore.remove(deletingId);
-    showToast('Transaction supprimée');
+    try {
+      await TransactionsStore.remove(deletingId);
+      showToast('Transaction supprimée');
+    } catch (err) {
+      showToast('Erreur : ' + (err.message || 'échec de la suppression.'), true);
+    }
   }
   deletingId = null;
   closeModal('tx-confirm-overlay');
-  renderStats();
-  renderTable();
+  await refresh();
 }
 
 function escapeHtml(str) {

@@ -62,9 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const importBtn = document.getElementById('backup-import-btn');
   const importInput = document.getElementById('backup-import-input');
 
-  exportBtn?.addEventListener('click', () => {
-    exportBackup();
-    showToast('Sauvegarde exportée ✓');
+  exportBtn?.addEventListener('click', async () => {
+    try {
+      await exportBackup();
+      showToast('Sauvegarde exportée ✓');
+    } catch (err) {
+      showToast(err.message || "Échec de l'export", true);
+    }
   });
 
   importBtn?.addEventListener('click', () => importInput?.click());

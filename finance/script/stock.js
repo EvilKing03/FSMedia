@@ -5,15 +5,21 @@ let stockSearch = '';
 let stockLowOnly = false;
 let stockEditingId = null;
 let stockDeletingId = null;
+let ALL_STOCK = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   populateStockCategoryFilter();
   populateFormCategorySelect();
   bindStockToolbar();
   bindStockModal();
+  await refresh();
+});
+
+async function refresh() {
+  ALL_STOCK = await StockStore.all();
   renderStockStats();
   renderStockTable();
-});
+}
 
 /* ----------------- Toolbar / filtres ----------------- */
 function populateStockCategoryFilter() {
@@ -47,7 +53,7 @@ function bindStockToolbar() {
 
 /* ----------------- Stats ----------------- */
 function renderStockStats() {
-  const items = StockStore.all();
+  const items = ALL_STOCK;
   const buyValue = items.reduce((s, i) => s + Number(i.quantity) * Number(i.buyPrice), 0);
   const sellValue = items.reduce((s, i) => s + Number(i.quantity) * Number(i.sellPrice), 0);
   const margin = sellValue - buyValue;
@@ -76,7 +82,7 @@ function renderStockStats() {
 
 /* ----------------- Table ----------------- */
 function filteredStock() {
-  return StockStore.all().filter((s) => {
+  return ALL_STOCK.filter((s) => {
     if (stockCategory && s.category !== stockCategory) return false;
     if (stockSearch && !s.name.toLowerCase().includes(stockSearch)) return false;
     if (stockLowOnly && Number(s.quantity) > Number(s.alertThreshold ?? 1)) return false;
@@ -157,7 +163,7 @@ function openStockModal(id) {
   form.reset();
 
   if (stockEditingId) {
-    const s = StockStore.get(stockEditingId);
+    const s = ALL_STOCK.find((x) => x.id === stockEditingId);
     if (!s) return;
     document.getElementById('stock-modal-title').textContent = "Modifier l'article";
     document.getElementById('s-id').value = s.id;
@@ -177,7 +183,7 @@ function openStockModal(id) {
   openModal('stock-overlay');
 }
 
-function saveStockItem() {
+async function saveStockItem() {
   const name = document.getElementById('s-name').value.trim();
   const category = document.getElementById('s-category').value;
   const quantity = parseInt(document.getElementById('s-quantity').value, 10);
@@ -193,18 +199,24 @@ function saveStockItem() {
   }
 
   const payload = { name, category, quantity, buyPrice, sellPrice, alertThreshold, note };
+  const saveBtn = document.getElementById('stock-save');
+  saveBtn.disabled = true;
 
-  if (stockEditingId) {
-    StockStore.update(stockEditingId, payload);
-    showToast('Article mis à jour ✓');
-  } else {
-    StockStore.add(payload);
-    showToast('Article ajouté ✓');
+  try {
+    if (stockEditingId) {
+      await StockStore.update(stockEditingId, payload);
+      showToast('Article mis à jour ✓');
+    } else {
+      await StockStore.add(payload);
+      showToast('Article ajouté ✓');
+    }
+    closeModal('stock-overlay');
+    await refresh();
+  } catch (err) {
+    document.getElementById('stock-save-error').textContent = 'Erreur : ' + (err.message || 'échec de la sauvegarde.');
+  } finally {
+    saveBtn.disabled = false;
   }
-
-  closeModal('stock-overlay');
-  renderStockStats();
-  renderStockTable();
 }
 
 function openStockDeleteConfirm(id) {
@@ -212,15 +224,18 @@ function openStockDeleteConfirm(id) {
   openModal('stock-confirm-overlay');
 }
 
-function confirmDeleteStockItem() {
+async function confirmDeleteStockItem() {
   if (stockDeletingId) {
-    StockStore.remove(stockDeletingId);
-    showToast('Article supprimé');
+    try {
+      await StockStore.remove(stockDeletingId);
+      showToast('Article supprimé');
+    } catch (err) {
+      showToast('Erreur : ' + (err.message || 'échec de la suppression.'), true);
+    }
   }
   stockDeletingId = null;
   closeModal('stock-confirm-overlay');
-  renderStockStats();
-  renderStockTable();
+  await refresh();
 }
 
 function escapeHtml(str) {

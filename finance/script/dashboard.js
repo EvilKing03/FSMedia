@@ -1,19 +1,18 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const dateEl = document.getElementById('topbar-date');
   if (dateEl) {
     dateEl.textContent = new Intl.DateTimeFormat('fr-BE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
   }
 
-  renderStats();
-  renderChart();
-  renderRecentTransactions();
-  renderLowStock();
+  const [txs, stock] = await Promise.all([TransactionsStore.all(), StockStore.all()]);
+
+  renderStats(txs, stock);
+  renderChart(txs);
+  renderRecentTransactions(txs);
+  renderLowStock(stock);
 });
 
-function renderStats() {
-  const txs = TransactionsStore.all();
-  const stock = StockStore.all();
-
+function renderStats(txs, stock) {
   const totalIn = txs.filter((t) => t.type === 'in').reduce((s, t) => s + Number(t.amount), 0);
   const totalOut = txs.filter((t) => t.type === 'out').reduce((s, t) => s + Number(t.amount), 0);
   const balance = totalIn - totalOut;
@@ -76,8 +75,7 @@ function renderStats() {
   `).join('');
 }
 
-function renderChart() {
-  const txs = TransactionsStore.all();
+function renderChart(txs) {
   const months = [];
   const now = new Date();
   for (let i = 5; i >= 0; i--) {
@@ -118,13 +116,13 @@ function renderChart() {
   `).join('');
 }
 
-function renderRecentTransactions() {
-  const txs = TransactionsStore.all().slice(0, 6);
+function renderRecentTransactions(txs) {
+  const recent = txs.slice(0, 6);
   const body = document.getElementById('recent-tx-body');
   const sub = document.getElementById('tx-recent-sub');
-  sub.textContent = `${TransactionsStore.all().length} transaction(s) enregistrée(s)`;
+  sub.textContent = `${txs.length} transaction(s) enregistrée(s)`;
 
-  if (txs.length === 0) {
+  if (recent.length === 0) {
     body.innerHTML = `<tr><td colspan="4">
       <div class="empty-state" style="padding:36px 10px;">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -134,7 +132,7 @@ function renderRecentTransactions() {
     return;
   }
 
-  body.innerHTML = txs.map((t) => `
+  body.innerHTML = recent.map((t) => `
     <tr>
       <td class="cell-muted">${niceDate(t.date)}</td>
       <td>${escapeHtml(t.label)}</td>
@@ -146,8 +144,7 @@ function renderRecentTransactions() {
   `).join('');
 }
 
-function renderLowStock() {
-  const stock = StockStore.all();
+function renderLowStock(stock) {
   const low = stock.filter((s) => Number(s.quantity) <= Number(s.alertThreshold ?? 1));
   const el = document.getElementById('low-stock-list');
 

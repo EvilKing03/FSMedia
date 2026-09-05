@@ -309,6 +309,40 @@ input, select, textarea { font-family: var(--font-body); }
 
 .stat-card__hint { font-size: 0.76rem; color: var(--text-muted); }
 
+/* ── Carte action (ex: lien Récapitulatif) ── */
+.stat-card--action {
+  justify-content: center;
+  align-items: flex-start;
+  text-decoration: none;
+  cursor: pointer;
+  border-style: dashed;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  position: relative;
+}
+.stat-card--action:hover {
+  border-color: var(--cyan);
+  background: var(--cyan-glow);
+  transform: translateY(-2px);
+}
+.stat-card--action__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--text);
+}
+.stat-card--action__sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.stat-card--action__arrow {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+  color: var(--cyan);
+  transition: transform var(--transition);
+}
+.stat-card--action:hover .stat-card--action__arrow { transform: translateX(4px); }
+
 /* =========================================================
    SECTION / CARD BLOCK
    ========================================================= */

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Récapitulatif — Finance FSMedia</title>
+  <link rel="icon" type="image/png" href="../images/favicon1.png" />
+  <link rel="stylesheet" href="../css/global.css?v=4" />
+  <link rel="stylesheet" href="css/finance.css?v=2" />
+  <link rel="stylesheet" href="css/recap.css?v=1" />
+</head>
+<body class="recap-body" style="visibility:hidden">
+
+  <div class="recap-toolbar">
+    <a href="dashboard.html" class="app-btn app-btn--ghost">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 8H3M7 4L3 8l4 4" stroke-linejoin="round"/></svg>
+      Retour au tableau de bord
+    </a>
+
+    <div class="recap-toolbar__periods" id="recap-periods">
+      <button type="button" class="recap-period-btn active" data-preset="month">Ce mois-ci</button>
+      <button type="button" class="recap-period-btn" data-preset="lastmonth">Mois dernier</button>
+      <button type="button" class="recap-period-btn" data-preset="year">Cette année</button>
+      <button type="button" class="recap-period-btn" data-preset="all">Tout</button>
+    </div>
+
+    <div class="recap-toolbar__range">
+      <input type="date" id="recap-from" />
+      <span>→</span>
+      <input type="date" id="recap-to" />
+    </div>
+
+    <button class="app-btn app-btn--primary" id="print-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Imprimer
+    </button>
+  </div>
+
+  <main class="recap-sheet" id="recap-sheet">
+    <p class="fiche-loading">Chargement…</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../script/supabase-client.js"></script>
+  <script src="script/guard.js?v=2"></script>
+  <script src="script/storage.js?v=3"></script>
+  <script src="script/recap.js?v=2"></script>
+</body>
+</html>

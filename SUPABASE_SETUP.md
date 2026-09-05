@@ -205,3 +205,56 @@ create policy "Admin delete reviews"
   on public.reviews for delete
   using (public.is_admin());
 ```
+
+---
+
+## 8. Tables `finance_transactions` et `finance_stock` (module Finance)
+
+Les `id` sont en `text` (pas `uuid`) exprès : ça permet de réimporter tes anciennes données (le bouton "Exporter/Importer" du module Finance) sans perdre les liens entre une transaction et l'article de stock associé.
+
+```sql
+create table if not exists public.finance_transactions (
+  id         text primary key default gen_random_uuid()::text,
+  type       text not null check (type in ('in','out')),
+  date       date not null,
+  amount     numeric not null default 0,
+  category   text,
+  label      text not null,
+  method     text,
+  stock_link text,
+  note       text,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.finance_stock (
+  id              text primary key default gen_random_uuid()::text,
+  name            text not null,
+  category        text,
+  quantity        integer not null default 0,
+  buy_price       numeric not null default 0,
+  sell_price      numeric not null default 0,
+  alert_threshold integer default 1,
+  note            text,
+  created_at      timestamptz default now()
+);
+
+alter table public.finance_transactions enable row level security;
+alter table public.finance_stock enable row level security;
+
+-- Accès réservé aux admins (données privées de l'activité)
+create policy "Admin all finance_transactions"
+  on public.finance_transactions for all
+  using (public.is_admin())
+  with check (public.is_admin());
+
+create policy "Admin all finance_stock"
+  on public.finance_stock for all
+  using (public.is_admin())
+  with check (public.is_admin());
+```
+
+### Réimporter tes données existantes
+
+1. Dans l'ancienne version de Finance, clique sur **Exporter (JSON)** pour sauvegarder tes transactions/stock actuels (stockés dans le navigateur).
+2. Une fois les tables ci-dessus créées et le nouveau code en ligne, va dans Finance → **Importer**, sélectionne ce même fichier JSON.
+3. Tout est renvoyé vers Supabase avec les mêmes identifiants — les données seront alors visibles et synchronisées sur tous tes appareils.
