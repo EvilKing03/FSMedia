@@ -77,7 +77,9 @@ function renderGrid(products) {
       </div>
       <div class="admin-card__actions">
         <button class="admin-btn admin-btn--ghost admin-btn--sm" onclick="openModal('${p.id}')">Modifier</button>
-        <a class="admin-btn admin-btn--ghost admin-btn--sm" href="fiche-technique.html?id=${p.id}" target="_blank" rel="noopener">Fiche</a>
+        ${p.category === 'surmesure'
+          ? `<a class="admin-btn admin-btn--ghost admin-btn--sm" href="devis.html?id=${p.id}" target="_blank" rel="noopener">Devis</a>`
+          : `<a class="admin-btn admin-btn--ghost admin-btn--sm" href="fiche-technique.html?id=${p.id}" target="_blank" rel="noopener">Fiche</a>`}
         <button class="admin-btn admin-btn--sm admin-btn--danger" onclick="askDelete('${p.id}')">Supprimer</button>
       </div>
     </div>`).join('');

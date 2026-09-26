@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devis — FSMedia</title>
+  <link rel="icon" type="image/png" href="../images/favicon1.png" />
+  <link rel="stylesheet" href="../css/global.css?v=4" />
+  <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="../css/fiche.css?v=10" />
+</head>
+<body class="fiche-body">
+
+  <div class="fiche-toolbar">
+    <a href="admin.html" class="admin-btn admin-btn--ghost">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 8H3M7 4L3 8l4 4" stroke-linejoin="round"/></svg>
+      Retour à l'admin
+    </a>
+    <button class="admin-btn admin-btn--primary" id="print-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Devis
+    </button>
+  </div>
+
+  <main class="fiche-sheet" id="devis-sheet">
+    <header class="fiche-header">
+      <div class="fiche-header__brand">
+        <img src="../images/favicon1.png" alt="" />
+        <span>FS<strong>Media</strong></span>
+      </div>
+      <div class="fiche-header__meta">
+        <span class="fiche-header__title">Devis — PC sur mesure</span>
+        <span class="fiche-header__date" id="devis-date"></span>
+        <span class="fiche-header__tag" id="devis-subtitle" style="display:none"></span>
+      </div>
+    </header>
+
+    <div class="devis-client" id="devis-client-row">
+      <label for="devis-client-input">Client</label>
+      <input type="text" id="devis-client-input" placeholder="Nom du client (optionnel)" />
+    </div>
+
+    <h2 class="devis-section-title">Composants</h2>
+    <table class="devis-table">
+      <thead>
+        <tr><th>Composant</th><th style="text-align:right">Prix</th><th class="devis-col-action"></th></tr>
+      </thead>
+      <tbody id="devis-rows"></tbody>
+    </table>
+    <button type="button" class="admin-btn admin-btn--ghost admin-btn--sm devis-add-btn" id="devis-add-row">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un composant
+    </button>
+
+    <div class="devis-totals">
+      <div class="devis-totals__row" id="devis-subtotal-row">
+        <span>Sous-total composants</span>
+        <span id="devis-subtotal">0,00 €</span>
+      </div>
+      <div class="devis-totals__row devis-totals__row--margin" id="devis-margin-row">
+        <span>Marge</span>
+        <span id="devis-margin">0,00 €</span>
+      </div>
+      <div class="devis-totals__row devis-totals__row--final">
+        <span>Prix total du devis</span>
+        <input type="number" id="devis-total" min="0" step="0.01" placeholder="0.00" />
+      </div>
+    </div>
+
+    <footer class="fiche-footer">
+      <div class="fiche-footer__info">
+        <span>FSMedia — Vente, réparation et conseil informatique</span>
+        <span>contact@fsmedia.be · fsmedia.be</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../script/supabase-client.js"></script>
+  <script src="../script/devis.js?v=4"></script>
+</body>
+</html>

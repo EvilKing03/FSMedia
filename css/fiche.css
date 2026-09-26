@@ -518,3 +518,162 @@
   line-height: 1.5;
   color: var(--text-muted);
 }
+
+/* ===== DEVIS — PC SUR MESURE ===== */
+.devis-client {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.devis-client label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.devis-client input {
+  flex: 1;
+  font-family: var(--font-body);
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.92rem;
+}
+.devis-client input:focus { outline: none; border-color: var(--cyan); }
+
+.devis-section-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.devis-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+.devis-table thead th {
+  text-align: left;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.devis-table tbody td { padding: 4px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.devis-table tbody td:last-child { padding-top: 6px; }
+.devis-col-action { width: 40px; text-align: center; }
+
+.devis-input {
+  width: 100%;
+  font-family: var(--font-body);
+  border: none;
+  background: transparent;
+  padding: 8px 4px;
+  font-size: 0.92rem;
+  color: var(--text);
+  border-radius: 4px;
+  transition: background var(--transition);
+}
+.devis-input:focus { outline: none; background: var(--bg-soft); }
+.devis-input--name {
+  display: block;
+  resize: none;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.4;
+}
+.devis-input--price { text-align: right; }
+.devis-input--price::-webkit-outer-spin-button,
+.devis-input--price::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.devis-input--price { -moz-appearance: textfield; }
+
+.devis-remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: inline-flex;
+  transition: color var(--transition), background var(--transition);
+}
+.devis-remove-btn:hover { color: #ef4444; background: rgba(239, 68, 68, 0.08); }
+
+.devis-add-btn { margin-bottom: 30px; }
+
+.devis-totals {
+  border-top: 2px solid var(--border);
+  padding-top: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.devis-totals__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+.devis-totals__row span:last-child { font-weight: 600; color: var(--text); }
+.devis-totals__row--margin span:last-child { color: #16803c; }
+.devis-totals__row--negative span:last-child { color: #ef4444 !important; }
+.devis-totals__row--final {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--text);
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.devis-totals__row--final input {
+  width: 160px;
+  text-align: right;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--cyan);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm, 6px);
+  padding: 6px 10px;
+  background: var(--bg);
+}
+.devis-totals__row--final input:focus { outline: none; border-color: var(--cyan); }
+
+@media print {
+  .devis-add-btn,
+  .devis-col-action,
+  .devis-remove-btn,
+  #devis-subtotal-row,
+  #devis-margin-row { display: none !important; }
+  .devis-input { color: #0A1A1F; }
+  .devis-client input {
+    border: none;
+    border-bottom: 1px solid #D8E4E7;
+    border-radius: 0;
+    padding: 4px 2px;
+    color: #0A1A1F;
+  }
+  .devis-section-title { color: #0A1A1F; }
+  .devis-table thead th { color: #55686F; }
+  .devis-table thead th,
+  .devis-table tbody td { border-color: #D8E4E7; }
+  .devis-totals,
+  .devis-totals__row--final { border-color: #D8E4E7; }
+  .devis-totals__row { color: #55686F; }
+  .devis-totals__row span:last-child { color: #0A1A1F; }
+  .devis-totals__row--margin span:last-child { color: #16803c; }
+  .devis-totals__row--final input {
+    border: none;
+    color: #00A0B8;
+    background: transparent;
+    padding: 0;
+  }
+}
