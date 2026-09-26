@@ -1,0 +1,141 @@
+/* ===== SECTION TITLES (repris du style global) ===== */
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--dark);
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--mid-gray);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ===== NOTRE HISTOIRE ===== */
+.apropos-story {
+  padding: 90px 6%;
+  background: var(--bg);
+}
+
+.apropos-story__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.apropos-story__text {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.apropos-story__text p {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text);
+}
+
+/* ===== CE QUI NOUS DISTINGUE ===== */
+.apropos-values {
+  padding: 90px 6%;
+  background: var(--off-white);
+  position: relative;
+}
+
+.apropos-values::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.apropos-values__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.apropos-values__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.apropos-value-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2.2rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.apropos-value-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 200, 232, 0.3);
+  box-shadow: var(--shadow-cyan);
+}
+
+.apropos-value-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cyan-glow);
+  color: var(--cyan);
+  margin-bottom: 1.2rem;
+}
+
+.apropos-value-card__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.6rem;
+}
+
+.apropos-value-card__desc {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--mid-gray);
+}
+
+/* ===== CTA ===== */
+.apropos-cta {
+  padding: 100px 6%;
+  text-align: center;
+  background: var(--bg);
+}
+
+.apropos-cta .section-title {
+  margin: 0.6rem auto 1rem;
+}
+
+.apropos-cta > p {
+  color: var(--mid-gray);
+  max-width: 480px;
+  margin: 0 auto 2.2rem;
+  line-height: 1.75;
+}
+
+.apropos-cta__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .apropos-values__grid {
+    grid-template-columns: 1fr;
+  }
+}
