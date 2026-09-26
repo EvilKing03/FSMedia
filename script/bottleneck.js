@@ -814,19 +814,39 @@ function populateSelects() {
 }
 
 // ===== CALCULATE =====
-// Scaling factors derived from real game average FPS drops across resolutions
-// (calibrated on RTX 3060: 1080p=105, 1440p=78, 4K=48 in our benchmark data).
-// Applied to the GPU's 1080p score to get a resolution-normalised score,
-// so every GPU tier scales consistently — matching real game behaviour.
+// GPU 1080p scores scale down at higher resolutions using the average FPS
+// drop-off measured on an RTX 3060 (1080p=105, 1440p=78, 4K=48 in our
+// benchmark data), so every GPU tier scales consistently with real game
+// behaviour instead of each resolution needing its own dataset.
 const RES_SCALE = { '1080': 1.0, '1440': 78 / 105, '2160': 48 / 105 };
-// Single ideal GPU/CPU ratio for a perfectly balanced system on the unified scale
-// (R5 3600 gaming=80, RTX 3060 1080p=105 → 80 = 105 / 1.3125)
-const GAMING_IDEAL = 1.3125;
-const WORK_IDEAL   = 1.20;
 
-// Returns the GPU gaming score normalised to a resolution-independent scale
+// CPU and GPU scores come from different benchmark workload mixes and are not
+// directly comparable, so the GPU score is converted onto the CPU's scale via
+// this ratio before the gap between them is measured. It's derived from one
+// widely-cited "balanced" reference build (Ryzen 5 3600 gaming=80 paired with
+// an RTX 3060 at 1080p=105 → 105 / 80 = 1.3125) — a best-effort approximation,
+// not a measured constant for every hardware tier (see the on-page disclaimer).
+const GAMING_IDEAL_RATIO = 1.3125;
+const WORK_IDEAL_RATIO   = 1.20;
+
+// Keeps the displayed percentage within a sane, human-meaningful range even
+// for extreme mismatches (e.g. an entry-level CPU with a flagship GPU).
+const MAX_BOTTLENECK_PCT = 85;
+
+// Returns the GPU's gaming score normalised to a resolution-independent scale.
 function gpuGameScore(gpu, res) {
   return Math.round(gpu.gaming['1080'] * RES_SCALE[res]);
+}
+
+// Core bottleneck computation: given a CPU score and a GPU score already on
+// the same scale, returns the weaker side and how far behind it is, as a
+// percentage of the stronger side's score.
+function computeBottleneck(cpuScore, gpuScoreOnCpuScale) {
+  const stronger    = Math.max(cpuScore, gpuScoreOnCpuScale);
+  const weaker      = Math.min(cpuScore, gpuScoreOnCpuScale);
+  const pct         = Math.min(MAX_BOTTLENECK_PCT, Math.round(((stronger - weaker) / stronger) * 100));
+  const bottleneck  = cpuScore < gpuScoreOnCpuScale ? 'CPU' : 'GPU';
+  return { pct, bottleneck };
 }
 
 function calculate() {
@@ -844,19 +864,16 @@ function calculate() {
     return;
   }
 
-  const isGaming   = selectedUsage === 'gaming';
-  const cpuScore   = isGaming ? cpu.gaming : cpu.productivity;
+  const isGaming      = selectedUsage === 'gaming';
+  const cpuScore      = isGaming ? cpu.gaming : cpu.productivity;
   // Use normalised GPU score so all GPU tiers scale uniformly with resolution
-  const gpuScore   = isGaming ? gpuGameScore(gpu, selectedRes) : gpu.productivity;
-  const idealRatio = isGaming ? GAMING_IDEAL : WORK_IDEAL;
+  const rawGpuScore   = isGaming ? gpuGameScore(gpu, selectedRes) : gpu.productivity;
+  const idealRatio    = isGaming ? GAMING_IDEAL_RATIO : WORK_IDEAL_RATIO;
+  const gpuOnCpuScale = rawGpuScore / idealRatio;
 
-  const gpuNorm       = gpuScore / idealRatio;
-  const diff          = Math.abs(cpuScore - gpuNorm);
-  const maxNorm       = Math.max(cpuScore, gpuNorm);
-  const bottleneckPct = Math.round((diff / maxNorm) * 100);
-  const bottleneck    = cpuScore < gpuNorm ? 'CPU' : 'GPU';
+  const { pct, bottleneck } = computeBottleneck(cpuScore, gpuOnCpuScale);
 
-  displayResults(cpu, gpu, cpuScore, gpuNorm, bottleneckPct, bottleneck);
+  displayResults(cpu, gpu, cpuScore, gpuOnCpuScale, pct, bottleneck);
 }
 
 // ===== DISPLAY RESULTS =====

@@ -1,10 +1,9 @@
 // ===== DARK MODE =====
 const html = document.documentElement;
 
-// Appliquer le thème sauvegardé ou la préférence système
+// Appliquer le thème sauvegardé, ou le mode sombre par défaut
 const savedTheme = localStorage.getItem('fsmedia-theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const initialTheme = savedTheme || (prefersDark ? 'light' : 'dark');
+const initialTheme = savedTheme || 'dark';
 html.setAttribute('data-theme', initialTheme);
 
 const themeBtn = document.querySelector('.navbar__theme');
